@@ -1,0 +1,41 @@
+# users
+user.create:
+  path: /user
+  methods: [PUT,POST]
+  defaults: { _controller: 'user.controller:createAction' }
+
+user.update:
+  path: /user/{username}
+  methods: [PUT,PATH,POST]
+  defaults: { _controller: 'user.controller:updateAction' }
+
+user.delete:
+  path: /user/{username}
+  methods: [DELETE]
+  defaults: { _controller: 'user.controller:deleteAction' }
+
+user.token:
+  path: /user/token
+  methods: [GET]
+  defaults: { _controller: 'user.controller:tokenAction' }
+
+# pasties
+paste.create:
+  path: /
+  methods: [PUT,POST]
+  defaults: { _controller: 'paste.controller:createAction' }
+
+paste.read:
+  path: /{code}
+  methods: [GET]
+  defaults: { _controller: 'paste.controller:readAction' }
+
+paste.update:
+  path: /{code}
+  methods: [PUT,PATCH,POST]
+  defaults: { _controller: 'paste.controller:updateAction' }
+
+paste.delete:
+  path: /{code}
+  methods: [DELETE]
+  defaults: { _controller: 'paste.controller:deleteAction' }

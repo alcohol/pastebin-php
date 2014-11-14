@@ -1,0 +1,21 @@
+services:
+
+  predis.client:
+    class: Predis\Client
+    arguments:
+      - scheme: %redis.scheme%
+      - host: %redis.host%
+      - port: %redis.port%
+
+  paste.manager:
+    class: Alcohol\PasteBundle\Entity\PasteManager
+    arguments: [ @predis.client ]
+
+  paste.controller:
+    class: Alcohol\PasteBundle\Controller\PasteController
+    arguments: [ @paste.manager ]
+
+  paste.kernel.exception_listener:
+    class: Alcohol\PasteBundle\EventListener\ExceptionListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }

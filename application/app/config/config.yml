@@ -1,0 +1,27 @@
+framework:
+  secret: %secret%
+  http_method_override: true
+  router:
+    resource: '%kernel.root_dir%/config/routing.%kernel.environment%.yml'
+    strict_requirements: %kernel.debug%
+
+monolog:
+  handlers:
+    main:
+      type: fingers_crossed
+      action_level: %monolog_action_level%
+      handler: nested
+    nested:
+      type: stream
+      path: '%kernel.logs_dir%/%kernel.name%.log'
+      level: debug
+    console:
+      type: console
+      verbosity_levels:
+        VERBOSITY_NORMAL: WARNING
+        VERBOSITY_VERBOSE: NOTICE
+        VERBOSITY_VERY_VERBOSE: INFO
+        VERBOSITY_DEBUG: DEBUG
+
+imports:
+  - { resource: services.yml }

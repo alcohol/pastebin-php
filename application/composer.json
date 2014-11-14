@@ -1,0 +1,34 @@
+{
+    "name": "alcohol/sf-minimal-demo",
+    "description": "A minimalistic Symfony demo application",
+    "keywords": ["symfony", "demo", "minimal", "skeleton", "sf"],
+    "homepage": "https://github.com/alcohol/sf-minimal-demo",
+    "license": "MIT",
+    "authors": [{
+        "name": "Rob Bast",
+        "email": "rob.bast@gmail.com"
+    }],
+    "support": {
+        "issues": "https://github.com/alcohol/sf-minimal-demo/issues",
+        "source": "https://github.com/alcohol/sf-minimal-demo"
+    },
+    "require": {
+        "php": "~5.5",
+        "symfony/symfony": "@stable",
+        "symfony/console": "@stable",
+        "symfony/monolog-bundle": "@stable",
+        "predis/predis": "@stable",
+        "vlucas/phpdotenv": "@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alcohol\\": ["app/"],
+            "Alcohol\\PasteBundle\\": ["src/"]
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
