@@ -38,7 +38,7 @@ class PasteController
             return new Response('Unable to persist paste to storage.', 503, ['Retry-After' => 300]);
         }
 
-        return new Response($paste, 201, ['Location' => '/' . $paste->getCode(), 'Content-Type' => 'application/json']);
+        return new Response($paste->getCode(), 201, ['Location' => '/' . $paste->getCode()]);
     }
 
     /**

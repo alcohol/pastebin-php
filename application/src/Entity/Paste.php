@@ -80,12 +80,4 @@ class Paste
     {
         return ['code', 'body', 'token'];
     }
-
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
-        return json_encode(['_type' => 'paste'] + get_object_vars($this), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-    }
 }
