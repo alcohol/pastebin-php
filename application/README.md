@@ -38,12 +38,8 @@ Now you should be able to visit `http://localhost:8080/`.
 $ curl -X POST -d 'paste=Lorem ipsum' http://127.0.0.1:8080/
 # 201 Created
 # Location: /54ae8f9622b68
-{
-    "_type": "paste",
-    "code": "54ae8f9622b68",
-    "body": "Lorem ipsum",
-    "token": "99d6a7cb2fedc775f5370a289188c5275dc572724cb1"
-}
+# X-Paste-Token: 99d6a7cb2fedc775f5370a289188c5275dc572724cb1
+54ae8f9622b68
 
 $ curl http://127.0.0.1:8080/54ae8f9622b68
 # 200 OK
