@@ -15,13 +15,6 @@ monolog:
       type: stream
       path: '%kernel.logs_dir%/%kernel.name%.log'
       level: debug
-    console:
-      type: console
-      verbosity_levels:
-        VERBOSITY_NORMAL: WARNING
-        VERBOSITY_VERBOSE: NOTICE
-        VERBOSITY_VERY_VERBOSE: INFO
-        VERBOSITY_DEBUG: DEBUG
 
 imports:
   - { resource: services.yml }
