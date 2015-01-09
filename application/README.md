@@ -45,7 +45,7 @@ $ curl http://127.0.0.1:8080/54ae8f9622b68
 # 200 OK
 Lorem ipsum
 
-$ curl -X PUT -H 'X-Paste-Token: 99d6a7cb2fedc775f5370a289188c5275dc572724cb1' -d 'paste=Lipsum lorem' \
+$ curl -H 'X-Paste-Token: 99d6a7cb2fedc775f5370a289188c5275dc572724cb1' -X PUT -d 'paste=Lipsum lorem' \
     http://127.0.0.1:8080/54ae8f9622b68
 # 204 No Content
 
@@ -53,7 +53,7 @@ $ curl http://127.0.0.1:8080/54ae8f9622b68
 # 200 OK
 Lipsum lorem
 
-$ curl -X DELETE -H 'X-Paste-Token: 99d6a7cb2fedc775f5370a289188c5275dc572724cb1' \
+$ curl -H 'X-Paste-Token: 99d6a7cb2fedc775f5370a289188c5275dc572724cb1' -X DELETE \
     http://127.0.0.1:8080/54ae8f9622b68
 # 204 No Content
 ```
