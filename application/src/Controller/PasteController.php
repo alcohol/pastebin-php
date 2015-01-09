@@ -38,9 +38,10 @@ class PasteController
             return new Response('Unable to persist paste to storage.', 503, ['Retry-After' => 300]);
         }
 
-        return new Response($paste->getCode(), 201, [
+        return new Response($request->getUri() . $paste->getCode(), 201, [
+            'Content-Type' => 'text/plain',
             'Location' => '/' . $paste->getCode(),
-            'X-Paste-Token' => $paste->getToken()
+            'X-Paste-Token' => $paste->getToken(),
         ]);
     }
 
@@ -61,7 +62,11 @@ class PasteController
         $response->setPublic();
         $response->setETag(md5($paste->getBody()));
         $response->setTtl(60 * 60);
-        $response->isNotModified($request);
+        $response->setClientTtl(60 * 60);
+
+        if (!$request->isNoCache()) {
+            $response->isNotModified($request);
+        }
 
         return $response;
     }
@@ -159,7 +164,11 @@ BODY;
         $response->setPublic();
         $response->setETag(md5($response->getContent()));
         $response->setTtl(60 * 60);
-        $response->isNotModified($request);
+        $response->setClientTtl(60 * 60);
+
+        if (!$request->isNoCache()) {
+            $response->isNotModified($request);
+        }
 
         return $response;
     }
