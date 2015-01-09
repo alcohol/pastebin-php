@@ -45,10 +45,11 @@ class PasteController
     }
 
     /**
+     * @param Request $request
      * @param string $code
      * @return Response
      */
-    public function readAction($code)
+    public function readAction(Request $request, $code)
     {
         $paste = $this->manager->loadPasteByCode($code);
 
@@ -56,7 +57,13 @@ class PasteController
             return new Response(sprintf('Paste not found: %s', $code), 404);
         }
 
-        return new Response($paste->getBody(), 200, ['Content-Type' => 'text/plain']);
+        $response = new Response($paste->getBody(), 200, ['Content-Type' => 'text/plain']);
+        $response->setPublic();
+        $response->setETag(md5($paste->getBody()));
+        $response->setTtl(60 * 60);
+        $response->isNotModified($request);
+
+        return $response;
     }
 
     /**
@@ -121,6 +128,7 @@ class PasteController
     }
 
     /**
+     * @param Request $request
      * @return Response
      */
     public function indexAction(Request $request)
