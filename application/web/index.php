@@ -20,7 +20,6 @@ Dotenv::required([
 
 if (extension_loaded('apc') && in_array(getenv('SYMFONY_ENV'), ['prod'])) {
     $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
-    $loader->unregister();
     $apcloader->register(true);
 }
 
