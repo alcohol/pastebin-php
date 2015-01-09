@@ -43,7 +43,6 @@ class Application extends Kernel
             /** Third party bundles */
             new FrameworkBundle(),
             new MonologBundle(),
-            new SecurityBundle(),
             /** Everything in src/ */
             new PasteBundle(),
         ];
