@@ -7,6 +7,7 @@ $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 use Alcohol\Application;
 use Symfony\Bundle\FrameworkBundle\Console\Application as Console;
+use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\Console\Input\ArgvInput;
 
 Dotenv::makeMutable();
@@ -21,8 +22,15 @@ Dotenv::required([
     'SYMFONY__REDIS__PORT',
 ]);
 
+if (extension_loaded('apc') && in_array(getenv('SYMFONY_ENV'), ['prod'])) {
+    $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
+    $loader->unregister();
+    $apcloader->register(true);
+}
+
 $input = new ArgvInput();
 $environment = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV'));
 $application = new Application($environment, getenv('SYMFONY_DEBUG'));
+$application->loadClassCache();
 $console = new Console($application);
 $console->run($input);
