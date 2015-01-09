@@ -1,25 +1,8 @@
-# users
-user.create:
-  path: /user
-  methods: [PUT,POST]
-  defaults: { _controller: 'user.controller:createAction' }
-
-user.update:
-  path: /user/{username}
-  methods: [PUT,PATH,POST]
-  defaults: { _controller: 'user.controller:updateAction' }
-
-user.delete:
-  path: /user/{username}
-  methods: [DELETE]
-  defaults: { _controller: 'user.controller:deleteAction' }
-
-user.token:
-  path: /user/token
+paste.index:
+  path: /
   methods: [GET]
-  defaults: { _controller: 'user.controller:tokenAction' }
+  defaults: { _controller: 'paste.controller:indexAction' }
 
-# pasties
 paste.create:
   path: /
   methods: [PUT,POST]

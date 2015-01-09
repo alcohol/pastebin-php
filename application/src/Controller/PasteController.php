@@ -119,4 +119,40 @@ class PasteController
 
         return new Response('', 204);
     }
+
+    /**
+     * @return Response
+     */
+    public function indexAction(Request $request)
+    {
+        $href = $request->getUri();
+
+        $form = <<<FORM
+data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
+<textarea name="paste" cols="100" rows="30"></textarea>
+<br><button type="submit">paste</button></form>
+FORM;
+
+        $body = <<<BODY
+<style>body { padding: 2em; }</style>
+<pre>
+DESCRIPTION
+    paste: command line pastebin.
+
+USING
+    &lt;command&gt; | curl -F 'paste=&lt;-' paste.robbast.nl
+
+ALTERNATIVELY
+    use <a href='$form'>this form</a> to paste from a browser
+</pre>
+BODY;
+
+        $response = new Response($body, 200);
+        $response->setPublic();
+        $response->setETag(md5($response->getContent()));
+        $response->setTtl(60 * 60);
+        $response->isNotModified($request);
+
+        return $response;
+    }
 }
