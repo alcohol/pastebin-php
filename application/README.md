@@ -32,7 +32,7 @@ Worth mentioning:
 
 Now you should be able to visit `http://localhost:8080/`.
 
-## CURL Examples
+## cURL Examples
 
 ``` bash
 $ curl -X POST -d 'paste=Lorem ipsum' http://127.0.0.1:8080/
