@@ -59,7 +59,7 @@ class PasteController
         $response->setPublic();
         $response->setETag(md5($paste->getBody()));
         $response->setTtl(60 * 60);
-        $response->setClientTtl(60 * 60);
+        $response->setClientTtl(60 * 10);
 
         if (!$request->isNoCache()) {
             $response->isNotModified($request);
@@ -142,7 +142,7 @@ BODY;
         $response->setPublic();
         $response->setETag(md5($response->getContent()));
         $response->setTtl(60 * 60);
-        $response->setClientTtl(60 * 60);
+        $response->setClientTtl(60 * 10);
 
         if (!$request->isNoCache()) {
             $response->isNotModified($request);
