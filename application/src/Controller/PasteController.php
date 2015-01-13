@@ -25,15 +25,7 @@ class PasteController
      */
     public function createAction(Request $request)
     {
-        $body = $request->get('paste');
-
-        try {
-            $paste = $this->manager->create($body);
-        } catch (\LengthException $e) {
-            return new Response($e->getMessage(), $e->getCode());
-        } catch (\RuntimeException $e) {
-            return new Response($e->getMessage(), $e->getCode());
-        }
+        $paste = $this->manager->create($request->get('paste'));
 
         return new Response($request->getUri() . $paste->getCode(), 201, [
             'Content-Type' => 'text/plain',
@@ -49,11 +41,7 @@ class PasteController
      */
     public function readAction(Request $request, $code)
     {
-        try {
-            $paste = $this->manager->loadPasteByCode($code);
-        } catch (\RuntimeException $e) {
-            return new Response($e->getMessage(), $e->getCode());
-        }
+        $paste = $this->manager->loadPasteByCode($code);
 
         $response = new Response($paste->getBody(), 200, ['Content-Type' => 'text/plain']);
         $response->setPublic();
@@ -75,18 +63,9 @@ class PasteController
      */
     public function updateAction(Request $request, $code)
     {
-        $token = $request->headers->get('X-Paste-Token', false);
-        $body = $request->get('paste');
-
-        try {
-            $paste = $this->manager->loadPasteByCode($code);
-            $paste->setBody($body);
-            $this->manager->update($paste, $token);
-        } catch (\LengthException $e) {
-            return new Response($e->getMessage(), $e->getCode());
-        } catch (\RuntimeException $e) {
-            return new Response($e->getMessage(), $e->getCode());
-        }
+        $paste = $this->manager->loadPasteByCode($code);
+        $paste->setBody($request->get('paste'));
+        $this->manager->update($paste, $request->headers->get('X-Paste-Token', false));
 
         return new Response('', 204);
     }
@@ -98,14 +77,8 @@ class PasteController
      */
     public function deleteAction(Request $request, $code)
     {
-        $token = $request->headers->get('X-Paste-Token', false);
-
-        try {
-            $paste = $this->manager->loadPasteByCode($code);
-            $this->manager->delete($paste, $token);
-        } catch (\RuntimeException $e) {
-            return new Response($e->getMessage(), $e->getCode());
-        }
+        $paste = $this->manager->loadPasteByCode($code);
+        $this->manager->delete($paste, $request->headers->get('X-Paste-Token', false));
 
         return new Response('', 204);
     }
