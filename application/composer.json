@@ -24,9 +24,14 @@
     },
     "autoload": {
         "psr-4": {
-            "Alcohol\\": ["app/"],
-            "Alcohol\\PasteBundle\\": ["src/"]
+            "Alcohol\\PasteBundle\\Tests\\": ["tst"],
+            "Alcohol\\PasteBundle\\": ["src/"],
+            "Alcohol\\": ["app/"]
         }
+    },
+    "scripts": {
+        "test": "echo 'vendor/bin/phpunit --bootstrap vendor/autoload.php tst/' && vendor/bin/phpunit --bootstrap vendor/autoload.php tst/",
+        "testdox": "echo 'vendor/bin/phpunit --bootstrap vendor/autoload.php --testdox tst/' && vendor/bin/phpunit --bootstrap vendor/autoload.php --testdox tst/"
     },
     "extra": {
         "branch-alias": {

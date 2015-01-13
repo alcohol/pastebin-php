@@ -53,8 +53,8 @@ class PasteManager
      */
     public function update(Paste $paste, $token)
     {
-        if (!StringUtils::equals($token, $paste->getToken())) {
-            throw new \RuntimeException('Unable to persist paste to storage.', 503);
+        if (!hash_equals($token, $paste->getToken())) {
+            throw new \RuntimeException('Unable to persist paste to storage, invalid token.', 403);
         }
 
         return $this->persist($paste);
@@ -68,8 +68,8 @@ class PasteManager
      */
     public function delete(Paste $paste, $token)
     {
-        if (!StringUtils::equals($token, $paste->getToken())) {
-            throw new \RuntimeException('Unable to delete paste from storage.', 503);
+        if (!hash_equals($token, $paste->getToken())) {
+            throw new \RuntimeException('Unable to delete paste from storage, invalid token.', 403);
         }
 
         if (!$this->redis->del(array('paste:' . $paste->getCode()))) {
