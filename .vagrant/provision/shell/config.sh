@@ -14,5 +14,7 @@ sed -i 's,^;extension=apcu.so,extension=apcu.so,' /etc/php/conf.d/apcu.ini
 sed -i 's,^;zend_extension=/usr/lib/php/modules/xdebug.so,zend_extension=/usr/lib/php/modules/xdebug.so,' /etc/php/conf.d/xdebug.ini
 sed -i -r -e 's,^(user|group) = http,\1 = vagrant,' -e 's,^;error_log = log/php-fpm.log,error_log = syslog,' /etc/php/php-fpm.conf
 
-systemctl enable nginx redis php-fpm redis
-systemctl start nginx redis php-fpm redis
+systemctl enable nginx redis php-fpm redis varnish
+systemctl start nginx redis php-fpm redis varnish
+
+updatedb
