@@ -17,12 +17,13 @@ class Paste
      * @param string $code
      * @param string $body
      * @param string $token
+     * @throws \LengthException
      */
     public function __construct($code, $body, $token)
     {
-        $this->code = $code;
-        $this->body = $body;
-        $this->token = $token;
+        $this->setCode($code);
+        $this->setBody($body);
+        $this->setToken($token);
     }
 
     /**
@@ -43,9 +44,16 @@ class Paste
 
     /**
      * @param string $body
+     * @throws \LengthException
      */
     public function setBody($body)
     {
+        $size = ini_get('mbstring.func_overload') ? mb_strlen($body, '8bit') : strlen($body);
+
+        if ($size > 1024 * 1024) {
+            throw new \LengthException('Maximum string size of 1MiB exceeded.', 413);
+        }
+
         $this->body = $body;
     }
 

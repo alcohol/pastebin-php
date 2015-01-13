@@ -26,16 +26,11 @@ class PasteController
     public function createAction(Request $request)
     {
         $body = $request->get('paste');
-        $size = ini_get('mbstring.func_overload') ? mb_strlen($body, '8bit') : strlen($body);
 
-        if ($size > 1024 * 1024) {
-            return new Response('Maximum size of 1MiB exceeded.', 413);
-        }
-
-        $paste = $this->manager->create($body);
-
-        if (!$paste) {
-            return new Response('Unable to persist paste to storage.', 503, ['Retry-After' => 300]);
+        try {
+            $paste = $this->manager->create($body);
+        } catch (\LengthException $e) {
+            return new Response($e->getMessage(), $e->getCode());
         }
 
         return new Response($request->getUri() . $paste->getCode(), 201, [
@@ -52,10 +47,10 @@ class PasteController
      */
     public function readAction(Request $request, $code)
     {
-        $paste = $this->manager->loadPasteByCode($code);
-
-        if (!$paste) {
-            return new Response(sprintf('Paste not found: %s', $code), 404);
+        try {
+            $paste = $this->manager->loadPasteByCode($code);
+        } catch (\RuntimeException $e) {
+            return new Response($e->getMessage(), $e->getCode());
         }
 
         $response = new Response($paste->getBody(), 200, ['Content-Type' => 'text/plain']);
@@ -78,29 +73,17 @@ class PasteController
      */
     public function updateAction(Request $request, $code)
     {
-        $paste = $this->manager->loadPasteByCode($code);
-
-        if (!$paste) {
-            return new Response(sprintf('Paste not found: %s', $code), 404);
-        }
-
         $token = $request->headers->get('X-Paste-Token', false);
-
-        if (false === $token || $token !== $paste->getToken()) {
-            return new Response(sprintf('Paste not found: %s', $code), 404);
-        }
-
         $body = $request->get('paste');
-        $size = ini_get('mbstring.func_overload') ? mb_strlen($paste, '8bit') : strlen($paste);
 
-        if ($size > 1024 * 1024) {
-            return new Response('Maximum size of 1MiB exceeded.', 413);
-        }
-
-        $paste->setBody($body);
-
-        if (!$this->manager->persist($paste)) {
-            return new Response('Unable to persist updated paste to storage.', 503, ['Retry-After' => 300]);
+        try {
+            $paste = $this->manager->loadPasteByCode($code);
+            $paste->setBody($body);
+            $this->manager->update($paste, $token);
+        } catch (\LengthException $e) {
+            return new Response($e->getMessage(), $e->getCode());
+        } catch (\RuntimeException $e) {
+            return new Response($e->getMessage(), $e->getCode());
         }
 
         return new Response('', 204);
@@ -113,20 +96,13 @@ class PasteController
      */
     public function deleteAction(Request $request, $code)
     {
-        $paste = $this->manager->loadPasteByCode($code);
-
-        if (!$paste) {
-            return new Response(sprintf('Paste not found: %s', $code), 404);
-        }
-
         $token = $request->headers->get('X-Paste-Token', false);
 
-        if (false === $token || $token !== $paste->getToken()) {
-            return new Response(sprintf('Paste not found: %s', $code), 404);
-        }
-
-        if (!$this->manager->delete($paste)) {
-            return new Response('Unable to delete paste from storage.', 503, ['Retry-After' => 300]);
+        try {
+            $paste = $this->manager->loadPasteByCode($code);
+            $this->manager->delete($paste, $token);
+        } catch (\RuntimeException $e) {
+            return new Response($e->getMessage(), $e->getCode());
         }
 
         return new Response('', 204);

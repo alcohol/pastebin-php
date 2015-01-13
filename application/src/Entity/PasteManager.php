@@ -3,6 +3,7 @@
 namespace Alcohol\PasteBundle\Entity;
 
 use Predis\Client;
+use Symfony\Component\Security\Core\Util\StringUtils;
 
 class PasteManager
 {
@@ -30,7 +31,8 @@ class PasteManager
 
     /**
      * @param string $body
-     * @return Paste|boolean
+     * @return Paste
+     * @throws \RuntimeException
      */
     public function create($body)
     {
@@ -48,41 +50,72 @@ class PasteManager
 
         $paste = new Paste($code, $body, $token);
 
-        return $this->persist($paste, 'NX') ? $paste : false;
+        return $this->persist($paste, 'NX');
+    }
+
+    /**
+     * @param Paste $paste
+     * @param string $token
+     * @return Paste
+     * @throws \RuntimeException
+     */
+    public function update(Paste $paste, $token)
+    {
+        if (!StringUtils::equals($token, $paste->getToken())) {
+            throw new \RuntimeException('Unable to persist paste to storage.', 503);
+        }
+
+        return $this->persist($paste);
+    }
+
+    /**
+     * @param Paste $paste
+     * @param string $token
+     * @return boolean
+     * @throws \RuntimeException
+     */
+    public function delete(Paste $paste, $token)
+    {
+        if (!StringUtils::equals($token, $paste->getToken())) {
+            throw new \RuntimeException('Unable to delete paste from storage.', 503);
+        }
+
+        if (!$this->redis->del(array('paste:' . $paste->getCode()))) {
+            throw new \RuntimeException('Unable to delete paste from storage.', 503);
+        }
+
+        return true;
+    }
+
+    /**
+     * @param string $code
+     * @return Paste
+     * @throws \RuntimeException
+     */
+    public function loadPasteByCode($code)
+    {
+        $paste = $this->redis->get('paste:' . $code);
+
+        if (null === $paste) {
+            throw new \RuntimeException('Paste not found: ' . $code, 404);
+        }
+
+        $paste = unserialize($paste);
+
+        return $paste;
     }
 
     /**
      * @param Paste $paste
      * @param string $flag
-     * @return boolean
+     * @return Paste
+     * @throws \RuntimeException
      */
-    public function persist(Paste $paste, $flag = 'XX')
+    protected function persist(Paste $paste, $flag = 'XX')
     {
-        return (boolean) $this->redis->set('paste:' . $paste->getCode(), serialize($paste), 'EX', $this->ttl, $flag);
-    }
-
-    /**
-     * @param Paste $paste
-     * @return boolean
-     */
-    public function delete(Paste $paste)
-    {
-        return (boolean) $this->redis->del(array('paste:' . $paste->getCode()));
-    }
-
-    /**
-     * @param string $code
-     * @return Paste|boolean
-     */
-    public function loadPasteByCode($code)
-    {
-        $result = $this->redis->get('paste:' . $code);
-
-        if (null === $result) {
-            return false;
+        if (!$this->redis->set('paste:' . $paste->getCode(), serialize($paste), 'EX', $this->ttl, $flag)) {
+            throw new \RuntimeException('Unable to persist paste to storage.', 503);
         }
-
-        $paste = unserialize($result);
 
         return $paste;
     }
