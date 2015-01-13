@@ -3,7 +3,6 @@
 namespace Alcohol\PasteBundle\Entity;
 
 use Predis\Client;
-use Symfony\Component\Security\Core\Util\StringUtils;
 
 class PasteManager
 {
@@ -37,17 +36,10 @@ class PasteManager
     public function create($body)
     {
         do {
-            $code = uniqid();
+            $code = $this->getHash();
         } while ($this->redis->exists($code));
 
-        if (function_exists('openssl_random_pseudo_bytes')) {
-            $token = bin2hex(openssl_random_pseudo_bytes(22));
-        } elseif (function_exists('mcrypt_create_iv')) {
-            $token = bin2hex(mcrypt_create_iv(22));
-        } else {
-            $token = bin2hex(file_get_contents('/dev/urandom', null, null, 0, 22));
-        }
-
+        $token = $this->getHash(10);
         $paste = new Paste($code, $body, $token);
 
         return $this->persist($paste, 'NX');
@@ -118,5 +110,14 @@ class PasteManager
         }
 
         return $paste;
+    }
+
+    /**
+     * @param integer $length
+     * @return string
+     */
+    protected function getHash($length = 4)
+    {
+        return bin2hex(file_get_contents('/dev/urandom', null, null, 0, $length / 2));
     }
 }
