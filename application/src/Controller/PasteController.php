@@ -31,6 +31,8 @@ class PasteController
             $paste = $this->manager->create($body);
         } catch (\LengthException $e) {
             return new Response($e->getMessage(), $e->getCode());
+        } catch (\RuntimeException $e) {
+            return new Response($e->getMessage(), $e->getCode());
         }
 
         return new Response($request->getUri() . $paste->getCode(), 201, [
