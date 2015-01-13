@@ -4,6 +4,8 @@ A demo that attempts to setup a minimalistic Symfony application.
 
 Inspired by: http://www.whitewashing.de/2014/10/26/symfony_all_the_things_web.html
 
+[![Build Status](https://img.shields.io/travis/alcohol/sf-minimal-demo/master.svg?style=flat-square)](https://travis-ci.org/alcohol/sf-minimal-demo)
+
 ## Installing
 
 ``` bash
