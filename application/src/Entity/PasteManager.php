@@ -29,6 +29,14 @@ class PasteManager
     }
 
     /**
+     * @return integer
+     */
+    public function getTtl()
+    {
+        return $this->ttl;
+    }
+
+    /**
      * @param string $body
      * @return Paste
      * @throws \RuntimeException
@@ -105,7 +113,7 @@ class PasteManager
      */
     protected function persist(Paste $paste, $flag = 'XX')
     {
-        if (!$this->redis->set('paste:' . $paste->getCode(), serialize($paste), 'EX', $this->ttl, $flag)) {
+        if (!$this->redis->set('paste:' . $paste->getCode(), serialize($paste), 'EX', $this->getTtl(), $flag)) {
             throw new \RuntimeException('Unable to persist paste to storage.', 503);
         }
 

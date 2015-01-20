@@ -14,9 +14,11 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function create_throws_LengthException_for_body_size_larger_than_1MiB()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         /** @var \Predis\Client $mock */
         $manager = new PasteManager($mock);
@@ -28,20 +30,24 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function create_attempts_to_persist_to_Redis_storage()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['exists', 'set'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $mock
             ->expects($this->once())
             ->method('exists')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(0))
+        ;
 
         $mock
             ->expects($this->once())
             ->method('set')
-            ->will($this->returnValue(1));
+            ->will($this->returnValue(1))
+        ;
 
         /** @var \Predis\Client $mock */
         $manager = new PasteManager($mock);
@@ -55,20 +61,24 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function create_throws_RuntimeException_when_Paste_does_not_persist_to_Redis_storage()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['exists', 'set'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $mock
             ->expects($this->once())
             ->method('exists')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(0))
+        ;
 
         $mock
             ->expects($this->once())
             ->method('set')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(0))
+        ;
 
         /** @var \Predis\Client $mock */
         $manager = new PasteManager($mock);
@@ -83,9 +93,11 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function update_throws_RuntimeException_when_token_does_not_match()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $paste = new Paste('code', 'body', 'token');
 
@@ -97,19 +109,29 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function update_attempts_to_persist_to_Redis_storage()
+    public function update_attempts_to_persist_to_Redis_storage_with_NX_flag()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $paste = new Paste('code', 'body', 'token');
+
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['set'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $mock
             ->expects($this->once())
             ->method('set')
-            ->will($this->returnValue(1));
-
-        $paste = new Paste('code', 'body', 'token');
+            ->with(
+                $this->equalTo('paste:' . $paste->getCode()),
+                $this->equalTo(serialize($paste)),
+                $this->equalTo('EX'),
+                $this->anything(),
+                $this->equalTo('XX')
+            )
+            ->will($this->returnValue(1))
+        ;
 
         /** @var \Predis\Client $mock */
         $manager = new PasteManager($mock, 'token');
@@ -123,15 +145,18 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function update_throws_RuntimeException_when_Paste_does_not_persist_to_Redis_storage()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['set'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $mock
             ->expects($this->once())
             ->method('set')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(0))
+        ;
 
         $paste = new Paste('code', 'body', 'token');
 
@@ -147,9 +172,11 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function delete_throws_RuntimeException_when_token_does_not_match()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
-            ->getMock();
+            ->getMock()
+        ;
 
         $paste = new Paste('code', 'body', 'token');
 
@@ -165,15 +192,18 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function delete_throws_RuntimeException_when_Paste_cannot_be_deleted_from_Redis_storage()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['del'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $mock
             ->expects($this->once())
             ->method('del')
-            ->will($this->returnValue(0));
+            ->will($this->returnValue(0))
+        ;
 
         $paste = new Paste('code', 'body', 'token');
 
@@ -187,15 +217,18 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function delete_attempts_to_remove_Paste_from_Redis_storage()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['del'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $mock
             ->expects($this->once())
             ->method('del')
-            ->will($this->returnValue(1));
+            ->will($this->returnValue(1))
+        ;
 
         $paste = new Paste('code', 'body', 'token');
 
@@ -211,15 +244,18 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function loadPasteByCode_throws_RuntimeException_when_Paste_cannot_be_found_in_Redis_storage()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['get'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $mock
             ->expects($this->once())
             ->method('get')
-            ->will($this->returnValue(null));
+            ->will($this->returnValue(null))
+        ;
 
         /** @var \Predis\Client $mock */
         $manager = new PasteManager($mock);
@@ -231,17 +267,20 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function loadPasteByCode_returns_Paste_from_Redis_storage()
     {
-        $mock = $this->getMockBuilder('Predis\Client')
+        $mock = $this
+            ->getMockBuilder('Predis\Client')
             ->disableOriginalConstructor()
             ->setMethods(['get'])
-            ->getMock();
+            ->getMock()
+        ;
 
         $paste = new Paste('code', 'body', 'token');
 
         $mock
             ->expects($this->once())
             ->method('get')
-            ->will($this->returnValue(serialize($paste)));
+            ->will($this->returnValue(serialize($paste)))
+        ;
 
         /** @var \Predis\Client $mock */
         $manager = new PasteManager($mock);

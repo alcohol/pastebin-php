@@ -19,4 +19,17 @@
     timeoutForMediumTests="10"
     timeoutForLargeTests="60"
     strict="true">
+    <testsuites>
+        <testsuite name="src">
+            <directory>tst</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-html" target="web/phpunit/cover"/>
+    </logging>
 </phpunit>
