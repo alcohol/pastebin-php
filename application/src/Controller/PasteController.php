@@ -90,6 +90,7 @@ class PasteController
     public function indexAction(Request $request)
     {
         $href = $request->getUri();
+        $host = $request->getHttpHost();
 
         $form = <<<FORM
 data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
@@ -104,7 +105,7 @@ DESCRIPTION
     paste: command line pastebin.
 
 USING
-    &lt;command&gt; | curl -F 'paste=&lt;-' paste.robbast.nl
+    &lt;command&gt; | curl -F 'paste=&lt;-' $host
 
 ALTERNATIVELY
     use <a href='$form'>this form</a> to paste from a browser
