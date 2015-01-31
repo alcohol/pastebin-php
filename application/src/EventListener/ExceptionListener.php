@@ -15,16 +15,11 @@ class ExceptionListener
     {
         $exception = $event->getException();
 
-        $response = new Response();
+        $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
 
         if ($exception instanceof HttpExceptionInterface) {
             $response->setStatusCode($exception->getStatusCode());
             $response->headers->replace($exception->getHeaders());
-        } elseif ($exception instanceof \LengthException || $exception instanceof \RuntimeException) {
-            $response->setContent($exception->getMessage());
-            $response->setStatusCode($exception->getCode());
-        } else {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         $event->setResponse($response);
