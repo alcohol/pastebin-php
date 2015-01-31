@@ -35,7 +35,7 @@ Now you should be able to visit `http://localhost:8080/`.
 ## cURL Examples
 
 ``` bash
-$ curl -X POST -d 'paste=Lorem ipsum' http://127.0.0.1:8080/
+$ curl -X POST --data-binary 'Lorem ipsum' http://127.0.0.1:8080/
 # 201 Created
 # Location: /54ae
 # X-Paste-Token: 99d6a7cb2f
@@ -45,7 +45,7 @@ $ curl http://127.0.0.1:8080/54ae
 # 200 OK
 Lorem ipsum
 
-$ curl -H 'X-Paste-Token: 99d6a7cb2f' -X PUT -d 'paste=Lipsum lorem' \
+$ curl -H 'X-Paste-Token: 99d6a7cb2f' -X PUT --data-binary 'Lipsum lorem' \
     http://127.0.0.1:8080/54ae
 # 204 No Content
 

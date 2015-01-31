@@ -25,9 +25,11 @@ class PasteController
      */
     public function createAction(Request $request)
     {
-        $paste = $this->manager->create($request->get('paste'));
+        $input = $request->get('paste') ?: $request->getContent();
+        $paste = $this->manager->create($input);
+        $body = sprintf("%s%s\n", $request->getUri(), $paste->getCode());
 
-        return new Response($request->getUri() . $paste->getCode(), 201, [
+        return new Response($body, 201, [
             'Content-Type' => 'text/plain',
             'Location' => '/' . $paste->getCode(),
             'X-Paste-Token' => $paste->getToken(),
@@ -64,7 +66,8 @@ class PasteController
     public function updateAction(Request $request, $code)
     {
         $paste = $this->manager->loadPasteByCode($code);
-        $paste->setBody($request->get('paste'));
+        $input = $request->get('paste') ?: $request->getContent();
+        $paste->setBody($input);
         $this->manager->update($paste, $request->headers->get('X-Paste-Token', false));
 
         return new Response('', 204);
@@ -105,7 +108,7 @@ DESCRIPTION
     paste: command line pastebin.
 
 USING
-    &lt;command&gt; | curl -F 'paste=&lt;-' $host
+    &lt;command&gt; | curl --data-binary '@-' $host
 
 ALTERNATIVELY
     use <a href='$form'>this form</a> to paste from a browser
