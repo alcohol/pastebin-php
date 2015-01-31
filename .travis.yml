@@ -6,7 +6,7 @@ php:
 before_script:
   - cp application/.env.example application/.env
   - composer self-update -n
-  - composer install -d application --dev -o -n
+  - composer install -d application -o -n
 
 script:
     - application/vendor/bin/phpunit -c application/phpunit.xml.dist --testdox application/tst/
