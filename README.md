@@ -40,31 +40,29 @@ Worth mentioning:
   [here](http://stackoverflow.com/questions/23993295/what-is-the-new-symfony-3-directory-structure/23994473#23994473),
   so make sure the **httpd** or **fcgi** user can write to `var/`.
 
-Now you should be able to visit `http://localhost:8080/`.
-
 ## cURL Examples
 
 ``` bash
-$ curl -X POST --data-binary 'Lorem ipsum' http://127.0.0.1:8080/
+$ curl -X POST --data-binary 'Lorem ipsum' http://pastebin.tld
 # 201 Created
 # Location: /54ae
 # X-Paste-Token: 99d6a7cb2f
-http://127.0.0.1:8080/54ae
+http://pastebin.tld/54ae
 
-$ curl http://127.0.0.1:8080/54ae
+$ curl http://pastebin.tld/54ae
 # 200 OK
 Lorem ipsum
 
 $ curl -H 'X-Paste-Token: 99d6a7cb2f' -X PUT --data-binary 'Lipsum lorem' \
-    http://127.0.0.1:8080/54ae
+    http://pastebin.tld/54ae
 # 204 No Content
 
-$ curl http://127.0.0.1:8080/54ae
+$ curl http://pastebin.tld/54ae
 # 200 OK
 Lipsum lorem
 
 $ curl -H 'X-Paste-Token: 99d6a7cb2f' -X DELETE \
-    http://127.0.0.1:8080/54ae
+    http://pastebin.tld/54ae
 # 204 No Content
 ```
 
