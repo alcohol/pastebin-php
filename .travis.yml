@@ -1,12 +1,15 @@
 language: php
 
 php:
+  - 5.4
+  - 5.5
   - 5.6
 
 before_script:
-  - cp application/.env.example application/.env
+  - cp .env.example .env
   - composer self-update -n
-  - composer install -d application -o -n
+  - composer install -o -n
 
 script:
-    - application/vendor/bin/phpunit -c application/phpunit.xml.dist --testdox application/tst/
+  - composer test
+  - composer checkstyle

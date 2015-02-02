@@ -15,7 +15,7 @@ paste.read:
 
 paste.update:
   path: /{code}
-  methods: [PUT,PATCH,POST]
+  methods: [PUT,PATCH]
   defaults: { _controller: 'paste.controller:updateAction' }
 
 paste.delete:

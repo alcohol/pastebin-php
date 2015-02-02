@@ -2,6 +2,9 @@
 
 namespace Alcohol\PasteBundle\Entity;
 
+use Alcohol\PasteBundle\Exception\StorageException;
+use Alcohol\PasteBundle\Exception\TokenException;
+use Alcohol\PasteBundle\Util\HashUtils;
 use Predis\Client;
 
 class PasteManager
@@ -9,15 +12,20 @@ class PasteManager
     /** @var Client */
     protected $redis;
 
+    /** @var HashUtils */
+    protected $hash;
+
     /** @var integer */
     protected $ttl = 86400;
 
     /**
      * @param Client $redis
+     * @param HashUtils $hash
      */
-    public function __construct(Client $redis)
+    public function __construct(Client $redis, HashUtils $hash)
     {
         $this->redis = $redis;
+        $this->hash = $hash;
     }
 
     /**
@@ -39,65 +47,31 @@ class PasteManager
     /**
      * @param string $body
      * @return Paste
-     * @throws \RuntimeException
+     * @throws StorageException
      */
     public function create($body)
     {
         do {
-            $code = $this->getHash();
-        } while ($this->redis->exists($code));
+            $code = $this->hash->generate();
+        } while ($this->redis->exists('paste:' . $code));
 
-        $token = $this->getHash(10);
+        $token = $this->hash->generate(10);
         $paste = new Paste($code, $body, $token);
 
         return $this->persist($paste, 'NX');
     }
 
     /**
-     * @param Paste $paste
-     * @param string $token
-     * @return Paste
-     * @throws \RuntimeException
-     */
-    public function update(Paste $paste, $token)
-    {
-        if (!hash_equals($token, $paste->getToken())) {
-            throw new \RuntimeException('Unable to persist paste to storage, invalid token.', 403);
-        }
-
-        return $this->persist($paste);
-    }
-
-    /**
-     * @param Paste $paste
-     * @param string $token
-     * @return boolean
-     * @throws \RuntimeException
-     */
-    public function delete(Paste $paste, $token)
-    {
-        if (!hash_equals($token, $paste->getToken())) {
-            throw new \RuntimeException('Unable to delete paste from storage, invalid token.', 403);
-        }
-
-        if (!$this->redis->del(array('paste:' . $paste->getCode()))) {
-            throw new \RuntimeException('Unable to delete paste from storage.', 503);
-        }
-
-        return true;
-    }
-
-    /**
      * @param string $code
      * @return Paste
-     * @throws \RuntimeException
+     * @throws StorageException
      */
-    public function loadPasteByCode($code)
+    public function read($code)
     {
         $paste = $this->redis->get('paste:' . $code);
 
         if (null === $paste) {
-            throw new \RuntimeException('Paste not found: ' . $code, 404);
+            throw new StorageException('Paste not found: ' . $code);
         }
 
         $paste = unserialize($paste);
@@ -107,25 +81,52 @@ class PasteManager
 
     /**
      * @param Paste $paste
+     * @param string $token
+     * @return Paste
+     * @throws TokenException
+     * @throws StorageException
+     */
+    public function update(Paste $paste, $token)
+    {
+        if (!$this->hash->compare($token, $paste->getToken())) {
+            throw new TokenException('Unable to persist paste to storage, invalid token.');
+        }
+
+        return $this->persist($paste);
+    }
+
+    /**
+     * @param Paste $paste
+     * @param string $token
+     * @return boolean
+     * @throws TokenException
+     * @throws StorageException
+     */
+    public function delete(Paste $paste, $token)
+    {
+        if (!$this->hash->compare($token, $paste->getToken())) {
+            throw new TokenException('Unable to delete paste from storage, invalid token.');
+        }
+
+        if (!$this->redis->del(array('paste:' . $paste->getCode()))) {
+            throw new StorageException('Unable to delete paste from storage.');
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Paste $paste
      * @param string $flag
      * @return Paste
-     * @throws \RuntimeException
+     * @throws StorageException
      */
     protected function persist(Paste $paste, $flag = 'XX')
     {
         if (!$this->redis->set('paste:' . $paste->getCode(), serialize($paste), 'EX', $this->getTtl(), $flag)) {
-            throw new \RuntimeException('Unable to persist paste to storage.', 503);
+            throw new StorageException('Unable to persist paste to storage.');
         }
 
         return $paste;
-    }
-
-    /**
-     * @param integer $length
-     * @return string
-     */
-    protected function getHash($length = 4)
-    {
-        return bin2hex(file_get_contents('/dev/urandom', null, null, 0, $length / 2));
     }
 }

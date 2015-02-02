@@ -3,8 +3,15 @@
 namespace Alcohol\PasteBundle\Controller;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
+use Alcohol\PasteBundle\Exception\StorageException;
+use Alcohol\PasteBundle\Exception\TokenException;
+use LengthException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class PasteController
 {
@@ -26,7 +33,15 @@ class PasteController
     public function createAction(Request $request)
     {
         $input = $request->get('paste') ?: $request->getContent();
-        $paste = $this->manager->create($input);
+
+        try {
+            $paste = $this->manager->create($input);
+        } catch (StorageException $e) {
+            throw new ServiceUnavailableHttpException(300, $e->getmessage(), $e);
+        } catch (LengthException $e) {
+            throw new BadRequestHttpException($e->getMessage(), $e);
+        }
+
         $body = sprintf("%s%s\n", $request->getUri(), $paste->getCode());
 
         return new Response($body, 201, [
@@ -43,7 +58,11 @@ class PasteController
      */
     public function readAction(Request $request, $code)
     {
-        $paste = $this->manager->loadPasteByCode($code);
+        try {
+            $paste = $this->manager->read($code);
+        } catch (StorageException $e) {
+            throw new NotFoundHttpException($e->getMessage(), $e);
+        }
 
         $response = new Response($paste->getBody(), 200, ['Content-Type' => 'text/plain']);
         $response->setPublic();
@@ -65,10 +84,22 @@ class PasteController
      */
     public function updateAction(Request $request, $code)
     {
-        $paste = $this->manager->loadPasteByCode($code);
+        try {
+            $paste = $this->manager->read($code);
+        } catch (StorageException $e) {
+            throw new NotFoundHttpException($e->getMessage(), $e);
+        } catch (TokenException $e) {
+            throw new AccessDeniedHttpException($e->getMessage(), $e);
+        }
+
         $input = $request->get('paste') ?: $request->getContent();
         $paste->setBody($input);
-        $this->manager->update($paste, $request->headers->get('X-Paste-Token', false));
+
+        try {
+            $this->manager->update($paste, $request->headers->get('X-Paste-Token', false));
+        } catch (StorageException $e) {
+            throw new ServiceUnavailableHttpException(300, $e->getmessage(), $e);
+        }
 
         return new Response('', 204);
     }
@@ -80,8 +111,19 @@ class PasteController
      */
     public function deleteAction(Request $request, $code)
     {
-        $paste = $this->manager->loadPasteByCode($code);
-        $this->manager->delete($paste, $request->headers->get('X-Paste-Token', false));
+        try {
+            $paste = $this->manager->read($code);
+        } catch (StorageException $e) {
+            throw new NotFoundHttpException($e->getMessage(), $e);
+        }
+
+        try {
+            $this->manager->delete($paste, $request->headers->get('X-Paste-Token', false));
+        } catch (StorageException $e) {
+            throw new NotFoundHttpException($e->getMessage(), $e);
+        } catch (TokenException $e) {
+            throw new AccessDeniedHttpException($e->getMessage(), $e);
+        }
 
         return new Response('', 204);
     }

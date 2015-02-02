@@ -2,6 +2,8 @@
 
 namespace Alcohol\PasteBundle\Entity;
 
+use LengthException;
+
 class Paste
 {
     /** @var string */
@@ -44,14 +46,14 @@ class Paste
 
     /**
      * @param string $body
-     * @throws \LengthException
+     * @throws LengthException
      */
     public function setBody($body)
     {
         $size = ini_get('mbstring.func_overload') ? mb_strlen($body, '8bit') : strlen($body);
 
         if ($size > 1024 * 1024) {
-            throw new \LengthException('Maximum string size of 1MiB exceeded.', 413);
+            throw new LengthException('Maximum string size of 1MiB exceeded.');
         }
 
         $this->body = $body;

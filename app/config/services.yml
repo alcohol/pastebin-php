@@ -1,5 +1,8 @@
 services:
 
+  hashutils:
+    class: Alcohol\PasteBundle\Util\HashUtils
+
   predis.client:
     class: Predis\Client
     arguments:
@@ -9,7 +12,7 @@ services:
 
   paste.manager:
     class: Alcohol\PasteBundle\Entity\PasteManager
-    arguments: [ @predis.client ]
+    arguments: [ @predis.client, @hashutils ]
 
   paste.controller:
     class: Alcohol\PasteBundle\Controller\PasteController

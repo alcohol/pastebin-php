@@ -21,7 +21,8 @@
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
-        "guzzle/guzzle": "@stable"
+        "phpunit/php-invoker": "@stable",
+        "squizlabs/php_codesniffer": "~2.0"
     },
     "autoload": {
         "psr-4": {
@@ -31,8 +32,9 @@
         }
     },
     "scripts": {
-        "test": "echo 'vendor/bin/phpunit tst/' && vendor/bin/phpunit tst/",
-        "testdox": "echo 'vendor/bin/phpunit --testdox tst/' && vendor/bin/phpunit --testdox tst/"
+        "checkstyle": "vendor/bin/phpcs --standard=psr2 src tst",
+        "clean": "git clean -ffxdi",
+        "test": "vendor/bin/phpunit"
     },
     "extra": {
         "branch-alias": {
