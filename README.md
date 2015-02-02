@@ -15,30 +15,18 @@ composer install
 cp .env.example .env
 ```
 
-## Configuring
-
-Environment needs to be setup by adding a `.env` (see
-[vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)) file containing
-something like:
-
-``` shell
-SYMFONY_ENV=dev
-SYMFONY_DEBUG=1
-SYMFONY__SECRET=super-secret-string
-SYMFONY__MONOLOG_ACTION_LEVEL=debug
-SYMFONY__REDIS__SCHEME=tcp
-SYMFONY__REDIS__HOST=localhost
-SYMFONY__REDIS__PORT=6379
-```
-
-> See [external
-> parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
-> regarding **SYMFONY__** prefixed environment variables.
-
 Worth mentioning:
 * It uses a directory structure similar to the one described
   [here](http://stackoverflow.com/questions/23993295/what-is-the-new-symfony-3-directory-structure/23994473#23994473),
   so make sure the **httpd** or **fcgi** user can write to `var/`.
+
+## Configuring
+
+See the `.env` (see [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)) file.
+
+> See [external
+> parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
+> regarding **SYMFONY__** prefixed environment variables.
 
 ## cURL Examples
 
