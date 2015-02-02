@@ -1,8 +1,18 @@
+# Alcohol\sf-minimal-demo
+
+A demo that attempts to setup a minimalistic Symfony application.
+
+Inspired by: http://www.whitewashing.de/2014/10/26/symfony_all_the_things_web.html
+
+[![Build Status](https://img.shields.io/travis/alcohol/sf-minimal-demo/master.svg?style=flat-square)](https://travis-ci.org/alcohol/sf-minimal-demo)
+
 ## Installing
 
 ``` bash
-cd application
+git clone https://github.com/alcohol/sf-minimal-demo.git
+cd sf-minimal-demo
 composer install
+cp .env.example .env
 ```
 
 ## Configuring
@@ -57,3 +67,11 @@ $ curl -H 'X-Paste-Token: 99d6a7cb2f' -X DELETE \
     http://127.0.0.1:8080/54ae
 # 204 No Content
 ```
+
+## Contributing
+
+Feel free to submit a pull request or create an issue.
+
+## License
+
+Alcohol\sf-minimal-demo is licensed under the MIT license.
