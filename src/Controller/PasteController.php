@@ -156,7 +156,7 @@ ALTERNATIVELY
     use <a href='$form'>this form</a> to paste from a browser
 
 SOURCE
-    <a href='https://github.com/alcohol/sf-minimal-demo/tree/master/application'>github.com/alcohol</a>
+    <a href='https://github.com/alcohol/sf-minimal-demo/'>github.com/alcohol</a>
 </pre>
 BODY;
 
