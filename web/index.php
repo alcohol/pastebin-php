@@ -5,6 +5,8 @@ $loader = require_once __DIR__ . '/../vendor/autoload.php';
 use Alcohol\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\ClassLoader\ApcClassLoader;
+use Symfony\Component\HttpKernel\HttpCache\HttpCache;
+use Symfony\Component\HttpKernel\HttpCache\Store;
 
 Dotenv::makeMutable();
 Dotenv::load(__DIR__ . '/../');
@@ -25,6 +27,11 @@ if (extension_loaded('apc') && in_array(getenv('SYMFONY_ENV'), ['prod'])) {
 
 $application = new Application(getenv('SYMFONY_ENV'), getenv('SYMFONY_DEBUG'));
 $application->loadClassCache();
+
+if (in_array(getenv('SYMFONY_ENV'), ['prod'])) {
+    $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
+}
+
 $request = Request::createFromGlobals();
 $response = $application->handle($request);
 $response->send();
