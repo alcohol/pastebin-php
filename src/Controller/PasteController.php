@@ -65,10 +65,12 @@ class PasteController
         }
 
         $response = new Response($paste->getBody(), 200, ['Content-Type' => 'text/plain']);
-        $response->setPublic();
-        $response->setETag(md5($paste->getBody()));
-        $response->setTtl(60 * 60);
-        $response->setClientTtl(60 * 10);
+        $response
+            ->setPublic()
+            ->setETag(md5($paste->getBody()))
+            ->setTtl(60 * 60)
+            ->setClientTtl(60 * 10)
+        ;
 
         if (!$request->isNoCache()) {
             $response->isNotModified($request);
@@ -136,13 +138,11 @@ class PasteController
     {
         $href = $request->getUri();
         $host = $request->getHttpHost();
-
         $form = <<<FORM
 data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
 <textarea name="paste" cols="100" rows="30"></textarea>
 <br><button type="submit">paste</button></form>
 FORM;
-
         $body = <<<BODY
 <style>body { padding: 2em; }</style>
 <pre>
@@ -161,10 +161,12 @@ SOURCE
 BODY;
 
         $response = new Response($body, 200);
-        $response->setPublic();
-        $response->setETag(md5($response->getContent()));
-        $response->setTtl(60 * 60);
-        $response->setClientTtl(60 * 10);
+        $response
+            ->setPublic()
+            ->setETag(md5($response->getContent()))
+            ->setTtl(60 * 60)
+            ->setClientTtl(60 * 10)
+        ;
 
         if (!$request->isNoCache()) {
             $response->isNotModified($request);
