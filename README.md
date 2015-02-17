@@ -28,6 +28,37 @@ See the `.env` (see [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)) fil
 > parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
 > regarding **SYMFONY__** prefixed environment variables.
 
+## Nginx example
+
+``` nginx
+upstream php-fpm {
+    server unix:/run/php-fpm/php-fpm.sock;
+}
+server {
+    server_name pastebin.tld;
+    access_log /var/log/nginx/pastebin.tld.log;
+    error_log /var/log/nginx/pastebin.tld.err;
+    root /srv/http/pastebin.tld/web;
+    location / {
+        index index.php;
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+    location = /robots.txt  { access_log off; log_not_found off; }
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location ~* \.php$ {
+        try_files $uri =404;
+        include fastcgi.conf;
+        fastcgi_split_path_info ^((?U).+\.php)(/?.+)$;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+        fastcgi_pass php-fpm;
+    }
+    location ~* \.(?:jpe?g|gif|png|css|js|ico|xml)$ {
+        expires 1h;
+        add_header Cache-Control "public";
+    }
+}
+```
+
 ## cURL Examples
 
 ``` bash
