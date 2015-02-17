@@ -53,7 +53,7 @@ class ReadCommand extends Command
         $output->writeln(sprintf('<bold>Code:</bold> %s', $paste->getCode()));
         $output->writeln(sprintf('<bold>Token:</bold> %s', $paste->getToken()));
 
-        if ($input->getOption('body')) {
+        if ($input->getOption('include-body')) {
             $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->getBody()));
         }
 
