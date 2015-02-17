@@ -23,17 +23,22 @@ class Paste
      */
     public function __construct($code, $body, $token)
     {
-        $this->setCode($code);
-        $this->setBody($body);
-        $this->setToken($token);
+        $this
+            ->setCode($code)
+            ->setBody($body)
+            ->setToken($token)
+        ;
     }
 
     /**
      * @param string $code
+     * @return $this
      */
     public function setCode($code)
     {
         $this->code = $code;
+
+        return $this;
     }
 
     /**
@@ -46,6 +51,7 @@ class Paste
 
     /**
      * @param string $body
+     * @return $this
      * @throws LengthException
      */
     public function setBody($body)
@@ -57,6 +63,8 @@ class Paste
         }
 
         $this->body = $body;
+
+        return $this;
     }
 
     /**
@@ -69,10 +77,13 @@ class Paste
 
     /**
      * @param mixed $token
+     * @return $this
      */
     public function setToken($token)
     {
         $this->token = $token;
+
+        return $this;
     }
 
     /**
