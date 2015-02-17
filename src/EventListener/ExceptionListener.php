@@ -2,9 +2,11 @@
 
 namespace Alcohol\PasteBundle\EventListener;
 
+use Predis\Connection\ConnectionException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class ExceptionListener
 {
@@ -16,6 +18,11 @@ class ExceptionListener
         $exception = $event->getException();
 
         $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+
+        if ($exception instanceof ConnectionException) {
+            $exception = new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
+            $event->setException($exception);
+        }
 
         if ($exception instanceof HttpExceptionInterface) {
             $response->setStatusCode($exception->getStatusCode());
