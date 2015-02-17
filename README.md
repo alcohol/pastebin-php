@@ -12,7 +12,7 @@ Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_th
 git clone https://github.com/alcohol/sf-minimal-demo.git
 cd sf-minimal-demo
 composer install
-cp .env.example .env
+vim .env
 ```
 
 Worth mentioning:

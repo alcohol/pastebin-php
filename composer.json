@@ -34,7 +34,13 @@
     "scripts": {
         "checkstyle": "vendor/bin/phpcs --standard=psr2 src tst",
         "clean": "git clean -ffxdi",
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "post-install-cmd": [
+            "[ -f .env ] || cp .env.example .env"
+        ],
+        "post-update-cmd": [
+            "[ -f .env ] || cp .env.example .env"
+        ]
     },
     "extra": {
         "branch-alias": {
