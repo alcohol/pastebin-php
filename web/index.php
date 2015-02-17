@@ -20,15 +20,15 @@ Dotenv::required([
     'SYMFONY__REDIS__PORT',
 ]);
 
-if (extension_loaded('apc') && in_array(getenv('SYMFONY_ENV'), ['prod'])) {
+if (in_array(getenv('SYMFONY_ENV'), ['prod']) && extension_loaded('apc')) {
     $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
     $apcloader->register(true);
 }
 
 $application = new Application(getenv('SYMFONY_ENV'), getenv('SYMFONY_DEBUG'));
-$application->loadClassCache();
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'])) {
+    $application->loadClassCache();
     $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
 }
 
