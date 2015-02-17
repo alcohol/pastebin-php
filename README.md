@@ -8,7 +8,7 @@ Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_th
 
 ## Installing
 
-``` bash
+``` Shell
 git clone https://github.com/alcohol/sf-minimal-demo.git
 cd sf-minimal-demo
 composer install
@@ -30,7 +30,7 @@ See the `.env` (see [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)) fil
 
 ## Nginx example
 
-``` nginx
+``` Nginx
 upstream php-fpm {
     server unix:/run/php-fpm/php-fpm.sock;
 }
@@ -61,7 +61,7 @@ server {
 
 ## cURL Examples
 
-``` bash
+``` Shell
 $ curl -X POST --data-binary 'Lorem ipsum' http://pastebin.tld
 # 201 Created
 # Location: /54ae
