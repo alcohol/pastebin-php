@@ -6,6 +6,8 @@ use Alcohol\PasteBundle\Exception\StorageException;
 use Alcohol\PasteBundle\Exception\TokenException;
 use Alcohol\PasteBundle\Util\HashUtils;
 use Predis\Client;
+use Predis\Collection\Iterator\Keyspace;
+use Predis\Connection\ConnectionException;
 
 class PasteManager
 {
@@ -47,7 +49,8 @@ class PasteManager
     /**
      * @param string $body
      * @return Paste
-     * @throws StorageException
+     * @throws StorageException when the paste cannot be persisted due to the conditional flag
+     * @throws ConnectionException when a connection with the redis server cannot be established
      */
     public function create($body)
     {
@@ -64,7 +67,8 @@ class PasteManager
     /**
      * @param string $code
      * @return Paste
-     * @throws StorageException
+     * @throws StorageException when the paste cannot be found
+     * @throws ConnectionException when a connection with the redis server cannot be established
      */
     public function read($code)
     {
@@ -83,8 +87,9 @@ class PasteManager
      * @param Paste $paste
      * @param string $token
      * @return Paste
-     * @throws TokenException
-     * @throws StorageException
+     * @throws TokenException when the token given does not match the token associated with the paste
+     * @throws StorageException when the paste cannot be persisted due to the conditional flag
+     * @throws ConnectionException when a connection with the redis server cannot be established.
      */
     public function update(Paste $paste, $token)
     {
@@ -99,8 +104,9 @@ class PasteManager
      * @param Paste $paste
      * @param string $token
      * @return boolean
-     * @throws TokenException
-     * @throws StorageException
+     * @throws TokenException when the token given does not match the token associated with the paste
+     * @throws StorageException when the paste cannot be removed from storage (possibly already removed/expired)
+     * @throws ConnectionException when a connection with the redis server cannot be established.
      */
     public function delete(Paste $paste, $token)
     {
@@ -116,10 +122,38 @@ class PasteManager
     }
 
     /**
+     * @return integer
+     * @throws ConnectionException when a connection with the redis server cannot be established.
+     */
+    public function getCount()
+    {
+        $keys = $this->redis->keys('paste:*');
+
+        return count($keys);
+    }
+
+    /**
+     * @return array
+     * @throws StorageException when the paste cannot be found
+     * @throws ConnectionException when a connection with the redis server cannot be established.
+     */
+    public function getList()
+    {
+        $pasties = [];
+        foreach (new Keyspace($this->redis, 'paste:*') as $key) {
+            list(/* $prefix */, $code) = explode(':', $key);
+            $pasties[] = $this->read($code);
+        }
+
+        return $pasties;
+    }
+
+    /**
      * @param Paste $paste
      * @param string $flag
      * @return Paste
-     * @throws StorageException
+     * @throws StorageException when the paste cannot be persisted due to the conditional flag
+     * @throws ConnectionException when a connection with the redis server cannot be established.
      */
     protected function persist(Paste $paste, $flag = 'XX')
     {
