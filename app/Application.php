@@ -2,7 +2,7 @@
 
 namespace Alcohol\PasteBundle;
 
-use Alcohol\PasteBundle\PasteBundle;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\HttpKernel\Kernel;
@@ -23,6 +23,10 @@ class Application extends Kernel
      */
     public function __construct($environment, $debug)
     {
+        if (!in_array($environment, ['dev', 'test', 'prod'])) {
+            throw new RuntimeException('Unsupported environment: ' . $environment);
+        }
+
         parent::__construct($environment, $debug);
 
         if ($this->isDebug() && in_array($environment, ['dev', 'test'])) {
@@ -53,7 +57,11 @@ class Application extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $loader->load(__DIR__ . '/config/config.yml');
+        if (in_array($this->getEnvironment(), ['test'])) {
+            $loader->load(__DIR__ . '/config/config.test.yml');
+        } else {
+            $loader->load(__DIR__ . '/config/config.yml');
+        }
     }
 
     /**
