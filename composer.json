@@ -27,8 +27,7 @@
     "autoload": {
         "psr-4": {
             "Alcohol\\PasteBundle\\Tests\\": ["tst"],
-            "Alcohol\\PasteBundle\\": ["src"],
-            "Alcohol\\": ["app"]
+            "Alcohol\\PasteBundle\\": ["app", "src"]
         }
     },
     "scripts": {

@@ -5,7 +5,7 @@ set_time_limit(0);
 
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
-use Alcohol\Application;
+use Alcohol\PasteBundle\Application;
 use Symfony\Bundle\FrameworkBundle\Console\Application as Console;
 use Symfony\Component\Console\Input\ArgvInput;
 

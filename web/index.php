@@ -2,7 +2,7 @@
 
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
-use Alcohol\Application;
+use Alcohol\PasteBundle\Application;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;

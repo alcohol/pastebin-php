@@ -1,6 +1,6 @@
 <?php
 
-namespace Alcohol;
+namespace Alcohol\PasteBundle;
 
 use Alcohol\PasteBundle\PasteBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
