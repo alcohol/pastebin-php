@@ -22,7 +22,7 @@ Worth mentioning:
 
 ## Configuring
 
-See the `.env` (see [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)) file.
+Modify the `.env` file.
 
 > See [external
 > parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
