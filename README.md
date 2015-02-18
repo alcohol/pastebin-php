@@ -28,7 +28,7 @@ See the `.env` (see [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv)) fil
 > parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
 > regarding **SYMFONY__** prefixed environment variables.
 
-## Nginx example
+## Nginx config
 
 ``` Nginx
 upstream php-fpm {
@@ -59,7 +59,7 @@ server {
 }
 ```
 
-## cURL Examples
+## cURL examples
 
 ``` Shell
 $ curl -X POST --data-binary 'Lorem ipsum' http://pastebin.tld
