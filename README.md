@@ -8,7 +8,7 @@ Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_th
 
 ## Installing
 
-``` Shell
+```
 git clone https://github.com/alcohol/sf-minimal-demo.git
 cd sf-minimal-demo
 composer install
@@ -68,7 +68,7 @@ considering switching to [Doctrine\Common\Cache](https://github.com/doctrine/cac
 
 ## Testing
 
-``` Shell
+```
 composer test
 ```
 
@@ -76,7 +76,7 @@ The `functional` group is excluded by default, as it will boot the Application
 Kernel and heavily depends on a running Redis instance for most tests. To test
 the functional group as well, run:
 
-``` Shell
+```
 composer test-all
 ```
 
