@@ -26,19 +26,25 @@
     },
     "autoload": {
         "psr-4": {
-            "Alcohol\\PasteBundle\\Tests\\": ["tst"],
             "Alcohol\\PasteBundle\\": ["app", "src"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alcohol\\PasteBundle\\Tests\\": ["tst"]
         }
     },
     "scripts": {
         "checkstyle": "vendor/bin/phpcs --standard=psr2 src tst",
         "clean": "git clean -ffxdi",
-        "test": "vendor/bin/phpunit",
+        "test": "vendor/bin/phpunit --exclude-group functional",
+        "test-all": "vendor/bin/phpunit",
+        "test-complete": "vendor/bin/phpunit",
         "post-install-cmd": [
-            "[ -f .env ] || cp .env.example .env"
+            "[ -f .env ] || cp -v .env.example .env"
         ],
         "post-update-cmd": [
-            "[ -f .env ] || cp .env.example .env"
+            "[ -f .env ] || cp -v .env.example .env"
         ]
     },
     "extra": {

@@ -30,6 +30,8 @@ Modify the `.env` file.
 
 ## Nginx config
 
+Adjust where applicable. If unsure, consult [Nginx documentation](http://nginx.org/en/docs/).
+
 ``` Nginx
 upstream php-fpm {
     server unix:/run/php-fpm/php-fpm.sock;
@@ -57,6 +59,25 @@ server {
         add_header Cache-Control "public";
     }
 }
+```
+
+## Dependencies
+
+Redis is a hardcoded dependency within this project at the moment. I'm
+considering switching to [Doctrine\Common\Cache](https://github.com/doctrine/cache/) for more flexibility.
+
+## Testing
+
+``` Shell
+composer test
+```
+
+The `functional` group is excluded by default, as it will boot the Application
+Kernel and heavily depends on a running Redis instance for most tests. To test
+the functional group as well, run:
+
+``` Shell
+composer test-all
 ```
 
 ## cURL examples
