@@ -70,7 +70,8 @@ class PasteControllerTest extends WebTestCase
         $client->request('POST', '/', ['paste' => 'Lorem ipsum']);
 
         $this->assertEquals(
-            201, $client->getResponse()->getStatusCode(),
+            201,
+            $client->getResponse()->getStatusCode(),
             '"POST /" should return a 201 Created response.'
         );
 
