@@ -15,16 +15,12 @@ class Application extends Kernel
     protected $name = 'Pastebin';
 
     /**
-     * Constructor.
-     *
-     * @param string  $environment The environment
-     * @param bool    $debug       Whether to enable debugging or not
-     * @api
+     * @inheritDoc
      */
     public function __construct($environment, $debug)
     {
         if (!in_array($environment, ['dev', 'test', 'prod'])) {
-            throw new RuntimeException('Unsupported environment: ' . $environment);
+            throw new RuntimeException('Unsupported environment: '.$environment);
         }
 
         parent::__construct($environment, $debug);
@@ -35,10 +31,7 @@ class Application extends Kernel
     }
 
     /**
-     * Returns an array of bundles to register.
-     *
-     * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface[] An array of bundle instances.
-     * @api
+     * @inheritDoc
      */
     public function registerBundles()
     {
@@ -52,21 +45,21 @@ class Application extends Kernel
     }
 
     /**
-     * @param LoaderInterface $loader
-     * @api
+     * @inheritDoc
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        if (in_array($this->getEnvironment(), ['test'])) {
-            $loader->load(__DIR__ . '/config/config.test.yml');
-        } else {
-            $loader->load(__DIR__ . '/config/config.yml');
+        $config = sprintf('%s/config/%s/config.yml', __DIR__, $this->getEnvironment());
+
+        if (!is_readable($config)) {
+            throw new RuntimeException('Missing file: '.$config);
         }
+
+        $loader->load($config);
     }
 
     /**
-     * @return string
-     * @api
+     * @inheritDoc
      */
     public function getCacheDir()
     {
@@ -74,8 +67,7 @@ class Application extends Kernel
     }
 
     /**
-     * @return string
-     * @api
+     * @inheritDoc
      */
     public function getLogDir()
     {
