@@ -18,7 +18,7 @@
     timeoutForSmallTests="1"
     timeoutForMediumTests="10"
     timeoutForLargeTests="60"
-    strict="true">
+>
     <testsuites>
         <testsuite name="src">
             <directory>tst</directory>
