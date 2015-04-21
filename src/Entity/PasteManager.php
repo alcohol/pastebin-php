@@ -23,11 +23,14 @@ class PasteManager
     /**
      * @param Client $redis
      * @param HashUtils $hash
+     * @param integer $ttl
      */
-    public function __construct(Client $redis, HashUtils $hash)
+    public function __construct(Client $redis, HashUtils $hash, $ttl = 86400)
     {
         $this->redis = $redis;
         $this->hash = $hash;
+
+        $this->setTtl($ttl);
     }
 
     /**

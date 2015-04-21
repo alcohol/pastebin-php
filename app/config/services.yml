@@ -12,7 +12,7 @@ services:
 
   paste.manager:
     class: Alcohol\PasteBundle\Entity\PasteManager
-    arguments: [ @predis.client, @hashutils ]
+    arguments: [ @predis.client, @hashutils, 604800 ]
 
   paste.controller:
     class: Alcohol\PasteBundle\Controller\PasteController
