@@ -1,0 +1,15 @@
+imports:
+  - { resource: config.yml }
+
+parameters:
+  paste.ttl: 60 # 1 minute
+
+monolog:
+  handlers:
+    main:
+      type: stream
+      path: '%kernel.logs_dir%/%kernel.name%.log'
+      level: debug
+
+framework:
+  test: ~

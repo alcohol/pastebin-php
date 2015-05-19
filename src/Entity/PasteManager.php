@@ -18,14 +18,14 @@ class PasteManager
     protected $hash;
 
     /** @var integer */
-    protected $ttl = 86400;
+    protected $ttl;
 
     /**
      * @param Client $redis
      * @param HashUtils $hash
      * @param integer $ttl
      */
-    public function __construct(Client $redis, HashUtils $hash, $ttl = 86400)
+    public function __construct(Client $redis, HashUtils $hash, $ttl)
     {
         $this->redis = $redis;
         $this->hash = $hash;
@@ -36,7 +36,7 @@ class PasteManager
     /**
      * @param integer $ttl
      */
-    public function setTtl($ttl = 86400)
+    public function setTtl($ttl)
     {
         $this->ttl = $ttl;
     }

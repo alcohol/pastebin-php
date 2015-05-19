@@ -2,19 +2,14 @@ framework:
   secret: %secret%
   http_method_override: true
   router:
-    resource: '%kernel.root_dir%/config/%kernel.environment%/routing.yml'
+    resource: '%kernel.root_dir%/config/%kernel.environment%.routing.yml'
     strict_requirements: %kernel.debug%
 
-monolog:
-  handlers:
-    main:
-      type: fingers_crossed
-      action_level: %monolog_action_level%
-      handler: nested
-    nested:
-      type: stream
-      path: '%kernel.logs_dir%/%kernel.name%.log'
-      level: debug
+parameters:
+  paste.ttl: 86400 # 1 day
+  redis.scheme: tcp
+  redis.host: localhost
+  redis.port: 6379
 
 imports:
   - { resource: services.yml }

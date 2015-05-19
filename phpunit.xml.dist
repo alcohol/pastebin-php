@@ -1,6 +1,6 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.4/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.6/phpunit.xsd"
     backupGlobals="true"
     backupStaticAttributes="false"
     bootstrap="tst/bootstrap.php"
@@ -17,8 +17,7 @@
     stopOnSkipped="false"
     timeoutForSmallTests="1"
     timeoutForMediumTests="10"
-    timeoutForLargeTests="60"
->
+    timeoutForLargeTests="60">
     <testsuites>
         <testsuite name="src">
             <directory>tst</directory>
@@ -29,4 +28,9 @@
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
+    <listeners>
+        <listeners>
+            <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
+        </listeners>
+    </listeners>
 </phpunit>

@@ -20,9 +20,10 @@
         "vlucas/phpdotenv": "~1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
+        "phpunit/phpunit": "~4.6",
         "phpunit/php-invoker": "@stable",
-        "squizlabs/php_codesniffer": "~2.0"
+        "squizlabs/php_codesniffer": "~2.0",
+        "mybuilder/phpunit-accelerator": "~1.1"
     },
     "autoload": {
         "psr-4": {

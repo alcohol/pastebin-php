@@ -38,7 +38,7 @@ class CountCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln(sprintf('Current count of pasties: <info>%u</info>', $this->manager->getCount()));
+        $output->writeln(sprintf('Paste count: <info>%u</info>', $this->manager->getCount()));
 
         return 0;
     }

@@ -28,10 +28,19 @@ class PasteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testdox When no/empty body is given, a LengthException is thrown.
+     * @expectedException LengthException
+     */
+    public function testMinLengthException()
+    {
+        new Paste('code', '', 'token');
+    }
+
+    /**
      * @testdox When trying to set a body that exceeds 1MiB, a LengthException is thrown.
      * @expectedException LengthException
      */
-    public function testLengthException()
+    public function testMaxLengthException()
     {
         new Paste('code', str_repeat('s', 1024 * 1024 + 1), 'token');
     }

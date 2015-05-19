@@ -6,13 +6,14 @@ services:
   predis.client:
     class: Predis\Client
     arguments:
-      - scheme: %redis.scheme%
-      - host: %redis.host%
-      - port: %redis.port%
+      -
+        scheme: %redis.scheme%
+        host: %redis.host%
+        port: %redis.port%
 
   paste.manager:
     class: Alcohol\PasteBundle\Entity\PasteManager
-    arguments: [ @predis.client, @hashutils, 604800 ]
+    arguments: [ @predis.client, @hashutils, %paste.ttl% ]
 
   paste.controller:
     class: Alcohol\PasteBundle\Controller\PasteController

@@ -64,6 +64,21 @@ class PasteControllerTest extends WebTestCase
     /**
      * @group functional
      */
+    public function testPostRawFail()
+    {
+        $client = static::createClient();
+        $client->request('POST', '/', [], [], [], '');
+
+        $this->assertEquals(
+            400,
+            $client->getResponse()->getStatusCode(),
+            '"POST /" without input should return a 400 Bad Request.'
+        );
+    }
+
+    /**
+     * @group functional
+     */
     public function testPostForm()
     {
         $client = static::createClient();
@@ -78,6 +93,22 @@ class PasteControllerTest extends WebTestCase
         $this->assertTrue(
             $client->getResponse()->headers->has('Location'),
             '"POST /" response should include a Location header.'
+        );
+    }
+
+
+    /**
+     * @group functional
+     */
+    public function testPostFormFail()
+    {
+        $client = static::createClient();
+        $client->request('POST', '/', ['paste' => '']);
+
+        $this->assertEquals(
+            400,
+            $client->getResponse()->getStatusCode(),
+            '"POST /" without input should return a 400 Bad Request.'
         );
     }
 }

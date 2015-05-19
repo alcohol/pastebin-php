@@ -56,6 +56,10 @@ class Paste
      */
     public function setBody($body)
     {
+        if (empty($body)) {
+            throw new LengthException('No input received.');
+        }
+
         $size = ini_get('mbstring.func_overload') ? mb_strlen($body, '8bit') : strlen($body);
 
         if ($size > 1024 * 1024) {

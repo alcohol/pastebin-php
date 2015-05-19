@@ -1,0 +1,16 @@
+imports:
+  - { resource: config.yml }
+
+parameters:
+  paste.ttl: 604800 # 1 week
+
+monolog:
+  handlers:
+    main:
+      type: fingers_crossed
+      action_level: notice
+      handler: nested
+    nested:
+      type: stream
+      path: '%kernel.logs_dir%/%kernel.name%.log'
+      level: debug

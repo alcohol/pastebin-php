@@ -34,7 +34,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $manager->create('dummy');
     }
@@ -79,7 +79,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('paste:' . $paste->getCode()),
                 $this->equalTo(serialize($paste)),
                 $this->equalTo('EX'),
-                $this->anything(),
+                $this->equalTo(60),
                 $this->equalTo('NX')
             )
             ->will($this->returnValue(1))
@@ -89,7 +89,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $this->assertInstanceOf('Alcohol\PasteBundle\Entity\Paste', $manager->create('body'));
     }
@@ -116,7 +116,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $manager->update($paste, 'dummy');
     }
@@ -149,7 +149,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $manager->update($paste, 'token');
     }
@@ -178,7 +178,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo('paste:' . $paste->getCode()),
                 $this->equalTo(serialize($paste)),
                 $this->equalTo('EX'),
-                $this->anything(),
+                $this->equalTo(60),
                 $this->equalTo('XX')
             )
             ->will($this->returnValue(1))
@@ -188,7 +188,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $this->assertEquals($paste, $manager->update($paste, 'token'));
     }
@@ -215,7 +215,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $manager->delete($paste, 'dummy');
     }
@@ -248,7 +248,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $manager->delete($paste, 'token');
     }
@@ -281,7 +281,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $manager->delete($paste, 'token');
     }
@@ -306,7 +306,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $manager->read('code');
     }
@@ -332,7 +332,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
-        $manager = new PasteManager($redis, $hash);
+        $manager = new PasteManager($redis, $hash, 60);
 
         $this->assertEquals($paste, $manager->read('code'));
     }

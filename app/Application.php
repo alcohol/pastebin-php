@@ -25,7 +25,7 @@ class Application extends Kernel
 
         parent::__construct($environment, $debug);
 
-        if ($this->isDebug() && in_array($environment, ['dev', 'test'])) {
+        if ($this->isDebug()) {
             Debug::enable();
         }
     }
@@ -36,11 +36,12 @@ class Application extends Kernel
     public function registerBundles()
     {
         return [
-            /** Third party bundles */
+            /* 3rd party bundles */
             new FrameworkBundle(),
             new MonologBundle(),
-            /** Everything in src/ */
-            new PasteBundle(),
+
+            /* the application's "bundle" class */
+            new Bundle(),
         ];
     }
 
@@ -49,7 +50,7 @@ class Application extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $config = sprintf('%s/config/%s/config.yml', __DIR__, $this->getEnvironment());
+        $config = sprintf('%s/config/%s.config.yml', __DIR__, $this->getEnvironment());
 
         if (!is_readable($config)) {
             throw new RuntimeException('Missing file: '.$config);

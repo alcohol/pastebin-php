@@ -8,16 +8,11 @@ use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
-Dotenv::makeMutable();
 Dotenv::load(__DIR__ . '/../');
 Dotenv::required([
     'SYMFONY_ENV',
     'SYMFONY_DEBUG',
     'SYMFONY__SECRET',
-    'SYMFONY__MONOLOG_ACTION_LEVEL',
-    'SYMFONY__REDIS__SCHEME',
-    'SYMFONY__REDIS__HOST',
-    'SYMFONY__REDIS__PORT',
 ]);
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod']) && extension_loaded('apc')) {
