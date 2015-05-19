@@ -32,7 +32,13 @@ class PasteController
      */
     public function createAction(Request $request)
     {
-        $input = $request->get('paste') ?: $request->getContent();
+        if ($request->query->has('paste')) {
+            $input = $request->query->get('paste');
+        } elseif ($request->request->has('paste')) {
+            $input = $request->request->get('paste');
+        } else {
+            $input = $request->getContent();
+        }
 
         try {
             $paste = $this->manager->create($input);
@@ -94,7 +100,14 @@ class PasteController
             throw new AccessDeniedHttpException($e->getMessage(), $e);
         }
 
-        $input = $request->get('paste') ?: $request->getContent();
+        if ($request->query->has('paste')) {
+            $input = $request->query->get('paste');
+        } elseif ($request->request->has('paste')) {
+            $input = $request->request->get('paste');
+        } else {
+            $input = $request->getContent();
+        }
+
         $paste->setBody($input);
 
         try {
