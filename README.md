@@ -6,6 +6,12 @@ Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_th
 
 [![Build Status](https://img.shields.io/travis/alcohol/sf-minimal-demo/master.svg?style=flat-square)](https://travis-ci.org/alcohol/sf-minimal-demo)
 
+
+## Dependencies (External)
+
+* redis-server
+
+
 ## Installing
 
 ```
@@ -20,6 +26,7 @@ Worth mentioning:
   [here](http://stackoverflow.com/questions/23993295/what-is-the-new-symfony-3-directory-structure/23994473#23994473),
   so make sure the **httpd** or **fcgi** user can write to `var/`.
 
+
 ## Configuring
 
 Modify the `.env` file.
@@ -27,6 +34,7 @@ Modify the `.env` file.
 > See [external
 > parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
 > regarding **SYMFONY__** prefixed environment variables.
+
 
 ## Nginx config
 
@@ -61,10 +69,10 @@ server {
 }
 ```
 
-## Dependencies
+## Apache config
 
-Redis is a hardcoded dependency within this project at the moment. I'm
-considering switching to [Doctrine\Common\Cache](https://github.com/doctrine/cache/) for more flexibility.
+Install Nginx.
+
 
 ## Testing
 
@@ -79,6 +87,7 @@ the functional group as well, run:
 ```
 composer test-all
 ```
+
 
 ## cURL examples
 
@@ -106,9 +115,11 @@ $ curl -H 'X-Paste-Token: 99d6a7cb2f' -X DELETE \
 # 204 No Content
 ```
 
+
 ## Contributing
 
 Feel free to submit a pull request or create an issue.
+
 
 ## License
 
