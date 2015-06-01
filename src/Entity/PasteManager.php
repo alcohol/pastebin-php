@@ -78,7 +78,7 @@ class PasteManager
         $paste = $this->redis->get('paste:' . $code);
 
         if (null === $paste) {
-            throw new StorageException('Paste not found: ' . $code);
+            throw new StorageException('Not found: ' . $code);
         }
 
         $paste = unserialize($paste);
@@ -97,7 +97,7 @@ class PasteManager
     public function update(Paste $paste, $token)
     {
         if (!$this->hash->compare($token, $paste->getToken())) {
-            throw new TokenException('Unable to persist paste to storage, invalid token.');
+            throw new TokenException('Unable to persist to storage, invalid token');
         }
 
         return $this->persist($paste);
@@ -114,11 +114,11 @@ class PasteManager
     public function delete(Paste $paste, $token)
     {
         if (!$this->hash->compare($token, $paste->getToken())) {
-            throw new TokenException('Unable to delete paste from storage, invalid token.');
+            throw new TokenException('Unable to delete from storage, invalid token');
         }
 
         if (!$this->redis->del(array('paste:' . $paste->getCode()))) {
-            throw new StorageException('Unable to delete paste from storage.');
+            throw new StorageException('Unable to delete from storage');
         }
 
         return true;
@@ -161,7 +161,7 @@ class PasteManager
     protected function persist(Paste $paste, $flag = 'XX')
     {
         if (!$this->redis->set('paste:' . $paste->getCode(), serialize($paste), 'EX', $this->getTtl(), $flag)) {
-            throw new StorageException('Unable to persist paste to storage.');
+            throw new StorageException('Unable to persist to storage');
         }
 
         return $paste;
