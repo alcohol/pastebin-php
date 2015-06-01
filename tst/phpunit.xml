@@ -28,11 +28,6 @@
             <directory suffix=".php">src</directory>
         </whitelist>
     </filter>
-    <groups>
-        <exclude>
-            <group>functional</group>
-        </exclude>
-    </groups>
     <listeners>
         <listeners>
             <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>

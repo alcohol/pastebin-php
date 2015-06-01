@@ -38,8 +38,6 @@
     "scripts": {
         "checkstyle": "vendor/bin/phpcs --standard=psr2 src tst",
         "clean": "git clean -ffxdi",
-        "test": "vendor/bin/phpunit --exclude-group functional",
-        "test-all": "vendor/bin/phpunit",
         "post-install-cmd": [
             "[ -f .env ] || cp -v .env.example .env"
         ],
