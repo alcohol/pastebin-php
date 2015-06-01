@@ -92,7 +92,7 @@ class PasteManager
      * @return Paste
      * @throws TokenException when the token given does not match the token associated with the paste
      * @throws StorageException when the paste cannot be persisted due to the conditional flag
-     * @throws ConnectionException when a connection with the redis server cannot be established.
+     * @throws ConnectionException when a connection with the redis server cannot be established
      */
     public function update(Paste $paste, $token)
     {
@@ -109,7 +109,7 @@ class PasteManager
      * @return boolean
      * @throws TokenException when the token given does not match the token associated with the paste
      * @throws StorageException when the paste cannot be removed from storage (possibly already removed/expired)
-     * @throws ConnectionException when a connection with the redis server cannot be established.
+     * @throws ConnectionException when a connection with the redis server cannot be established
      */
     public function delete(Paste $paste, $token)
     {
@@ -126,7 +126,7 @@ class PasteManager
 
     /**
      * @return integer
-     * @throws ConnectionException when a connection with the redis server cannot be established.
+     * @throws ConnectionException when a connection with the redis server cannot be established
      */
     public function getCount()
     {
@@ -138,7 +138,7 @@ class PasteManager
     /**
      * @return array
      * @throws StorageException when the paste cannot be found
-     * @throws ConnectionException when a connection with the redis server cannot be established.
+     * @throws ConnectionException when a connection with the redis server cannot be established
      */
     public function getList()
     {
@@ -156,7 +156,7 @@ class PasteManager
      * @param string $flag
      * @return Paste
      * @throws StorageException when the paste cannot be persisted due to the conditional flag
-     * @throws ConnectionException when a connection with the redis server cannot be established.
+     * @throws ConnectionException when a connection with the redis server cannot be established
      */
     protected function persist(Paste $paste, $flag = 'XX')
     {
