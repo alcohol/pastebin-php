@@ -22,5 +22,4 @@ before_script:
   - composer install -o -n
 
 script:
-  - composer checkstyle
   - vendor/bin/phpunit -c tst/phpunit.xml

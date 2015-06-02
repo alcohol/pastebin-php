@@ -22,7 +22,6 @@
     "require-dev": {
         "phpunit/phpunit": "~4.6",
         "phpunit/php-invoker": "@stable",
-        "squizlabs/php_codesniffer": "~2.0",
         "mybuilder/phpunit-accelerator": "~1.1"
     },
     "autoload": {
@@ -36,8 +35,6 @@
         }
     },
     "scripts": {
-        "checkstyle": "vendor/bin/phpcs --standard=psr2 src tst",
-        "clean": "git clean -ffxdi",
         "post-install-cmd": [
             "[ -f .env ] || cp -v .env.example .env"
         ],
