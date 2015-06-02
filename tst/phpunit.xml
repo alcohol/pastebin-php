@@ -20,12 +20,12 @@
     timeoutForLargeTests="60">
     <testsuites>
         <testsuite name="src">
-            <directory>tst</directory>
+            <directory>.</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">../src</directory>
         </whitelist>
     </filter>
     <listeners>
