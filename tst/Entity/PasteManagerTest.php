@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * (c) Rob Bast <rob.bast@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Alcohol\PasteBundle\Tests\Entity;
 
 use Alcohol\PasteBundle\Entity\Paste;
@@ -30,7 +37,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(0))
         ;
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -67,7 +74,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('exists')
             ->with(
-                $this->equalTo('paste:' . $paste->getCode())
+                $this->equalTo('paste:'.$paste->getCode())
             )
             ->will($this->returnValue(0))
         ;
@@ -76,7 +83,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('set')
             ->with(
-                $this->equalTo('paste:' . $paste->getCode()),
+                $this->equalTo('paste:'.$paste->getCode()),
                 $this->equalTo(serialize($paste)),
                 $this->equalTo('EX'),
                 $this->equalTo(60),
@@ -85,7 +92,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1))
         ;
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -112,7 +119,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
 
         $redis = $this->getRedisMock();
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -145,7 +152,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
 
         $paste = new Paste('code', 'body', 'token');
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -175,7 +182,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('set')
             ->with(
-                $this->equalTo('paste:' . $paste->getCode()),
+                $this->equalTo('paste:'.$paste->getCode()),
                 $this->equalTo(serialize($paste)),
                 $this->equalTo('EX'),
                 $this->equalTo(60),
@@ -184,7 +191,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1))
         ;
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -211,7 +218,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
 
         $paste = new Paste('code', 'body', 'token');
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -244,7 +251,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
 
         $paste = new Paste('code', 'body', 'token');
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -273,11 +280,11 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
         $redis
             ->expects($this->once())
             ->method('del')
-            ->with($this->equalTo(array('paste:' . $paste->getCode())))
+            ->with($this->equalTo(array('paste:'.$paste->getCode())))
             ->will($this->returnValue(1))
         ;
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -302,7 +309,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(null))
         ;
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */
@@ -328,7 +335,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(serialize($paste)))
         ;
 
-        /**
+        /*
          * @var \Predis\Client $redis
          * @var \Alcohol\PasteBundle\Util\HashUtils $hash
          */

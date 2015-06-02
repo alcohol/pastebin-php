@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * (c) Rob Bast <rob.bast@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Alcohol\PasteBundle\Entity;
 
 use LengthException;
@@ -51,8 +58,8 @@ class Paste
 
     /**
      * @param string $body
-     * @return $this
      * @throws LengthException
+     * @return $this
      */
     public function setBody($body)
     {

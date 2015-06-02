@@ -1,13 +1,20 @@
 <?php
 
+/*
+ * (c) Rob Bast <rob.bast@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Alcohol\PasteBundle;
 
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Debug\Debug;
+use Symfony\Component\HttpKernel\Kernel;
 
 class Application extends Kernel
 {
@@ -19,7 +26,7 @@ class Application extends Kernel
      */
     public function __construct($environment, $debug)
     {
-        if (!in_array($environment, ['dev', 'test', 'prod'])) {
+        if (!in_array($environment, ['dev', 'test', 'prod'], true)) {
             throw new RuntimeException('Unsupported environment: '.$environment);
         }
 
@@ -64,7 +71,7 @@ class Application extends Kernel
      */
     public function getCacheDir()
     {
-        return $this->rootDir . '/../var/cache/' . $this->environment;
+        return $this->rootDir.'/../var/cache/'.$this->environment;
     }
 
     /**
@@ -72,6 +79,6 @@ class Application extends Kernel
      */
     public function getLogDir()
     {
-        return $this->rootDir . '/../var/log/' . $this->environment;
+        return $this->rootDir.'/../var/log/'.$this->environment;
     }
 }

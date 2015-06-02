@@ -1,11 +1,18 @@
 <?php
 
+/*
+ * (c) Rob Bast <rob.bast@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
 namespace Alcohol\PasteBundle\Util;
 
 class HashUtils
 {
     /**
-     * @param integer $length
+     * @param int $length
      * @return string
      */
     public function generate($length = 4)
