@@ -66,7 +66,7 @@ class PasteManager
     {
         do {
             $code = $this->hash->generate();
-        } while ($this->redis->exists('paste:'.$code));
+        } while ($this->redis->exists('paste:' . $code));
 
         $token = $this->hash->generate(10);
         $paste = new Paste($code, $body, $token);
@@ -82,10 +82,10 @@ class PasteManager
      */
     public function read($code)
     {
-        $paste = $this->redis->get('paste:'.$code);
+        $paste = $this->redis->get('paste:' . $code);
 
         if (null === $paste) {
-            throw new StorageException('Not found: '.$code);
+            throw new StorageException('Not found: ' . $code);
         }
 
         $paste = unserialize($paste);
@@ -124,7 +124,7 @@ class PasteManager
             throw new TokenException('Unable to delete from storage, invalid token');
         }
 
-        if (!$this->redis->del(array('paste:'.$paste->getCode()))) {
+        if (!$this->redis->del(array('paste:' . $paste->getCode()))) {
             throw new StorageException('Unable to delete from storage');
         }
 
@@ -167,7 +167,7 @@ class PasteManager
      */
     protected function persist(Paste $paste, $flag = 'XX')
     {
-        if (!$this->redis->set('paste:'.$paste->getCode(), serialize($paste), 'EX', $this->getTtl(), $flag)) {
+        if (!$this->redis->set('paste:' . $paste->getCode(), serialize($paste), 'EX', $this->getTtl(), $flag)) {
             throw new StorageException('Unable to persist to storage');
         }
 

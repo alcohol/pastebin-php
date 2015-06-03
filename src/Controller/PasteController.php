@@ -53,7 +53,7 @@ class PasteController
 
         return new Response($body, 201, [
             'Content-Type' => 'text/plain',
-            'Location' => '/'.$paste->getCode(),
+            'Location' => '/' . $paste->getCode(),
             'X-Paste-Token' => $paste->getToken(),
         ]);
     }

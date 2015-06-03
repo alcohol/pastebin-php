@@ -27,7 +27,7 @@ class Application extends Kernel
     public function __construct($environment, $debug)
     {
         if (!in_array($environment, ['dev', 'test', 'prod'], true)) {
-            throw new RuntimeException('Unsupported environment: '.$environment);
+            throw new RuntimeException('Unsupported environment: ' . $environment);
         }
 
         parent::__construct($environment, $debug);
@@ -60,7 +60,7 @@ class Application extends Kernel
         $config = sprintf('%s/config/%s.config.yml', __DIR__, $this->getEnvironment());
 
         if (!is_readable($config)) {
-            throw new RuntimeException('Missing file: '.$config);
+            throw new RuntimeException('Missing file: ' . $config);
         }
 
         $loader->load($config);
@@ -71,7 +71,7 @@ class Application extends Kernel
      */
     public function getCacheDir()
     {
-        return $this->rootDir.'/../var/cache/'.$this->environment;
+        return $this->rootDir . '/../var/cache/' . $this->environment;
     }
 
     /**
@@ -79,6 +79,6 @@ class Application extends Kernel
      */
     public function getLogDir()
     {
-        return $this->rootDir.'/../var/log/'.$this->environment;
+        return $this->rootDir . '/../var/log/' . $this->environment;
     }
 }

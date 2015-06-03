@@ -7,9 +7,9 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-$loader = require_once __DIR__.'/../vendor/autoload.php';
+$loader = require_once __DIR__ . '/../vendor/autoload.php';
 
-Dotenv::load(__DIR__.'/../');
+Dotenv::load(__DIR__ . '/../');
 Dotenv::required([
     'SYMFONY_ENV',
     'SYMFONY_DEBUG',

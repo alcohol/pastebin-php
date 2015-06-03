@@ -74,7 +74,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('exists')
             ->with(
-                $this->equalTo('paste:'.$paste->getCode())
+                $this->equalTo('paste:' . $paste->getCode())
             )
             ->will($this->returnValue(0))
         ;
@@ -83,7 +83,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('set')
             ->with(
-                $this->equalTo('paste:'.$paste->getCode()),
+                $this->equalTo('paste:' . $paste->getCode()),
                 $this->equalTo(serialize($paste)),
                 $this->equalTo('EX'),
                 $this->equalTo(60),
@@ -182,7 +182,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('set')
             ->with(
-                $this->equalTo('paste:'.$paste->getCode()),
+                $this->equalTo('paste:' . $paste->getCode()),
                 $this->equalTo(serialize($paste)),
                 $this->equalTo('EX'),
                 $this->equalTo(60),
@@ -280,7 +280,7 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
         $redis
             ->expects($this->once())
             ->method('del')
-            ->with($this->equalTo(array('paste:'.$paste->getCode())))
+            ->with($this->equalTo(array('paste:' . $paste->getCode())))
             ->will($this->returnValue(1))
         ;
 
