@@ -4,6 +4,9 @@ cache:
   directories:
     - $HOME/.composer/cache
 
+git:
+  depth: 1
+
 services:
   - redis-server
 
