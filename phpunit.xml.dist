@@ -1,9 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.6/phpunit.xsd"
     backupGlobals="true"
     backupStaticAttributes="false"
-    bootstrap="tst/bootstrap.php"
     cacheTokens="false"
     colors="true"
     convertErrorsToExceptions="true"
@@ -17,7 +17,8 @@
     stopOnSkipped="false"
     timeoutForSmallTests="1"
     timeoutForMediumTests="10"
-    timeoutForLargeTests="60">
+    timeoutForLargeTests="60"
+    bootstrap="tst/bootstrap.php">
     <testsuites>
         <testsuite name="src">
             <directory>tst</directory>
