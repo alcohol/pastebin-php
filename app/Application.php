@@ -69,9 +69,17 @@ class Application extends Kernel
     /**
      * @inheritDoc
      */
+    public function getRootDir()
+    {
+        return dirname(__DIR__);
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getCacheDir()
     {
-        return $this->rootDir . '/../var/cache/' . $this->environment;
+        return $this->rootDir . '/var/cache/' . $this->environment;
     }
 
     /**
@@ -79,6 +87,6 @@ class Application extends Kernel
      */
     public function getLogDir()
     {
-        return $this->rootDir . '/../var/log/' . $this->environment;
+        return $this->rootDir . '/var/log/' . $this->environment;
     }
 }
