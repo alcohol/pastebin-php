@@ -1,31 +1,35 @@
 language: php
 
+env:
+  secure: PYh9H541gvQ6blVa3xuXaNvL8/g7TI5+EO9Nfq397XqN6PsFTDEVLWCoDkh5jw8JMkI/i3S7sOFzifdBnv6DHvb+RNVEjoHAYelaDv64McSQ7kk/aJO/eX5bq3Kqjc9x36ABn9zD0eZ1yhuC0l5C4iJAzRmAm46pSTiMuDNUfVs=
+
 cache:
   directories:
-    - $HOME/.composer/cache
+  - $HOME/.composer/cache
 
 git:
   depth: 1
 
 services:
-  - redis-server
+- redis-server
 
 php:
-  - 5.4
-  - 5.5
-  - 5.6
-  - 7
-  - hhvm
+- 5.4
+- 5.5
+- 5.6
+- 7
+- hhvm
 
 matrix:
   allow_failures:
-    - php: hhvm
-    - php: 7
+  - php: hhvm
+  - php: 7
   fast_finish: true
 
 before_script:
-  - composer self-update --clean-backups --no-interaction
-  - composer install -vvv --profile --prefer-dist --optimize-autoloader --no-interaction
+- composer config --global github-oauth.github.com $GITHUB_OAUTH_TOKEN
+- composer self-update --clean-backups --no-interaction
+- composer install -vvv --profile --prefer-dist --optimize-autoloader --no-interaction
 
 script:
-  - vendor/bin/phpunit -c tst/phpunit.xml
+- vendor/bin/phpunit -c tst/phpunit.xml
