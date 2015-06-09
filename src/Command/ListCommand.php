@@ -14,6 +14,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ListCommand extends Command
@@ -54,6 +55,10 @@ class ListCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
+        }
+
         $pasties = $this->manager->getList();
 
         $length_max = $input->getOption('truncate');

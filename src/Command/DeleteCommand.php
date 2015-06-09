@@ -13,6 +13,7 @@ use Alcohol\PasteBundle\Entity\PasteManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteCommand extends Command
@@ -47,6 +48,10 @@ class DeleteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
+        }
+
         $paste = $this->manager->read($input->getArgument('id'));
         $token = $paste->getToken();
 

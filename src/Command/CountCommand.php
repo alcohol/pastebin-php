@@ -12,6 +12,7 @@ namespace Alcohol\PasteBundle\Command;
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class CountCommand extends Command
@@ -45,6 +46,10 @@ class CountCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        if ($output instanceof ConsoleOutputInterface) {
+            $output = $output->getErrorOutput();
+        }
+
         $output->writeln(sprintf('Paste count: <info>%u</info>', $this->manager->getCount()));
 
         return 0;
