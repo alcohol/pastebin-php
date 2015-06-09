@@ -41,3 +41,9 @@ services:
     arguments: [ @paste.manager ]
     tags:
       - { name: console.command }
+
+  paste.command.delete:
+    class: Alcohol\PasteBundle\Command\DeleteCommand
+    arguments: [ @paste.manager ]
+    tags:
+      - { name: console.command }
