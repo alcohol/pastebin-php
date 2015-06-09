@@ -26,7 +26,7 @@ class Application extends Kernel
      */
     public function __construct($environment, $debug)
     {
-        if (!in_array($environment, ['dev', 'test', 'prod'], true)) {
+        if (!in_array($environment, ['test', 'dev', 'prod'], true)) {
             throw new RuntimeException('Unsupported environment: ' . $environment);
         }
 
