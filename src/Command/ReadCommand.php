@@ -39,8 +39,8 @@ class ReadCommand extends Command
     {
         $this
             ->setName('paste:read')
-            ->setDescription('Returns a count of currently stored pasties.')
-            ->addArgument('code', InputArgument::REQUIRED, 'Code of paste to read.')
+            ->setDescription('Returns details of a paste.')
+            ->addArgument('id', InputArgument::REQUIRED, 'Identifier of paste to lookup.')
             ->addOption('--include-body', '-b', InputOption::VALUE_NONE, 'Include body in output.')
         ;
     }

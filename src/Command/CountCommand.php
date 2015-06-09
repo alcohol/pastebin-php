@@ -36,7 +36,7 @@ class CountCommand extends Command
     {
         $this
             ->setName('paste:count')
-            ->setDescription('Returns a count of currently stored pasties.')
+            ->setDescription('Returns a count of currently stored pastes.')
         ;
     }
 
