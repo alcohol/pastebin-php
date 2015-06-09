@@ -22,9 +22,8 @@ vim .env
 ```
 
 Worth mentioning:
-* It uses a directory structure similar to the one described
-  [here](http://stackoverflow.com/questions/23993295/what-is-the-new-symfony-3-directory-structure/23994473#23994473),
-  so make sure the **httpd** or **fcgi** user can write to `var/`.
+* It uses a modified directory structure. Make sure the **httpd** or **fcgi**
+  user can write to `var/{cache,log}`. I recommend `chmod 2775 var/{cache,log}`.
 
 
 ## Configuring
@@ -77,7 +76,7 @@ Install Nginx.
 ## Testing
 
 ```
-composer test
+vendor/bin/phpunit
 ```
 
 The `functional` group is excluded by default, as it will boot the Application
@@ -85,7 +84,7 @@ Kernel and heavily depends on a running Redis instance for most tests. To test
 the functional group as well, run:
 
 ```
-composer test-all
+vendor/bin/phpunit -c tst/phpunit.xml
 ```
 
 
