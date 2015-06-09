@@ -50,7 +50,7 @@ class ReadCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $paste = $this->manager->read($input->getArgument('code'));
+        $paste = $this->manager->read($input->getArgument('id'));
 
         $output
             ->getFormatter()

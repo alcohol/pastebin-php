@@ -47,7 +47,7 @@ class DeleteCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $paste = $this->manager->read($input->getArgument('code'));
+        $paste = $this->manager->read($input->getArgument('id'));
         $token = $paste->getToken();
 
         return (int) $this->manager->delete($paste, $token);
