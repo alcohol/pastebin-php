@@ -1,7 +1,7 @@
 language: php
 
 env:
-  secure: PYh9H541gvQ6blVa3xuXaNvL8/g7TI5+EO9Nfq397XqN6PsFTDEVLWCoDkh5jw8JMkI/i3S7sOFzifdBnv6DHvb+RNVEjoHAYelaDv64McSQ7kk/aJO/eX5bq3Kqjc9x36ABn9zD0eZ1yhuC0l5C4iJAzRmAm46pSTiMuDNUfVs=
+  secure: Zv6RzErMo6OCpcYb6dm+aWLUXjAlLGiYuiy/sVui/neOpFXwIrr06LI7XPp1FM0YnQx/zGb9ibHtJEviciZcA0Yn/rhrfnbYPH2LbPEUDe/gWmKtu2aHpg4bB5yPSys57xfxAEs/3pfdKgCcrg6BmtEhleuIY59t4Q1PUtsjzYE=
 
 cache:
   directories:
