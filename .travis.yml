@@ -21,9 +21,8 @@ matrix:
   fast_finish: true
 
 before_script:
-  - cp .env.example .env
-  - composer self-update -n
-  - composer install -o -n
+  - composer self-update --clean-backups --no-interaction
+  - composer install -vvv --profile --prefer-dist --optimize-autoloader --no-interaction
 
 script:
   - vendor/bin/phpunit -c tst/phpunit.xml
