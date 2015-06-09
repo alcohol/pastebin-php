@@ -64,6 +64,12 @@ class ListCommand extends Command
         $length_max = $input->getOption('truncate');
         $length_sub = $length_max = floor(($length_max - 4) / 2);
 
+        if (!count($pasties)) {
+            $output->writeln('Database is empty.');
+
+            return 0;
+        }
+
         $table = new Table($output);
         $table->setHeaders(['code', 'token', 'size', 'body']);
 

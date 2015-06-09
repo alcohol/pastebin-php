@@ -54,7 +54,10 @@ class DeleteCommand extends Command
 
         $paste = $this->manager->read($input->getArgument('id'));
         $token = $paste->getToken();
+        $this->manager->delete($paste, $token);
 
-        return (int) $this->manager->delete($paste, $token);
+        $output->writeln('Paste deleted.');
+
+        return 0;
     }
 }
