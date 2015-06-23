@@ -34,7 +34,7 @@ class Create
      * @param Request $request
      * @return Response
      */
-    public function __index(Request $request)
+    public function __invoke(Request $request)
     {
         $input = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
 
