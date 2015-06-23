@@ -7,7 +7,7 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\PasteBundle\Tests\Controller;
+namespace Alcohol\PasteBundle\Tests\Integration;
 
 use Alcohol\PasteBundle\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @medium
  */
-class IndexControllerTest extends WebTestCase
+class CreateControllerTest extends WebTestCase
 {
     /**
      * @inheritDoc
@@ -29,27 +29,7 @@ class IndexControllerTest extends WebTestCase
     }
 
     /**
-     * @group functional
-     */
-    public function testIndex()
-    {
-        $client = static::createClient();
-        $crawler = $client->request('GET', '/');
-
-        $this->assertTrue(
-            $client->getResponse()->isOk(),
-            '"GET /" should return a 200 OK response.'
-        );
-
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('a')->count(),
-            '"GET /" response should contain at least one link.'
-        );
-    }
-
-    /**
-     * @group functional
+     * @group integration
      */
     public function testPostRaw()
     {
@@ -66,10 +46,15 @@ class IndexControllerTest extends WebTestCase
             $client->getResponse()->headers->has('Location'),
             '"POST /" response should include a Location header.'
         );
+
+        $this->assertTrue(
+            $client->getResponse()->headers->has('X-Paste-Token'),
+            '"POST /" response should include a X-Paste-Token header.'
+        );
     }
 
     /**
-     * @group functional
+     * @group integration
      */
     public function testPostRawFail()
     {
@@ -84,7 +69,7 @@ class IndexControllerTest extends WebTestCase
     }
 
     /**
-     * @group functional
+     * @group integration
      */
     public function testPostForm()
     {
@@ -101,10 +86,15 @@ class IndexControllerTest extends WebTestCase
             $client->getResponse()->headers->has('Location'),
             '"POST /" response should include a Location header.'
         );
+
+        $this->assertTrue(
+            $client->getResponse()->headers->has('X-Paste-Token'),
+            '"POST /" response should include a X-Paste-Token header.'
+        );
     }
 
     /**
-     * @group functional
+     * @group integration
      */
     public function testPostFormFail()
     {

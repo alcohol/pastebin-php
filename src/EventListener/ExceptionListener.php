@@ -10,6 +10,7 @@
 namespace Alcohol\PasteBundle\EventListener;
 
 use Predis\Connection\ConnectionException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
@@ -18,11 +19,21 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 class ExceptionListener
 {
     /**
+     * @param LoggerInterface $logger
+     */
+    public function __construct(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
      * @param GetResponseForExceptionEvent $event
      */
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         $exception = $event->getException();
+
+        $this->logger->error($exception);
 
         $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
 

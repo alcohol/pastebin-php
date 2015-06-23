@@ -7,7 +7,7 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\PasteBundle\Tests\Entity;
+namespace Alcohol\PasteBundle\Tests\Functional;
 
 use Alcohol\PasteBundle\Entity\Paste;
 use LengthException;

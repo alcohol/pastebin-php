@@ -83,7 +83,7 @@ Kernel and depends on a running Redis instance for most tests. To test the
 functional group as well, run:
 
 ```
-vendor/bin/phpunit -c tst/phpunit.xml
+vendor/bin/phpunit -c phpunit.all.xml
 ```
 
 
