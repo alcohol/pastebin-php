@@ -26,7 +26,7 @@ services:
 
   paste.manager:
     class: Alcohol\PasteBundle\Entity\PasteManager
-    arguments: [ @predis.client, @hashutils, %paste.ttl% ]
+    arguments: [ @predis.client, @paste.hashutils, %paste.ttl% ]
 
   paste.controller.index:
     class: Alcohol\PasteBundle\Controller\Index
