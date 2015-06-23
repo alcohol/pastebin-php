@@ -30,8 +30,7 @@ Worth mentioning:
 
 Modify the `.env` file.
 
-> See [external
-> parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
+> See [external parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
 > regarding **SYMFONY__** prefixed environment variables.
 
 
@@ -80,8 +79,8 @@ vendor/bin/phpunit
 ```
 
 The `functional` group is excluded by default, as it will boot the Application
-Kernel and heavily depends on a running Redis instance for most tests. To test
-the functional group as well, run:
+Kernel and depends on a running Redis instance for most tests. To test the
+functional group as well, run:
 
 ```
 vendor/bin/phpunit -c tst/phpunit.xml
