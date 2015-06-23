@@ -32,4 +32,4 @@ before_script:
 - composer install -vvv --profile --prefer-dist --optimize-autoloader --no-interaction
 
 script:
-- vendor/bin/phpunit -c tst/phpunit.xml
+- vendor/bin/phpunit -c phpunit.all.xml
