@@ -1,50 +1,56 @@
 {
-    "name": "alcohol/sf-minimal-demo",
-    "description": "A minimalistic Symfony demo application",
-    "keywords": ["symfony", "demo", "minimal", "skeleton", "sf"],
-    "homepage": "https://github.com/alcohol/sf-minimal-demo",
-    "license": "MIT",
-    "authors": [{
-        "name": "Rob Bast",
-        "email": "rob.bast@gmail.com"
-    }],
-    "support": {
-        "issues": "https://github.com/alcohol/sf-minimal-demo/issues",
-        "source": "https://github.com/alcohol/sf-minimal-demo"
-    },
-    "require": {
-        "php": ">=5.4",
-        "symfony/symfony": "~2.6",
-        "symfony/monolog-bundle": "~2.6",
-        "predis/predis": "~1.0",
-        "vlucas/phpdotenv": "~1.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "~4.6",
-        "phpunit/php-invoker": "@stable",
-        "mybuilder/phpunit-accelerator": "~1.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "Alcohol\\PasteBundle\\": ["app", "src"]
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Alcohol\\PasteBundle\\Tests\\": ["tst"]
-        }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "[ -f .env ] || cp -v .env.example .env"
-        ],
-        "post-update-cmd": [
-            "[ -f .env ] || cp -v .env.example .env"
-        ]
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0.x-dev"
-        }
+  "name": "alcohol/sf-minimal-demo",
+  "description": "A minimalistic Symfony demo application",
+  "keywords": [
+    "symfony",
+    "demo",
+    "minimal",
+    "skeleton",
+    "sf"
+  ],
+  "homepage": "https://github.com/alcohol/sf-minimal-demo",
+  "license": "MIT",
+  "authors": [{
+    "name": "Rob Bast",
+    "email": "rob.bast@gmail.com"
+  }],
+  "support": {
+    "issues": "https://github.com/alcohol/sf-minimal-demo/issues",
+    "source": "https://github.com/alcohol/sf-minimal-demo"
+  },
+  "require": {
+    "php": ">=5.4",
+    "symfony/symfony": "~2.6",
+    "symfony/monolog-bundle": "~2.6",
+    "predis/predis": "~1.0",
+    "vlucas/phpdotenv": "~2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~4.6",
+    "phpunit/php-invoker": "@stable",
+    "mybuilder/phpunit-accelerator": "~1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Alcohol\\PasteBundle\\": ["app", "src"]
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Alcohol\\PasteBundle\\Tests\\": ["tst"]
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "[ -f .env ] || cp -v .env.example .env"
+    ],
+    "post-update-cmd": [
+      "[ -f .env ] || cp -v .env.example .env"
+    ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
 }

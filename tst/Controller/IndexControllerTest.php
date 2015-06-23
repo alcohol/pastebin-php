@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 /**
  * @medium
  */
-class PasteControllerTest extends WebTestCase
+class IndexControllerTest extends WebTestCase
 {
     /**
      * @inheritDoc

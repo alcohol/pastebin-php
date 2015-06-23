@@ -1,8 +1,8 @@
 framework:
-  secret: %secret%
+  secret: '%secret%'
   http_method_override: true
   router:
-    resource: '%kernel.root_dir%/app/config/%kernel.environment%.routing.yml'
+    resource: '%kernel.root_dir%/app/config/routing.%kernel.environment%.yml'
     strict_requirements: %kernel.debug%
 
 parameters:
@@ -11,5 +11,68 @@ parameters:
   redis.host: localhost
   redis.port: 6379
 
-imports:
-  - { resource: services.yml }
+services:
+
+  predis.client:
+    class: Predis\Client
+    arguments:
+      -
+        scheme: %redis.scheme%
+        host: %redis.host%
+        port: %redis.port%
+
+  paste.hashutils:
+    class: Alcohol\PasteBundle\Util\HashUtils
+
+  paste.manager:
+    class: Alcohol\PasteBundle\Entity\PasteManager
+    arguments: [ @predis.client, @hashutils, %paste.ttl% ]
+
+  paste.controller.index:
+    class: Alcohol\PasteBundle\Controller\Index
+
+  paste.controller.create:
+    class: Alcohol\PasteBundle\Controller\Create
+    arguments: [ @paste.manager ]
+
+  paste.controller.read:
+    class: Alcohol\PasteBundle\Controller\Read
+    arguments: [ @paste.manager ]
+
+  paste.controller.update:
+    class: Alcohol\PasteBundle\Controller\Update
+    arguments: [ @paste.manager ]
+
+  paste.controller.delete:
+    class: Alcohol\PasteBundle\Controller\Delete
+    arguments: [ @paste.manager ]
+
+  paste.kernel.exception_listener:
+    class: Alcohol\PasteBundle\EventListener\ExceptionListener
+    tags:
+      - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+  paste.command.read:
+    class: Alcohol\PasteBundle\Command\ReadCommand
+    arguments: [ @paste.manager ]
+    tags:
+      - { name: console.command }
+
+  paste.command.count:
+    class: Alcohol\PasteBundle\Command\CountCommand
+    arguments: [ @paste.manager ]
+    tags:
+      - { name: console.command }
+
+  paste.command.list:
+    class: Alcohol\PasteBundle\Command\ListCommand
+    arguments: [ @paste.manager ]
+    tags:
+      - { name: console.command }
+
+  paste.command.delete:
+    class: Alcohol\PasteBundle\Command\DeleteCommand
+    arguments: [ @paste.manager ]
+    tags:
+      - { name: console.command }
+

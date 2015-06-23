@@ -46,7 +46,6 @@ class Application extends Kernel
             /* 3rd party bundles */
             new FrameworkBundle(),
             new MonologBundle(),
-
             /* the application's "bundle" class */
             new Bundle(),
         ];
@@ -57,7 +56,7 @@ class Application extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $config = sprintf('%s/config/%s.config.yml', __DIR__, $this->getEnvironment());
+        $config = sprintf('%s/config/config.%s.yml', __DIR__, $this->getEnvironment());
 
         if (!is_readable($config)) {
             throw new RuntimeException('Missing file: ' . $config);

@@ -9,8 +9,11 @@
 
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
-Dotenv::load(__DIR__ . '/../');
-Dotenv::required([
+use Dotenv\Dotenv;
+
+$dotenv = new Dotenv(__DIR__ . '/../');
+$dotenv->load();
+$dotenv->required([
     'SYMFONY_ENV',
     'SYMFONY_DEBUG',
     'SYMFONY__SECRET',

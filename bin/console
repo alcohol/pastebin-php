@@ -6,11 +6,13 @@ set_time_limit(0);
 $loader = require_once __DIR__ . '/../vendor/autoload.php';
 
 use Alcohol\PasteBundle\Application;
+use Dotenv\Dotenv;
 use Symfony\Bundle\FrameworkBundle\Console\Application as Console;
 use Symfony\Component\Console\Input\ArgvInput;
 
-Dotenv::load(__DIR__ . '/../');
-Dotenv::required([
+$dotenv = new Dotenv(__DIR__ . '/../');
+$dotenv->load();
+$dotenv->required([
     'SYMFONY_ENV',
     'SYMFONY_DEBUG',
     'SYMFONY__SECRET',
