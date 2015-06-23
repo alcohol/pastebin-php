@@ -78,7 +78,7 @@ Install Nginx.
 vendor/bin/phpunit
 ```
 
-The `functional` group is excluded by default, as it will boot the Application
+The `integration` group is excluded by default, as it will boot the Application
 Kernel and depends on a running Redis instance for most tests. To test the
 functional group as well, run:
 
