@@ -11,14 +11,13 @@ namespace Alcohol\PasteBundle\Controller;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Alcohol\PasteBundle\Exception\StorageException;
-use Alcohol\PasteBundle\Exception\TokenException;
+use LengthException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class Update
+class CreateController
 {
     /** @var PasteManager */
     protected $manager;
@@ -33,29 +32,26 @@ class Update
 
     /**
      * @param Request $request
-     * @param string $code
      * @return Response
      */
-    public function __invoke(Request $request, $code)
+    public function __invoke(Request $request)
     {
-        try {
-            $paste = $this->manager->read($code);
-        } catch (StorageException $e) {
-            throw new NotFoundHttpException($e->getMessage(), $e);
-        } catch (TokenException $e) {
-            throw new AccessDeniedHttpException($e->getMessage(), $e);
-        }
-
         $input = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
 
-        $paste->setBody($input);
-
         try {
-            $this->manager->update($paste, $request->headers->get('X-Paste-Token', false));
+            $paste = $this->manager->create($input);
         } catch (StorageException $e) {
             throw new ServiceUnavailableHttpException(300, $e->getmessage(), $e);
+        } catch (LengthException $e) {
+            throw new BadRequestHttpException($e->getMessage(), $e);
         }
 
-        return new Response('', 204);
+        $body = sprintf("%s%s\n", $request->getUri(), $paste->getCode());
+
+        return new Response($body, 201, [
+            'Content-Type' => 'text/plain',
+            'Location' => '/' . $paste->getCode(),
+            'X-Paste-Token' => $paste->getToken(),
+        ]);
     }
 }

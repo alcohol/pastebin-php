@@ -29,22 +29,22 @@ services:
     arguments: [ @predis.client, @paste.hashutils, %paste.ttl% ]
 
   paste.controller.index:
-    class: Alcohol\PasteBundle\Controller\Index
+    class: Alcohol\PasteBundle\Controller\IndexController
 
   paste.controller.create:
-    class: Alcohol\PasteBundle\Controller\Create
+    class: Alcohol\PasteBundle\Controller\CreateController
     arguments: [ @paste.manager ]
 
   paste.controller.read:
-    class: Alcohol\PasteBundle\Controller\Read
+    class: Alcohol\PasteBundle\Controller\ReadController
     arguments: [ @paste.manager ]
 
   paste.controller.update:
-    class: Alcohol\PasteBundle\Controller\Update
+    class: Alcohol\PasteBundle\Controller\UpdateController
     arguments: [ @paste.manager ]
 
   paste.controller.delete:
-    class: Alcohol\PasteBundle\Controller\Delete
+    class: Alcohol\PasteBundle\Controller\DeleteController
     arguments: [ @paste.manager ]
 
   paste.kernel.exception_listener:

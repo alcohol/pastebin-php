@@ -11,13 +11,14 @@ namespace Alcohol\PasteBundle\Controller;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Alcohol\PasteBundle\Exception\StorageException;
-use LengthException;
+use Alcohol\PasteBundle\Exception\TokenException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class Create
+class UpdateController
 {
     /** @var PasteManager */
     protected $manager;
@@ -32,26 +33,29 @@ class Create
 
     /**
      * @param Request $request
+     * @param string $code
      * @return Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, $code)
     {
-        $input = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
-
         try {
-            $paste = $this->manager->create($input);
+            $paste = $this->manager->read($code);
         } catch (StorageException $e) {
-            throw new ServiceUnavailableHttpException(300, $e->getmessage(), $e);
-        } catch (LengthException $e) {
-            throw new BadRequestHttpException($e->getMessage(), $e);
+            throw new NotFoundHttpException($e->getMessage(), $e);
+        } catch (TokenException $e) {
+            throw new AccessDeniedHttpException($e->getMessage(), $e);
         }
 
-        $body = sprintf("%s%s\n", $request->getUri(), $paste->getCode());
+        $input = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
 
-        return new Response($body, 201, [
-            'Content-Type' => 'text/plain',
-            'Location' => '/' . $paste->getCode(),
-            'X-Paste-Token' => $paste->getToken(),
-        ]);
+        $paste->setBody($input);
+
+        try {
+            $this->manager->update($paste, $request->headers->get('X-Paste-Token', false));
+        } catch (StorageException $e) {
+            throw new ServiceUnavailableHttpException(300, $e->getmessage(), $e);
+        }
+
+        return new Response('', 204);
     }
 }
