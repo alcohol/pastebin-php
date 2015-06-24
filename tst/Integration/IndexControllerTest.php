@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @medium
+ * @group integration
  */
 class IndexControllerTest extends WebTestCase
 {
@@ -28,9 +29,6 @@ class IndexControllerTest extends WebTestCase
         );
     }
 
-    /**
-     * @group integration
-     */
     public function testIndex()
     {
         $client = static::createClient();

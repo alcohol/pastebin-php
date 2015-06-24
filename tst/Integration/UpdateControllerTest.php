@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @medium
+ * @group integration
  */
 class UpdateControllerTest extends WebTestCase
 {
@@ -44,9 +45,6 @@ class UpdateControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @group functional
-     */
     public function testPostRaw()
     {
         $original = 'Lorem ipsum';

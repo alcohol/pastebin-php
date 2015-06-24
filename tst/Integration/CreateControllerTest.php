@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @medium
+ * @group integration
  */
 class CreateControllerTest extends WebTestCase
 {
@@ -45,7 +46,7 @@ class CreateControllerTest extends WebTestCase
     }
 
     /**
-     * @group integration
+     * @testdox Posting a paste as raw body content should return the correct response headers.
      */
     public function testPostRaw()
     {
@@ -70,7 +71,7 @@ class CreateControllerTest extends WebTestCase
     }
 
     /**
-     * @group integration
+     * @testdox Posting an empty raw body should return a 400 Bad Request.
      */
     public function testPostRawFail()
     {
@@ -85,7 +86,7 @@ class CreateControllerTest extends WebTestCase
     }
 
     /**
-     * @group integration
+     * @testdox Posting a paste as form field content should return the correct response headers.
      */
     public function testPostForm()
     {
@@ -110,7 +111,7 @@ class CreateControllerTest extends WebTestCase
     }
 
     /**
-     * @group integration
+     * @testdox Posting an empty form field should return a 400 Bad Request.
      */
     public function testPostFormFail()
     {

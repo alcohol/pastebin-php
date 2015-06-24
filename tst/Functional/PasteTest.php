@@ -12,6 +12,9 @@ namespace Alcohol\PasteBundle\Tests\Functional;
 use Alcohol\PasteBundle\Entity\Paste;
 use LengthException;
 
+/**
+ * @group functional
+ */
 class PasteTest extends \PHPUnit_Framework_TestCase
 {
     /**

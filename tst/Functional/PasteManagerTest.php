@@ -13,6 +13,9 @@ use Alcohol\PasteBundle\Entity\Paste;
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Alcohol\PasteBundle\Util\HashUtils;
 
+/**
+ * @group functional
+ */
 class PasteManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @medium
+ * @group integration
  */
 class DeleteControllerTest extends WebTestCase
 {
@@ -44,9 +45,6 @@ class DeleteControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @group functional
-     */
     public function testPostRaw()
     {
         $client = static::createClient();

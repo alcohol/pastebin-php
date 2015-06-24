@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @medium
+ * @group integration
  */
 class ReadControllerTest extends WebTestCase
 {
@@ -44,9 +45,6 @@ class ReadControllerTest extends WebTestCase
         }
     }
 
-    /**
-     * @group functional
-     */
     public function testPostRaw()
     {
         $client = static::createClient();
