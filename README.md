@@ -4,6 +4,8 @@ A demo that attempts to setup a minimalistic Symfony application.
 
 Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_the_things_web.html) and also [sprunge.us](http://sprunge.us).
 
+A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
+
 [![Build Status](https://img.shields.io/travis/alcohol/sf-minimal-demo/master.svg?style=flat-square)](https://travis-ci.org/alcohol/sf-minimal-demo)
 
 
