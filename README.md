@@ -1,4 +1,4 @@
-# Alcohol\sf-minimal-demo
+# alcohol\sf-minimal-demo
 
 A demo that attempts to setup a minimalistic Symfony application.
 
