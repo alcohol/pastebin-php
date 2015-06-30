@@ -36,19 +36,19 @@ class CreateController
      */
     public function __invoke(Request $request)
     {
-        $input = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
+        $body = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
 
         try {
-            $paste = $this->manager->create($input);
-        } catch (StorageException $e) {
-            throw new ServiceUnavailableHttpException(300, $e->getmessage(), $e);
-        } catch (LengthException $e) {
-            throw new BadRequestHttpException($e->getMessage(), $e);
+            $paste = $this->manager->create($body, $request->headers->get('X-Paste-Ttl', null));
+        } catch (StorageException $exception) {
+            throw new ServiceUnavailableHttpException(300, $exception->getmessage(), $exception);
+        } catch (LengthException $exception) {
+            throw new BadRequestHttpException($exception->getMessage(), $exception);
         }
 
-        $body = sprintf("%s%s\n", $request->getUri(), $paste->getCode());
+        $response = sprintf("%s%s\n", $request->getUri(), $paste->getCode());
 
-        return new Response($body, 201, [
+        return new Response($response, 201, [
             'Content-Type' => 'text/plain',
             'Location' => '/' . $paste->getCode(),
             'X-Paste-Token' => $paste->getToken(),

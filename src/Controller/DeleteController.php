@@ -39,16 +39,16 @@ class DeleteController
     {
         try {
             $paste = $this->manager->read($code);
-        } catch (StorageException $e) {
-            throw new NotFoundHttpException($e->getMessage(), $e);
+        } catch (StorageException $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
 
         try {
             $this->manager->delete($paste, $request->headers->get('X-Paste-Token', false));
-        } catch (StorageException $e) {
-            throw new NotFoundHttpException($e->getMessage(), $e);
-        } catch (TokenException $e) {
-            throw new AccessDeniedHttpException($e->getMessage(), $e);
+        } catch (StorageException $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
+        } catch (TokenException $exception) {
+            throw new AccessDeniedHttpException($exception->getMessage(), $exception);
         }
 
         return new Response('', 204);

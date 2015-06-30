@@ -37,8 +37,8 @@ class ReadController
     {
         try {
             $paste = $this->manager->read($code);
-        } catch (StorageException $e) {
-            throw new NotFoundHttpException($e->getMessage(), $e);
+        } catch (StorageException $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
 
         $response = new Response($paste->getBody(), 200, ['Content-Type' => 'text/plain']);

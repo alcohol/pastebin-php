@@ -40,20 +40,28 @@ class UpdateController
     {
         try {
             $paste = $this->manager->read($code);
-        } catch (StorageException $e) {
-            throw new NotFoundHttpException($e->getMessage(), $e);
-        } catch (TokenException $e) {
-            throw new AccessDeniedHttpException($e->getMessage(), $e);
+        } catch (StorageException $exception) {
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
+        } catch (TokenException $exception) {
+            throw new AccessDeniedHttpException($exception->getMessage(), $exception);
         }
 
-        $input = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
+        if ($request->request->has('paste')) {
+            $body =$request->request->get('paste');
+        } else {
+            $body = $request->getContent();
+        }
 
-        $paste->setBody($input);
+        $paste->setBody($body);
 
         try {
-            $this->manager->update($paste, $request->headers->get('X-Paste-Token', false));
-        } catch (StorageException $e) {
-            throw new ServiceUnavailableHttpException(300, $e->getmessage(), $e);
+            $this->manager->update(
+                $paste,
+                $request->headers->get('X-Paste-Token', false),
+                $request->headers->get('X-Paste-Ttl', null)
+            );
+        } catch (StorageException $exception) {
+            throw new ServiceUnavailableHttpException(300, $exception->getmessage(), $exception);
         }
 
         return new Response('', 204);

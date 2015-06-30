@@ -105,6 +105,61 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * @testdox Calling create() with a specified ttl stores the paste with that ttl instead of the default.
+     */
+    public function testCreateCustomTtl()
+    {
+        $paste = new Paste('code', 'body', 'token');
+
+        $hash = $this->getHashMock();
+
+        $hash
+            ->expects($this->at(0))
+            ->method('generate')
+            ->will($this->returnValue('code'))
+        ;
+
+        $hash
+            ->expects($this->at(1))
+            ->method('generate')
+            ->with($this->equalTo(10))
+            ->will($this->returnValue('token'))
+        ;
+
+        $redis = $this->getRedisMock();
+
+        $redis
+            ->expects($this->once())
+            ->method('exists')
+            ->with(
+                $this->equalTo('paste:' . $paste->getCode())
+            )
+            ->will($this->returnValue(0))
+        ;
+
+        $redis
+            ->expects($this->once())
+            ->method('set')
+            ->with(
+                $this->equalTo('paste:' . $paste->getCode()),
+                $this->equalTo(serialize($paste)),
+                $this->equalTo('EX'),
+                $this->equalTo(120),
+                $this->equalTo('NX')
+            )
+            ->will($this->returnValue(1))
+        ;
+
+        /**
+         * @var \Predis\Client $redis
+         * @var \Alcohol\PasteBundle\Util\HashUtils $hash
+         */
+        $manager = new PasteManager($redis, $hash, 60);
+
+        $this->assertInstanceOf('Alcohol\PasteBundle\Entity\Paste', $manager->create('body', 120));
+    }
+
+    /**
      * @testdox Calling update() throws a TokenException if the token is not valid.
      * @expectedException \Alcohol\PasteBundle\Exception\TokenException
      */
@@ -201,6 +256,45 @@ class PasteManagerTest extends \PHPUnit_Framework_TestCase
         $manager = new PasteManager($redis, $hash, 60);
 
         $this->assertEquals($paste, $manager->update($paste, 'token'));
+    }
+
+    /**
+     * @testdox Calling update with a specified ttl value stores the updated paste with that ttl value.
+     */
+    public function testUpdateCustomTtl()
+    {
+        $paste = new Paste('code', 'body', 'token');
+
+        $hash = $this->getHashMock();
+
+        $hash
+            ->expects($this->once())
+            ->method('compare')
+            ->will($this->returnValue(true))
+        ;
+
+        $redis = $this->getRedisMock();
+
+        $redis
+            ->expects($this->once())
+            ->method('set')
+            ->with(
+                $this->equalTo('paste:' . $paste->getCode()),
+                $this->equalTo(serialize($paste)),
+                $this->equalTo('EX'),
+                $this->equalTo(120),
+                $this->equalTo('XX')
+            )
+            ->will($this->returnValue(1))
+        ;
+
+        /**
+         * @var \Predis\Client $redis
+         * @var \Alcohol\PasteBundle\Util\HashUtils $hash
+         */
+        $manager = new PasteManager($redis, $hash, 60);
+
+        $this->assertEquals($paste, $manager->update($paste, 'token', 120));
     }
 
     /**
