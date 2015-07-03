@@ -38,9 +38,6 @@ class Application extends Kernel
         }
     }
 
-    /**
-     * @inheritDoc
-     */
     public function registerBundles()
     {
         return [
@@ -68,25 +65,16 @@ class Application extends Kernel
         $loader->load($config);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getRootDir()
     {
         return dirname(__DIR__);
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getCacheDir()
     {
         return $this->rootDir . '/var/cache/' . $this->environment;
     }
 
-    /**
-     * @inheritDoc
-     */
     public function getLogDir()
     {
         return $this->rootDir . '/var/log/' . $this->environment;

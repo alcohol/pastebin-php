@@ -14,9 +14,6 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension as BaseExtension;
 
 class Extension extends BaseExtension
 {
-    /**
-     * {@inheritdoc}
-     */
     public function load(array $config, ContainerBuilder $container)
     {
         $configuration = new Configuration($this->getAlias());
@@ -24,17 +21,11 @@ class Extension extends BaseExtension
         $this->processConfiguration($configuration, $config);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAlias()
     {
         return 'paste';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getConfiguration(array $config, ContainerBuilder $container)
     {
         return new Configuration($this->getAlias());

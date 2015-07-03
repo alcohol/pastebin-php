@@ -20,9 +20,6 @@ class CountCommand extends Command
     /** @var PasteManager */
     protected $manager;
 
-    /**
-     * @inheritDoc
-     */
     public function __construct(PasteManager $manager)
     {
         parent::__construct();
@@ -30,9 +27,6 @@ class CountCommand extends Command
         $this->manager = $manager;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function configure()
     {
         $this
@@ -41,9 +35,6 @@ class CountCommand extends Command
         ;
     }
 
-    /**
-     * @inheritDoc
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if ($output instanceof ConsoleOutputInterface) {
