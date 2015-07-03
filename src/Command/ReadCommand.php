@@ -34,9 +34,11 @@ class ReadCommand extends Command
     {
         $this
             ->setName('paste:read')
-            ->setDescription('Returns details of a paste.')
+            ->setDescription('Show details of a paste.')
             ->addArgument('id', InputArgument::REQUIRED, 'Identifier of paste to lookup.')
-            ->addOption('--include-body', '-b', InputOption::VALUE_NONE, 'Include body in output.')
+            ->setHelp(
+                'In verbose mode (<comment>-v</comment>) <info>%command.name%</info> will include the paste body.'
+            )
         ;
     }
 
@@ -56,7 +58,7 @@ class ReadCommand extends Command
         $output->writeln(sprintf('<bold>Code:</bold> %s', $paste->getCode()));
         $output->writeln(sprintf('<bold>Token:</bold> %s', $paste->getToken()));
 
-        if ($input->getOption('include-body')) {
+        if (OutputInterface::VERBOSITY_VERBOSE >= $output->getVerbosity()) {
             $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->getBody()));
         }
 
