@@ -48,10 +48,13 @@ class DeleteCommand extends Command
         foreach ($identifiers as $id) {
             $paste = $this->manager->read($id);
             $token = $paste->getToken();
-            $this->manager->delete($paste, $token);
-        }
 
-        $output->writeln('Paste(s) deleted.');
+            $this->manager->delete($paste, $token);
+
+            if (OutputInterface::VERBOSITY_VERBOSE >= $output->getVerbosity()) {
+                $output->writeln(sprintf('Paste "<info>%s</info>" has been deleted.', $id));
+            }
+        }
 
         return 0;
     }
