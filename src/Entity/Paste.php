@@ -9,8 +9,6 @@
 
 namespace Alcohol\PasteBundle\Entity;
 
-use LengthException;
-
 class Paste
 {
     /** @var string */
@@ -58,19 +56,19 @@ class Paste
 
     /**
      * @param string $body
-     * @throws LengthException
+     * @throws \LengthException
      * @return $this
      */
     public function setBody($body)
     {
         if (empty($body)) {
-            throw new LengthException('No input received.');
+            throw new \LengthException('No input received.');
         }
 
         $size = ini_get('mbstring.func_overload') ? mb_strlen($body, '8bit') : strlen($body);
 
         if ($size > 1024 * 1024) {
-            throw new LengthException('Maximum string size of 1MiB exceeded.');
+            throw new \LengthException('Maximum string size of 1MiB exceeded.');
         }
 
         $this->body = $body;

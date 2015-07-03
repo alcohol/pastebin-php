@@ -11,7 +11,6 @@ namespace Alcohol\PasteBundle\Controller;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Alcohol\PasteBundle\Exception\StorageException;
-use LengthException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -42,7 +41,7 @@ class CreateController
             $paste = $this->manager->create($body, $request->headers->get('X-Paste-Ttl', null));
         } catch (StorageException $exception) {
             throw new ServiceUnavailableHttpException(300, $exception->getmessage(), $exception);
-        } catch (LengthException $exception) {
+        } catch (\LengthException $exception) {
             throw new BadRequestHttpException($exception->getMessage(), $exception);
         }
 

@@ -9,7 +9,6 @@
 
 namespace Alcohol\PasteBundle;
 
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -23,11 +22,13 @@ class Application extends Kernel
 
     /**
      * @inheritDoc
+     *
+     * @throws \RuntimeException
      */
     public function __construct($environment, $debug)
     {
         if (!in_array($environment, ['test', 'dev', 'prod'], true)) {
-            throw new RuntimeException('Unsupported environment: ' . $environment);
+            throw new \RuntimeException('Unsupported environment: ' . $environment);
         }
 
         parent::__construct($environment, $debug);
@@ -53,13 +54,15 @@ class Application extends Kernel
 
     /**
      * @inheritDoc
+     *
+     * @throws \RuntimeException
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $config = sprintf('%s/config/config.%s.yml', __DIR__, $this->getEnvironment());
 
         if (!is_readable($config)) {
-            throw new RuntimeException('Missing file: ' . $config);
+            throw new \RuntimeException('Missing file: ' . $config);
         }
 
         $loader->load($config);

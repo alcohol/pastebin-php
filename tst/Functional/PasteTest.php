@@ -10,7 +10,6 @@
 namespace Alcohol\PasteBundle\Tests\Functional;
 
 use Alcohol\PasteBundle\Entity\Paste;
-use LengthException;
 
 /**
  * @group functional
@@ -39,7 +38,7 @@ class PasteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox When no/empty body is given, a LengthException is thrown.
-     * @expectedException LengthException
+     * @expectedException \LengthException
      */
     public function testMinLengthException()
     {
@@ -48,7 +47,7 @@ class PasteTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @testdox When trying to set a body that exceeds 1MiB, a LengthException is thrown.
-     * @expectedException LengthException
+     * @expectedException \LengthException
      */
     public function testMaxLengthException()
     {
