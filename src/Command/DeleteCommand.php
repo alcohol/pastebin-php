@@ -33,7 +33,7 @@ class DeleteCommand extends Command
         $this
             ->setName('paste:delete')
             ->setDescription('Deletes a paste.')
-            ->addArgument('id', InputArgument::REQUIRED, 'Identifier of paste to read.')
+            ->addArgument('id', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Identifier of paste to read.', [])
         ;
     }
 
@@ -43,11 +43,15 @@ class DeleteCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $paste = $this->manager->read($input->getArgument('id'));
-        $token = $paste->getToken();
-        $this->manager->delete($paste, $token);
+        $identifiers = $input->getArgument('id');
 
-        $output->writeln('Paste deleted.');
+        foreach ($identifiers as $id) {
+            $paste = $this->manager->read($id);
+            $token = $paste->getToken();
+            $this->manager->delete($paste, $token);
+        }
+
+        $output->writeln('Paste(s) deleted.');
 
         return 0;
     }
