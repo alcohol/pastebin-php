@@ -51,7 +51,7 @@ class DeleteCommand extends Command
 
             $this->manager->delete($paste, $token);
 
-            if (OutputInterface::VERBOSITY_VERBOSE >= $output->getVerbosity()) {
+            if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                 $output->writeln(sprintf('Paste "<info>%s</info>" has been deleted.', $id));
             }
         }

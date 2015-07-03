@@ -58,7 +58,7 @@ class ReadCommand extends Command
         $output->writeln(sprintf('<bold>Code:</bold> %s', $paste->getCode()));
         $output->writeln(sprintf('<bold>Token:</bold> %s', $paste->getToken()));
 
-        if (OutputInterface::VERBOSITY_VERBOSE >= $output->getVerbosity()) {
+        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
             $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->getBody()));
         }
 
