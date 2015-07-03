@@ -41,7 +41,7 @@ class CountCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $output->writeln(sprintf('Paste count: <info>%u</info>', $this->manager->getCount()));
+        $output->writeln(sprintf('<info>%u</info>', $this->manager->getCount()));
 
         return 0;
     }
