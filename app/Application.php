@@ -59,7 +59,7 @@ class Application extends Kernel
         $config = sprintf('%s/config/config.%s.yml', __DIR__, $this->getEnvironment());
 
         if (!is_readable($config)) {
-            throw new \RuntimeException('Missing file: ' . $config);
+            throw new \RuntimeException('Cannot read configuration from: ' . $config);
         }
 
         $loader->load($config);
