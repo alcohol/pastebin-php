@@ -82,7 +82,7 @@ vendor/bin/phpunit
 
 The `integration` group is excluded by default, as it will boot the Application
 Kernel and depends on a running Redis instance for most tests. To test the
-functional group as well, run:
+integration group as well, run:
 
 ```
 vendor/bin/phpunit -c phpunit.all.xml
