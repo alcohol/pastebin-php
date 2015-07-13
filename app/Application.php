@@ -20,15 +20,22 @@ class Application extends Kernel
     /** @var string */
     protected $name = 'Pastebin';
 
+    /** @var array */
+    public static $environments = ['test', 'dev', 'prod'];
+
     /**
-     * @inheritDoc
-     *
+     * @param string $environment
+     * @param bool $debug
      * @throws \RuntimeException
      */
     public function __construct($environment, $debug)
     {
-        if (!in_array($environment, ['test', 'dev', 'prod'], true)) {
-            throw new \RuntimeException('Unsupported environment: ' . $environment);
+        if (!in_array($environment, self::$environments, true)) {
+            throw new \RuntimeException(sprintf(
+                'Unsupported environment "%s", expected one of: %s',
+                $environment,
+                implode(', ', self::$environments)
+            ));
         }
 
         parent::__construct($environment, $debug);
@@ -44,14 +51,14 @@ class Application extends Kernel
             /* 3rd party bundles */
             new FrameworkBundle(),
             new MonologBundle(),
+
             /* the application's "bundle" class */
-            new Bundle(),
+            new PasteBundle(),
         ];
     }
 
     /**
-     * @inheritDoc
-     *
+     * @param LoaderInterface $loader
      * @throws \RuntimeException
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
@@ -59,22 +66,31 @@ class Application extends Kernel
         $config = sprintf('%s/config/config.%s.yml', __DIR__, $this->getEnvironment());
 
         if (!is_readable($config)) {
-            throw new \RuntimeException('Cannot read configuration from: ' . $config);
+            throw new \RuntimeException('Cannot read configuration file: ' . $config);
         }
 
         $loader->load($config);
     }
 
+    /**
+     * @return string
+     */
     public function getRootDir()
     {
         return dirname(__DIR__);
     }
 
+    /**
+     * @return string
+     */
     public function getCacheDir()
     {
         return $this->rootDir . '/var/cache/' . $this->environment;
     }
 
+    /**
+     * @return string
+     */
     public function getLogDir()
     {
         return $this->rootDir . '/var/log/' . $this->environment;

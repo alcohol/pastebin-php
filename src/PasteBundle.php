@@ -9,12 +9,9 @@
 
 namespace Alcohol\PasteBundle;
 
-use Symfony\Component\HttpKernel\Bundle\Bundle as BaseBundle;
+use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class Bundle extends BaseBundle
+class PasteBundle extends Bundle
 {
-    public function getContainerExtension()
-    {
-        return new Extension();
-    }
+    /* Every time you create a bundle in your application, baby Jesus cries a little. */
 }
