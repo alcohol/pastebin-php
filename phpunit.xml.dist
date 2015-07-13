@@ -18,7 +18,7 @@
     timeoutForSmallTests="1"
     timeoutForMediumTests="10"
     timeoutForLargeTests="60"
-    bootstrap="tst/bootstrap.php">
+    bootstrap="app/bootstrap.php">
     <testsuites>
         <testsuite name="src">
             <directory>tst</directory>

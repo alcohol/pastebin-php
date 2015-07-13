@@ -7,22 +7,13 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-$loader = require_once __DIR__ . '/../vendor/autoload.php';
+$loader = require_once __DIR__ . '/../app/bootstrap.php';
 
 use Alcohol\PasteBundle\Application;
-use Dotenv\Dotenv;
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpCache\Store;
-
-$dotenv = new Dotenv(__DIR__ . '/../');
-$dotenv->load();
-$dotenv->required([
-    'SYMFONY_ENV',
-    'SYMFONY_DEBUG',
-    'SYMFONY__SECRET',
-]);
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) {
     $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
@@ -30,13 +21,14 @@ if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) 
 }
 
 $application = new Application(getenv('SYMFONY_ENV'), getenv('SYMFONY_DEBUG'));
+$application->loadClassCache();
 
-if (in_array(getenv('SYMFONY_ENV'), ['prod'], true)) {
-    $application->loadClassCache();
+if ('prod' === getenv('SYMFONY_ENV')) {
     $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
 }
 
 $request = Request::createFromGlobals();
 $response = $application->handle($request);
 $response->send();
+
 $application->terminate($request, $response);

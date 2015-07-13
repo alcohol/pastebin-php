@@ -18,3 +18,5 @@ $dotenv->required([
     'SYMFONY_DEBUG',
     'SYMFONY__SECRET',
 ]);
+
+return $loader;
