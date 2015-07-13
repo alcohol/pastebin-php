@@ -2,7 +2,7 @@ framework:
   secret: '%secret%'
   http_method_override: true
   router:
-    resource: '%kernel.root_dir%/app/config/routing.%kernel.environment%.yml'
+    resource: '%kernel.root_dir%/app/routing/routing.%kernel.environment%.yml'
     strict_requirements: %kernel.debug%
 
 parameters:
@@ -76,4 +76,3 @@ services:
     arguments: [ @paste.manager ]
     tags:
       - { name: console.command }
-
