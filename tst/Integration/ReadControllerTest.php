@@ -58,6 +58,5 @@ class ReadControllerTest extends WebTestCase
             $client->getResponse()->getContent(),
             '"GET /{id}" should return content stored.'
         );
-
     }
 }

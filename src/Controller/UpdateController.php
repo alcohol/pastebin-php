@@ -47,7 +47,7 @@ class UpdateController
         }
 
         if ($request->request->has('paste')) {
-            $body =$request->request->get('paste');
+            $body = $request->request->get('paste');
         } else {
             $body = $request->getContent();
         }
