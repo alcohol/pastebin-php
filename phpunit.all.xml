@@ -30,8 +30,6 @@
         </whitelist>
     </filter>
     <listeners>
-        <listeners>
-            <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
-        </listeners>
+        <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
     </listeners>
 </phpunit>
