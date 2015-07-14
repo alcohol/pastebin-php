@@ -123,4 +123,4 @@ Feel free to submit a pull request or create an issue.
 
 ## License
 
-Alcohol\sf-minimal-demo is licensed under the MIT license.
+alcohol\sf-minimal-demo is licensed under the MIT license.
