@@ -30,6 +30,7 @@ services:
 
   paste.controller.index:
     class: Alcohol\PasteBundle\Controller\IndexController
+    arguments: [ @router ]
 
   paste.controller.create:
     class: Alcohol\PasteBundle\Controller\CreateController

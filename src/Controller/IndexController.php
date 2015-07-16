@@ -11,17 +11,29 @@ namespace Alcohol\PasteBundle\Controller;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\RouterInterface;
 
 class IndexController
 {
+    /** @var RouterInterface */
+    protected $router;
+
+    /**
+     * @param RouterInterface $router
+     */
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
+
     /**
      * @param Request $request
      * @return Response
      */
     public function __invoke(Request $request)
     {
-        $href = $request->getUri();
-        $host = $request->getHttpHost();
+        $href = $this->router->generate('paste.create');
+        $host = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
         $form = <<<FORM
 data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
 <textarea name="paste" cols="100" rows="30"></textarea>
