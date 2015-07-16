@@ -32,8 +32,7 @@ class IndexController
      */
     public function __invoke(Request $request)
     {
-        $href = $this->router->generate('paste.create');
-        $host = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
+        $href = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
         $form = <<<FORM
 data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
 <textarea name="paste" cols="100" rows="30"></textarea>
@@ -46,7 +45,7 @@ DESCRIPTION
     paste: command line pastebin.
 
 USING
-    &lt;command&gt; | curl --data-binary '@-' $host
+    &lt;command&gt; | curl --data-binary '@-' $href
 
 ALTERNATIVELY
     use <a href='$form'>this form</a> to paste from a browser
