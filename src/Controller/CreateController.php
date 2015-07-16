@@ -15,18 +15,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\Routing\RouterInterface;
 
 class CreateController
 {
     /** @var PasteManager */
     protected $manager;
 
+    /** @var RouterInterface */
+    protected $router;
+
     /**
      * @param PasteManager $manager
      */
-    public function __construct(PasteManager $manager)
+    public function __construct(PasteManager $manager, RouterInterface $router)
     {
         $this->manager = $manager;
+        $this->router = $router;
     }
 
     /**
@@ -45,11 +50,15 @@ class CreateController
             throw new BadRequestHttpException($exception->getMessage(), $exception);
         }
 
-        $response = sprintf("%s%s\n", $request->getUri(), $paste->getCode());
+        $response = sprintf("%s\n", $this->router->generate(
+            'paste.read',
+            ['code' => $paste->getCode()],
+            RouterInterface::ABSOLUTE_URL
+        ));
 
         return new Response($response, 201, [
             'Content-Type' => 'text/plain',
-            'Location' => '/' . $paste->getCode(),
+            'Location' => $this->router->generate('paste.read', ['code' => $paste->getCode()]),
             'X-Paste-Token' => $paste->getToken(),
         ]);
     }

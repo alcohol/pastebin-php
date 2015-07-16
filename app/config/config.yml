@@ -33,7 +33,7 @@ services:
 
   paste.controller.create:
     class: Alcohol\PasteBundle\Controller\CreateController
-    arguments: [ @paste.manager ]
+    arguments: [ @paste.manager, @router ]
 
   paste.controller.read:
     class: Alcohol\PasteBundle\Controller\ReadController
