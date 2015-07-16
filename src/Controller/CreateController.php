@@ -59,6 +59,7 @@ class CreateController
         return new Response($response, 201, [
             'Content-Type' => 'text/plain',
             'Location' => $this->router->generate('paste.read', ['code' => $paste->getCode()]),
+            'X-Paste-Id' => $paste->getCode(),
             'X-Paste-Token' => $paste->getToken(),
         ]);
     }

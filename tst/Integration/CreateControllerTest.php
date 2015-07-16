@@ -65,6 +65,11 @@ class CreateControllerTest extends WebTestCase
         );
 
         $this->assertTrue(
+            $client->getResponse()->headers->has('X-Paste-Id'),
+            '"POST /" response should include a X-Paste-Id header.'
+        );
+
+        $this->assertTrue(
             $client->getResponse()->headers->has('X-Paste-Token'),
             '"POST /" response should include a X-Paste-Token header.'
         );
