@@ -27,6 +27,7 @@ class CreateController
 
     /**
      * @param PasteManager $manager
+     * @param RouterInterface $router
      */
     public function __construct(PasteManager $manager, RouterInterface $router)
     {
