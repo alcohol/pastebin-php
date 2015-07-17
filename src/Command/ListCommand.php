@@ -53,7 +53,7 @@ class ListCommand extends Command
         $pasties = $this->manager->getList();
 
         $length_max = $input->getOption('truncate');
-        $length_sub = $length_max = floor(($length_max - 4) / 2);
+        $length_sub = (int) floor(($length_max - 4) / 2);
 
         if (!count($pasties)) {
             $output->writeln('Database is empty.');
@@ -77,7 +77,6 @@ class ListCommand extends Command
                 );
             }
 
-            $body = str_pad($body, $length_max, ' ');
             $table->addRow([$paste->getCode(), $paste->getToken(), $size, $body]);
         }
 
