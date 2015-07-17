@@ -36,6 +36,7 @@ class IndexController
         $form = <<<FORM
 data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
 <textarea name="paste" cols="100" rows="30"></textarea>
+<input type="hidden" name="redirect" value="redirect"/>
 <br><button type="submit">paste</button></form>
 FORM;
         $body = <<<BODY
