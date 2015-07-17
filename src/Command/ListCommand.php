@@ -77,6 +77,7 @@ class ListCommand extends Command
                 );
             }
 
+            $body = str_pad($body, $length_max, ' ');
             $table->addRow([$paste->getCode(), $paste->getToken(), $size, $body]);
         }
 
