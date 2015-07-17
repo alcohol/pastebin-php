@@ -66,14 +66,14 @@ class ListCommand extends Command
 
         /** @var \Alcohol\PasteBundle\Entity\Paste $paste */
         foreach ($pasties as $paste) {
-            $body = trim(preg_replace('/\s\s+/', ' ', $paste->getBody()));
+            $body = trim(preg_replace(['/\n\r?/', '/\s\s+/'], [' ', ' '], $paste->getBody()));
             $size = strlen($body);
 
             if ($size > $length_max) {
                 $body = sprintf(
                     '%s<comment> .. </comment>%s',
-                    substr($body, 0, $length_sub),
-                    substr($body, -$length_sub)
+                    trim(substr($body, 0, $length_sub)),
+                    trim(substr($body, -$length_sub))
                 );
             }
 
