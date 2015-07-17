@@ -66,7 +66,7 @@ class ListCommand extends Command
 
         /** @var \Alcohol\PasteBundle\Entity\Paste $paste */
         foreach ($pasties as $paste) {
-            $body = trim(preg_replace(['/\n\r?/', '/\s\s+/'], [' ', ' '], $paste->getBody()));
+            $body = trim(preg_replace(['/\n\r?/', '/\s\s+/'], ' ', $paste->getBody()));
             $size = mb_strlen($body);
 
             if ($size > $length_max) {
