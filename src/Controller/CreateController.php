@@ -11,6 +11,7 @@ namespace Alcohol\PasteBundle\Controller;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Alcohol\PasteBundle\Exception\StorageException;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -51,17 +52,17 @@ class CreateController
             throw new BadRequestHttpException($exception->getMessage(), $exception);
         }
 
-        $response = sprintf("%s\n", $this->router->generate(
-            'paste.read',
-            ['code' => $paste->getCode()],
-            RouterInterface::ABSOLUTE_URL
-        ));
-
-        return new Response($response, 201, [
-            'Content-Type' => 'text/plain',
-            'Location' => $this->router->generate('paste.read', ['code' => $paste->getCode()]),
+        $location = $this->router->generate('paste.read', ['code' => $paste->getCode()], RouterInterface::ABSOLUTE_URL);
+        $headers = [
+            'Location' => $location,
             'X-Paste-Id' => $paste->getCode(),
             'X-Paste-Token' => $paste->getToken(),
-        ]);
+        ];
+
+        if ($request->request->has('redirect')) {
+            return new RedirectResponse($location, 303, $headers);
+        }
+
+        return new Response(sprintf("%s\n", $location), 201, $headers + ['Content-Type' => 'text/plain']);
     }
 }

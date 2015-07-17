@@ -96,17 +96,22 @@ class CreateControllerTest extends WebTestCase
     public function testPostForm()
     {
         $client = static::createClient();
-        $client->request('POST', '/', ['paste' => 'Lorem ipsum']);
+        $client->request('POST', '/', ['paste' => 'Lorem ipsum', 'redirect' => 'redirect']);
 
         $this->assertEquals(
-            201,
+            303,
             $client->getResponse()->getStatusCode(),
-            '"POST /" should return a 201 Created response.'
+            '"POST /" should return a 303 See Other response.'
         );
 
         $this->assertTrue(
             $client->getResponse()->headers->has('Location'),
             '"POST /" response should include a Location header.'
+        );
+
+        $this->assertTrue(
+            $client->getResponse()->headers->has('X-Paste-Id'),
+            '"POST /" response should include a X-Paste-Id header.'
         );
 
         $this->assertTrue(
