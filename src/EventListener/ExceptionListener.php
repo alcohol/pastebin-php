@@ -18,6 +18,9 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class ExceptionListener
 {
+    /** @var LoggerInterface */
+    private $logger;
+
     /**
      * @param LoggerInterface $logger
      */
