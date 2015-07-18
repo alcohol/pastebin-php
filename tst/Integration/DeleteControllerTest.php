@@ -9,42 +9,12 @@
 
 namespace Alcohol\PasteBundle\Tests\Integration;
 
-use Alcohol\PasteBundle\Application;
-use Predis\Collection\Iterator\Keyspace;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 /**
  * @medium
  * @group integration
  */
-class DeleteControllerTest extends WebTestCase
+class DeleteControllerTest extends IntegrationTest
 {
-    /**
-     * @inheritDoc
-     */
-    public static function createKernel(array $options = array())
-    {
-        return new Application(
-            isset($options['environment']) ? $options['environment'] : 'test',
-            isset($options['debug']) ? $options['debug'] : true
-        );
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public static function tearDownAfterClass()
-    {
-        $kernel = self::createKernel();
-        $kernel->boot();
-        /** @var \Predis\Client $predis */
-        $predis = $kernel->getContainer()->get('predis.client');
-
-        foreach (new Keyspace($predis, 'paste:*') as $key) {
-            $predis->del([$key]);
-        }
-    }
-
     public function testPostRaw()
     {
         $client = static::createClient();

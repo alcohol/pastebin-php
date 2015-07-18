@@ -9,26 +9,12 @@
 
 namespace Alcohol\PasteBundle\Tests\Integration;
 
-use Alcohol\PasteBundle\Application;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-
 /**
  * @medium
  * @group integration
  */
-class IndexControllerTest extends WebTestCase
+class IndexControllerTest extends IntegrationTest
 {
-    /**
-     * @inheritDoc
-     */
-    public static function createKernel(array $options = array())
-    {
-        return new Application(
-            isset($options['environment']) ? $options['environment'] : 'test',
-            isset($options['debug']) ? $options['debug'] : true
-        );
-    }
-
     public function testIndex()
     {
         $client = static::createClient();
@@ -44,5 +30,9 @@ class IndexControllerTest extends WebTestCase
             $crawler->filter('a')->count(),
             '"GET /" response should contain at least one link.'
         );
+    }
+
+    public static function tearDownAfterClass()
+    {
     }
 }
