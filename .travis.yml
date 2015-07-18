@@ -5,31 +5,29 @@ env:
 
 cache:
   directories:
-  - $HOME/.composer/cache
+    - $HOME/.composer/cache
 
 git:
   depth: 10
 
 services:
-- redis-server
+  - redis-server
+
+sudo: false
 
 php:
-- 5.4
-- 5.5
-- 5.6
-- 7
-- hhvm
+  - 5.4
+  - 5.5
+  - 5.6
+  - 7
+  - hhvm
 
-matrix:
-  allow_failures:
-  - php: hhvm
-  - php: 7
-  fast_finish: true
+before_install:
+  - composer config --global github-oauth.github.com $GITHUB_OAUTH_TOKEN
+  - composer self-update --clean-backups --no-interaction
 
-before_script:
-- composer config --global github-oauth.github.com $GITHUB_OAUTH_TOKEN
-- composer self-update --clean-backups --no-interaction
-- composer install -vvv --profile --prefer-dist --optimize-autoloader --no-interaction
+install:
+  - composer install --prefer-dist --optimize-autoloader --no-interaction --profile -v
 
 script:
-- vendor/bin/phpunit -c phpunit.all.xml
+  - vendor/bin/phpunit -c phpunit.all.xml
