@@ -13,11 +13,7 @@ use Alcohol\PasteBundle\Application;
 use Predis\Collection\Iterator\Keyspace;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
-/**
- * @medium
- * @group integration
- */
-class IntegrationTest extends WebTestCase
+abstract class IntegrationTest extends WebTestCase
 {
     public static function createKernel(array $options = array())
     {
