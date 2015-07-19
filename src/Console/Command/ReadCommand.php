@@ -7,16 +7,17 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\PasteBundle\Command;
+namespace Alcohol\PasteBundle\Console\Command;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteCommand extends Command
+class ReadCommand extends Command
 {
     /** @var PasteManager */
     protected $manager;
@@ -31,9 +32,12 @@ class DeleteCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('paste:delete')
-            ->setDescription('Deletes a paste.')
-            ->addArgument('id', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Identifier of paste to read.', [])
+            ->setName('paste:read')
+            ->setDescription('Show details of a paste.')
+            ->addArgument('id', InputArgument::REQUIRED, 'Identifier of paste to lookup.')
+            ->setHelp(
+                'In verbose mode (<comment>-v</comment>) <info>%command.name%</info> will include the paste body.'
+            )
         ;
     }
 
@@ -43,17 +47,18 @@ class DeleteCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $identifiers = $input->getArgument('id');
+        $paste = $this->manager->read($input->getArgument('id'));
 
-        foreach ($identifiers as $id) {
-            $paste = $this->manager->read($id);
-            $token = $paste->getToken();
+        $output
+            ->getFormatter()
+            ->setStyle('bold', new OutputFormatterStyle(null, null, ['bold']))
+        ;
 
-            $this->manager->delete($paste, $token);
+        $output->writeln(sprintf('<bold>Code:</bold> %s', $paste->getCode()));
+        $output->writeln(sprintf('<bold>Token:</bold> %s', $paste->getToken()));
 
-            if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-                $output->writeln(sprintf('Paste "<info>%s</info>" has been deleted.', $id));
-            }
+        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+            $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->getBody()));
         }
 
         return 0;

@@ -7,15 +7,16 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\PasteBundle\Command;
+namespace Alcohol\PasteBundle\Console\Command;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CountCommand extends Command
+class DeleteCommand extends Command
 {
     /** @var PasteManager */
     protected $manager;
@@ -30,8 +31,9 @@ class CountCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('paste:count')
-            ->setDescription('Returns a count of currently stored pastes.')
+            ->setName('paste:delete')
+            ->setDescription('Deletes a paste.')
+            ->addArgument('id', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Identifier of paste to read.', [])
         ;
     }
 
@@ -41,7 +43,18 @@ class CountCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $output->writeln(sprintf('<info>%u</info>', $this->manager->getCount()));
+        $identifiers = $input->getArgument('id');
+
+        foreach ($identifiers as $id) {
+            $paste = $this->manager->read($id);
+            $token = $paste->getToken();
+
+            $this->manager->delete($paste, $token);
+
+            if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
+                $output->writeln(sprintf('Paste "<info>%s</info>" has been deleted.', $id));
+            }
+        }
 
         return 0;
     }

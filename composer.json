@@ -1,23 +1,6 @@
 {
   "name": "alcohol/sf-minimal-demo",
   "description": "A minimalistic Symfony demo application",
-  "keywords": [
-    "symfony",
-    "demo",
-    "minimal",
-    "skeleton",
-    "sf2"
-  ],
-  "homepage": "https://github.com/alcohol/sf-minimal-demo",
-  "license": "MIT",
-  "authors": [{
-    "name": "Rob Bast",
-    "email": "rob.bast@gmail.com"
-  }],
-  "support": {
-    "issues": "https://github.com/alcohol/sf-minimal-demo/issues",
-    "source": "https://github.com/alcohol/sf-minimal-demo"
-  },
   "require": {
     "php": ">=5.4",
     "ext-mbstring": "*",
@@ -48,10 +31,5 @@
     "post-update-cmd": [
       "[ -f .env ] || cp -v .env.example .env"
     ]
-  },
-  "extra": {
-    "branch-alias": {
-      "dev-master": "1.0.x-dev"
-    }
   }
 }

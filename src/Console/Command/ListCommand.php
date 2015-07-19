@@ -7,7 +7,7 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\PasteBundle\Command;
+namespace Alcohol\PasteBundle\Console\Command;
 
 use Alcohol\PasteBundle\Entity\PasteManager;
 use Symfony\Component\Console\Command\Command;
