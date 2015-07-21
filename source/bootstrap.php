@@ -7,11 +7,11 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-$loader = require __DIR__ . '/../vendor/autoload.php';
+$loader = require dirname(__DIR__) . '/vendor/autoload.php';
 
 use Dotenv\Dotenv;
 
-$dotenv = new Dotenv(__DIR__ . '/../');
+$dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
 $dotenv->required([
     'SYMFONY_ENV',

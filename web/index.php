@@ -7,7 +7,7 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-$loader = require_once __DIR__ . '/../app/bootstrap.php';
+$loader = require_once __DIR__ . '/../source/bootstrap.php';
 
 use Alcohol\Paste\Application;
 use Symfony\Component\ClassLoader\ApcClassLoader;

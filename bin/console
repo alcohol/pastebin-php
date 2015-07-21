@@ -3,7 +3,7 @@
 
 set_time_limit(0);
 
-$loader = require_once __DIR__ . '/../app/bootstrap.php';
+$loader = require_once __DIR__ . '/../source/bootstrap.php';
 
 use Alcohol\Paste\Application;
 use Symfony\Bundle\FrameworkBundle\Console\Application as Console;
