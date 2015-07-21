@@ -9,7 +9,7 @@
 
 $loader = require_once __DIR__ . '/../app/bootstrap.php';
 
-use Alcohol\PasteBundle\Application;
+use Alcohol\Paste\Application;
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;

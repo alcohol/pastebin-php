@@ -5,7 +5,7 @@ set_time_limit(0);
 
 $loader = require_once __DIR__ . '/../app/bootstrap.php';
 
-use Alcohol\PasteBundle\Application;
+use Alcohol\Paste\Application;
 use Symfony\Bundle\FrameworkBundle\Console\Application as Console;
 use Symfony\Component\Console\Input\ArgvInput;
 

@@ -16,12 +16,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Alcohol\\PasteBundle\\": ["app", "src"]
+      "Alcohol\\Paste\\": ["source/Paste"]
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Alcohol\\PasteBundle\\Tests\\": ["tst"]
+      "Alcohol\\Paste\\Tests\\": ["tests/Paste"]
     }
   },
   "scripts": {
