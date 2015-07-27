@@ -11,7 +11,7 @@ A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
 
 ## Dependencies (External)
 
-* redis-server
+* redis-server (production environment)
 
 
 ## Installing
@@ -20,12 +20,9 @@ A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
 git clone https://github.com/alcohol/sf-minimal-demo.git
 cd sf-minimal-demo
 composer install
-vim .env
 ```
 
-Worth mentioning:
-* It uses a modified directory structure. Make sure the **httpd** or **fcgi**
-  user can write to `var/{cache,log}`. I recommend `chmod 2775 var/{cache,log}`.
+> Make sure the **httpd** or **fcgi** user has read, write and execute access on `var/`.
 
 
 ## Configuring
@@ -78,14 +75,6 @@ Install Nginx.
 
 ```
 vendor/bin/phpunit
-```
-
-The `integration` group is excluded by default, as it will boot the Application
-Kernel and depends on a running Redis instance for most tests. To test the
-integration group as well, run:
-
-```
-vendor/bin/phpunit -c phpunit.all.xml
 ```
 
 

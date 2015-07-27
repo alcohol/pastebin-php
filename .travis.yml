@@ -30,4 +30,4 @@ install:
   - composer install --prefer-dist --optimize-autoloader --no-interaction --profile -v
 
 script:
-  - vendor/bin/phpunit -c phpunit.all.xml
+  - vendor/bin/phpunit

@@ -18,12 +18,6 @@
         </whitelist>
     </filter>
 
-    <groups>
-        <exclude>
-            <group>integration</group>
-        </exclude>
-    </groups>
-
     <listeners>
         <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
     </listeners>
