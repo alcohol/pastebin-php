@@ -9,7 +9,7 @@
 
 namespace Alcohol\Paste\Console\Command;
 
-use Alcohol\Paste\Entity\PasteManager;
+use Alcohol\Paste\Repository\PasteRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -18,14 +18,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DeleteCommand extends Command
 {
-    /** @var PasteManager */
-    protected $manager;
+    /** @var PasteRepository */
+    protected $repository;
 
-    public function __construct(PasteManager $manager)
+    /**
+     * @param PasteRepository $repository
+     */
+    public function __construct(PasteRepository $repository)
     {
         parent::__construct();
 
-        $this->manager = $manager;
+        $this->repository = $repository;
     }
 
     protected function configure()
@@ -46,10 +49,8 @@ class DeleteCommand extends Command
         $identifiers = $input->getArgument('id');
 
         foreach ($identifiers as $id) {
-            $paste = $this->manager->read($id);
-            $token = $paste->getToken();
-
-            $this->manager->delete($paste, $token);
+            $paste = $this->repository->find($id);
+            $this->repository->delete($paste);
 
             if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
                 $output->writeln(sprintf('Paste "<info>%s</info>" has been deleted.', $id));

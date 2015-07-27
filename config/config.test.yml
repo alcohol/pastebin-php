@@ -13,3 +13,7 @@ monolog:
 
 framework:
   test: ~
+
+services:
+  paste.cache:
+    class: Doctrine\Common\Cache\ArrayCache

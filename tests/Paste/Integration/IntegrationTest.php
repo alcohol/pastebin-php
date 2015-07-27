@@ -10,7 +10,6 @@
 namespace Alcohol\Paste\Tests\Integration;
 
 use Alcohol\Paste\Application;
-use Predis\Collection\Iterator\Keyspace;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class IntegrationTest extends WebTestCase
@@ -21,17 +20,5 @@ abstract class IntegrationTest extends WebTestCase
             isset($options['environment']) ? $options['environment'] : 'test',
             isset($options['debug']) ? $options['debug'] : true
         );
-    }
-
-    public static function tearDownAfterClass()
-    {
-        $kernel = self::createKernel();
-        $kernel->boot();
-        /** @var \Predis\Client $predis */
-        $predis = $kernel->getContainer()->get('predis.client');
-
-        foreach (new Keyspace($predis, 'paste:*') as $key) {
-            $predis->del([$key]);
-        }
     }
 }

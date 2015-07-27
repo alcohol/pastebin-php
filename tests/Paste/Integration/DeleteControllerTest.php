@@ -18,16 +18,35 @@ class DeleteControllerTest extends IntegrationTest
     public function testPostRaw()
     {
         $client = static::createClient();
+        $client->disableReboot();
+
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+
         $token = $client->getResponse()->headers->get('X-Paste-Token');
         $location = $client->getResponse()->headers->get('Location');
+
+        $client->request('DELETE', $location);
+
+        $this->assertEquals(
+            400,
+            $client->getResponse()->getStatusCode(),
+            '"DELETE /{id}" should return a 400 Bad Request if no token is provided.'
+        );
+
+        $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => 'invalid-token']);
+
+        $this->assertEquals(
+            404,
+            $client->getResponse()->getStatusCode(),
+            '"DELETE /{id}" should return a 404 Not Found if invalid token is provided.'
+        );
 
         $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => $token]);
 
         $this->assertEquals(
             204,
             $client->getResponse()->getStatusCode(),
-            '"DELETE /{id}" should return a 204 No Content response.'
+            '"DELETE /{id}" should return a 204 No Content response if correct token is provided.'
         );
 
         $client->request('GET', $location);

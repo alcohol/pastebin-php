@@ -9,41 +9,38 @@
 
 namespace Alcohol\Paste\Controller;
 
-use Alcohol\Paste\Entity\PasteManager;
 use Alcohol\Paste\Exception\StorageException;
-use Alcohol\Paste\Exception\TokenException;
+use Alcohol\Paste\Repository\PasteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 class UpdateController
 {
-    /** @var PasteManager */
-    protected $manager;
+    /** @var PasteRepository */
+    protected $repository;
 
     /**
-     * @param PasteManager $manager
+     * @param PasteRepository $repository
      */
-    public function __construct(PasteManager $manager)
+    public function __construct(PasteRepository $repository)
     {
-        $this->manager = $manager;
+        $this->repository = $repository;
     }
 
     /**
      * @param Request $request
      * @param string $code
+     *
      * @return Response
      */
     public function __invoke(Request $request, $code)
     {
         try {
-            $paste = $this->manager->read($code);
+            $paste = $this->repository->find($code);
         } catch (StorageException $exception) {
-            throw new NotFoundHttpException($exception->getMessage(), $exception);
-        } catch (TokenException $exception) {
-            throw new AccessDeniedHttpException($exception->getMessage(), $exception);
+            throw new NotFoundHttpException();
         }
 
         if ($request->request->has('paste')) {
@@ -55,11 +52,7 @@ class UpdateController
         $paste->setBody($body);
 
         try {
-            $this->manager->update(
-                $paste,
-                $request->headers->get('X-Paste-Token', false),
-                $request->headers->get('X-Paste-Ttl', null)
-            );
+            $this->repository->persist($paste, $request->headers->get('X-Paste-Ttl', null));
         } catch (StorageException $exception) {
             throw new ServiceUnavailableHttpException(300, $exception->getmessage(), $exception);
         }

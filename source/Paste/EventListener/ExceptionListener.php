@@ -16,7 +16,7 @@ use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class ExceptionListener
+final class ExceptionListener
 {
     /** @var LoggerInterface */
     private $logger;
@@ -32,8 +32,12 @@ class ExceptionListener
     /**
      * @param GetResponseForExceptionEvent $event
      */
-    public function onKernelException(GetResponseForExceptionEvent $event)
+    public function handleEvent(GetResponseForExceptionEvent $event)
     {
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
         $exception = $event->getException();
 
         $this->logger->error($exception);

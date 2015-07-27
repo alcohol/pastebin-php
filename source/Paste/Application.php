@@ -26,6 +26,7 @@ class Application extends Kernel
     /**
      * @param string $environment
      * @param bool $debug
+     *
      * @throws \RuntimeException
      */
     public function __construct($environment, $debug)
@@ -56,6 +57,7 @@ class Application extends Kernel
 
     /**
      * @param LoaderInterface $loader
+     *
      * @throws \RuntimeException
      */
     public function registerContainerConfiguration(LoaderInterface $loader)

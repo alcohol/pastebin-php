@@ -18,9 +18,12 @@ class ReadControllerTest extends IntegrationTest
     public function testPostRaw()
     {
         $client = static::createClient();
+        $client->disableReboot();
+
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
-        $token = $client->getResponse()->headers->get('X-Paste-Token');
+
         $location = $client->getResponse()->headers->get('Location');
+
         $client->request('GET', $location);
 
         $this->assertEquals(

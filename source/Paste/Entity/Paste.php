@@ -17,29 +17,24 @@ class Paste
     /** @var string */
     protected $body;
 
-    /** @var string */
-    protected $token;
-
     /**
      * @param string $code
      * @param string $body
-     * @param string $token
-     * @throws \LengthException
      */
-    public function __construct($code, $body, $token)
+    public function __construct($code, $body)
     {
         $this
             ->setCode($code)
             ->setBody($body)
-            ->setToken($token)
         ;
     }
 
     /**
      * @param string $code
+     *
      * @return $this
      */
-    public function setCode($code)
+    protected function setCode($code)
     {
         $this->code = $code;
 
@@ -56,21 +51,11 @@ class Paste
 
     /**
      * @param string $body
-     * @throws \LengthException
+     *
      * @return $this
      */
     public function setBody($body)
     {
-        if (empty($body)) {
-            throw new \LengthException('No input received.');
-        }
-
-        $size = ini_get('mbstring.func_overload') ? mb_strlen($body, '8bit') : strlen($body);
-
-        if ($size > 1024 * 1024) {
-            throw new \LengthException('Maximum string size of 1MiB exceeded.');
-        }
-
         $this->body = $body;
 
         return $this;
@@ -85,22 +70,11 @@ class Paste
     }
 
     /**
-     * @param mixed $token
-     * @return $this
+     * @return string
      */
-    public function setToken($token)
+    public function __toString()
     {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getToken()
-    {
-        return $this->token;
+        return $this->body;
     }
 
     /**
@@ -108,6 +82,6 @@ class Paste
      */
     public function __sleep()
     {
-        return ['code', 'body', 'token'];
+        return ['code', 'body'];
     }
 }

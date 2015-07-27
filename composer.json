@@ -3,10 +3,10 @@
   "description": "A minimalistic Symfony demo application",
   "require": {
     "php": ">=5.4",
-    "ext-mbstring": "*",
-    "symfony/symfony": "~2.6",
-    "symfony/monolog-bundle": "~2.6",
+    "symfony/symfony": "~2.7",
+    "symfony/monolog-bundle": "~2.7",
     "predis/predis": "~1.0",
+    "doctrine/cache": "~1.0",
     "vlucas/phpdotenv": "~2.0"
   },
   "require-dev": {

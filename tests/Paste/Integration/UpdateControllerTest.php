@@ -21,9 +21,13 @@ class UpdateControllerTest extends IntegrationTest
         $modified = 'Ipsum lorem';
 
         $client = static::createClient();
+        $client->disableReboot();
+
         $client->request('POST', '/', [], [], [], $original);
+
         $token = $client->getResponse()->headers->get('X-Paste-Token');
         $location = $client->getResponse()->headers->get('Location');
+
         $client->request('GET', $location);
 
         $this->assertEquals(

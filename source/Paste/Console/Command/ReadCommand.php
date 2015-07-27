@@ -9,7 +9,7 @@
 
 namespace Alcohol\Paste\Console\Command;
 
-use Alcohol\Paste\Entity\PasteManager;
+use Alcohol\Paste\Repository\PasteRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,25 +19,25 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ReadCommand extends Command
 {
-    /** @var PasteManager */
-    protected $manager;
+    /** @var PasteRepository */
+    protected $repository;
 
-    public function __construct(PasteManager $manager)
+    /**
+     * @param PasteRepository $repository
+     */
+    public function __construct(PasteRepository $repository)
     {
         parent::__construct();
 
-        $this->manager = $manager;
+        $this->repository = $repository;
     }
 
     protected function configure()
     {
         $this
             ->setName('paste:read')
-            ->setDescription('Show details of a paste.')
+            ->setDescription('Look up a paste.')
             ->addArgument('id', InputArgument::REQUIRED, 'Identifier of paste to lookup.')
-            ->setHelp(
-                'In verbose mode (<comment>-v</comment>) <info>%command.name%</info> will include the paste body.'
-            )
         ;
     }
 
@@ -47,7 +47,7 @@ class ReadCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $paste = $this->manager->read($input->getArgument('id'));
+        $paste = $this->repository->find($input->getArgument('id'));
 
         $output
             ->getFormatter()
@@ -55,11 +55,7 @@ class ReadCommand extends Command
         ;
 
         $output->writeln(sprintf('<bold>Code:</bold> %s', $paste->getCode()));
-        $output->writeln(sprintf('<bold>Token:</bold> %s', $paste->getToken()));
-
-        if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-            $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->getBody()));
-        }
+        $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->getBody()));
 
         return 0;
     }

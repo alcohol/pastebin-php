@@ -1,9 +1,17 @@
 imports:
   - { resource: config.yml }
 
+parameters:
+  paste.ttl: 86400 # 1 day
+
 monolog:
   handlers:
     main:
       type: stream
       path: '%kernel.logs_dir%/%kernel.name%.log'
       level: debug
+
+services:
+  paste.cache:
+    class: Doctrine\Common\Cache\FilesystemCache
+    arguments: [ '%kernel.cache_dir%/data' ]

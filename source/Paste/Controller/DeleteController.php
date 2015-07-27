@@ -9,46 +9,43 @@
 
 namespace Alcohol\Paste\Controller;
 
-use Alcohol\Paste\Entity\PasteManager;
 use Alcohol\Paste\Exception\StorageException;
-use Alcohol\Paste\Exception\TokenException;
+use Alcohol\Paste\Repository\PasteRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DeleteController
 {
-    /** @var PasteManager */
-    protected $manager;
+    /** @var PasteRepository */
+    protected $repository;
 
     /**
-     * @param PasteManager $manager
+     * @param PasteRepository $repository
      */
-    public function __construct(PasteManager $manager)
+    public function __construct(PasteRepository $repository)
     {
-        $this->manager = $manager;
+        $this->repository = $repository;
     }
 
     /**
      * @param Request $request
      * @param string $code
+     *
      * @return Response
      */
     public function __invoke(Request $request, $code)
     {
         try {
-            $paste = $this->manager->read($code);
+            $paste = $this->repository->find($code);
         } catch (StorageException $exception) {
-            throw new NotFoundHttpException($exception->getMessage(), $exception);
+            throw new NotFoundHttpException();
         }
 
         try {
-            $this->manager->delete($paste, $request->headers->get('X-Paste-Token', false));
+            $this->repository->delete($paste);
         } catch (StorageException $exception) {
             throw new NotFoundHttpException($exception->getMessage(), $exception);
-        } catch (TokenException $exception) {
-            throw new AccessDeniedHttpException($exception->getMessage(), $exception);
         }
 
         return new Response('', 204);

@@ -3,6 +3,9 @@ imports:
 
 parameters:
   paste.ttl: 604800 # 1 week
+  redis.scheme: tcp
+  redis.host: localhost
+  redis.port: 6379
 
 monolog:
   handlers:
@@ -14,3 +17,15 @@ monolog:
       type: stream
       path: '%kernel.logs_dir%/%kernel.name%.log'
       level: debug
+
+services:
+  predis.client:
+    class: Predis\Client
+    arguments:
+      -
+        scheme: %redis.scheme%
+        host: %redis.host%
+        port: %redis.port%
+  paste.cache:
+    class: Doctrine\Common\Cache\PredisCache
+    arguments: [ @predis.client ]
