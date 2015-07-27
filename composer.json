@@ -12,7 +12,8 @@
   "require-dev": {
     "phpunit/phpunit": "~4.6",
     "phpunit/php-invoker": "@stable",
-    "mybuilder/phpunit-accelerator": "~1.1"
+    "mybuilder/phpunit-accelerator": "~1.1",
+    "satooshi/php-coveralls": "dev-master"
   },
   "autoload": {
     "psr-4": {

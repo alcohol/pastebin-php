@@ -18,6 +18,10 @@
         </whitelist>
     </filter>
 
+    <logging>
+        <log type="coverage-clover" target="var/build/logs/clover.xml"/>
+    </logging>
+
     <listeners>
         <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
     </listeners>
