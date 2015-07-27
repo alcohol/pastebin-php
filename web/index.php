@@ -20,7 +20,7 @@ if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) 
     $apcloader->register(true);
 }
 
-$application = new Application(getenv('SYMFONY_ENV'), getenv('SYMFONY_DEBUG'));
+$application = new Application(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
 $application->loadClassCache();
 
 if ('prod' === getenv('SYMFONY_ENV')) {

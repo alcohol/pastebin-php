@@ -51,8 +51,13 @@ class UpdateController
 
         $paste->setBody($body);
 
+        $ttl = null;
+        if ($request->headers->has('X-Paste-Ttl')) {
+            $ttl = (int) $request->headers->get('X-Paste-Ttl');
+        }
+
         try {
-            $this->repository->persist($paste, $request->headers->get('X-Paste-Ttl', null));
+            $this->repository->persist($paste, $ttl);
         } catch (StorageException $exception) {
             throw new ServiceUnavailableHttpException(300, $exception->getmessage(), $exception);
         }
