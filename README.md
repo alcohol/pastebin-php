@@ -8,7 +8,6 @@ A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
 
 [![Build Status](https://img.shields.io/travis/alcohol/sf-minimal-demo.svg?style=flat-square)](https://travis-ci.org/alcohol/sf-minimal-demo)
 [![Scrutinizer](https://img.shields.io/scrutinizer/g/alcohol/sf-minimal-demo.svg?style=flat-square)](https://scrutinizer-ci.com/g/alcohol/sf-minimal-demo)
-[![Coveralls](https://img.shields.io/coveralls/jekyll/jekyll.svg?style=flat-square)](https://coveralls.io/github/alcohol/sf-minimal-demo)
 
 ## Dependencies (External)
 

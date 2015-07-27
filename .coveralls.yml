@@ -1,3 +1,0 @@
-src_dir: source
-coverage_clover: var/build/logs/clover.xml
-json_path: var/build/logs/coveralls-upload.json

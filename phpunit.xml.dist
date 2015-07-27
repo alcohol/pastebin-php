@@ -19,7 +19,7 @@
     </filter>
 
     <logging>
-        <log type="coverage-clover" target="var/build/logs/clover.xml"/>
+        <log type="coverage-clover" target="var/build/clover.xml"/>
     </logging>
 
     <listeners>
