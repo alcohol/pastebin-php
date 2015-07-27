@@ -29,12 +29,11 @@ class DeleteController
     }
 
     /**
-     * @param Request $request
      * @param string $code
      *
      * @return Response
      */
-    public function __invoke(Request $request, $code)
+    public function __invoke($code)
     {
         try {
             $paste = $this->repository->find($code);
