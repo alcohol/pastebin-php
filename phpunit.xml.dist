@@ -15,6 +15,9 @@
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">source/Paste</directory>
+            <exclude>
+                <directory suffix=".php">source/Paste/Console/Command</directory>
+            </exclude>
         </whitelist>
     </filter>
 
