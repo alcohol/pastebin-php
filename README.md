@@ -7,8 +7,6 @@ Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_th
 A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
 
 [![Build Status](https://img.shields.io/travis/alcohol/sf-minimal-demo.svg)](https://travis-ci.org/alcohol/sf-minimal-demo)
-[![Code Quality](https://img.shields.io/scrutinizer/g/alcohol/sf-minimal-demo.svg)](https://scrutinizer-ci.com/g/alcohol/sf-minimal-demo)
-[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/alcohol/sf-minimal-demo.svg)](https://scrutinizer-ci.com/g/alcohol/sf-minimal-demo)
 
 ## Dependencies (External)
 

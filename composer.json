@@ -1,6 +1,7 @@
 {
   "name": "alcohol/sf-minimal-demo",
   "description": "A minimalistic Symfony demo application",
+  "license": "MIT",
   "require": {
     "php": ">=5.4",
     "symfony/symfony": "~2.7",
