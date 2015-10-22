@@ -27,6 +27,8 @@ $application = new Application(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEB
 if ('prod' === getenv('SYMFONY_ENV')) {
     $application->loadClassCache();
     $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
+
+    Request::enableHttpMethodParameterOverride();
 }
 
 $request = Request::createFromGlobals();
