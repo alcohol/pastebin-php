@@ -46,6 +46,9 @@ class Application extends Kernel
         }
     }
 
+    /**
+     * @return array
+     */
     public function registerBundles()
     {
         return [
