@@ -7,9 +7,8 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Tests\Integration;
+namespace Alcohol\Paste;
 
-use Alcohol\Paste\Application;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class IntegrationTest extends WebTestCase

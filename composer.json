@@ -17,12 +17,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Alcohol\\Paste\\": ["source/Paste"]
+      "Alcohol\\Paste\\": ["source"]
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Alcohol\\Paste\\Tests\\": ["tests/Paste"]
+      "Alcohol\\Paste\\": ["tests/integration"]
     }
   },
   "scripts": {

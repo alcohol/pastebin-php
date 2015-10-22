@@ -7,7 +7,9 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Tests\Integration;
+namespace Alcohol\Paste\Controller;
+
+use Alcohol\Paste\IntegrationTest;
 
 /**
  * @medium

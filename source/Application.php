@@ -92,6 +92,6 @@ class Application extends Kernel
      */
     public function getRootDir()
     {
-        return dirname(dirname(__DIR__));
+        return dirname(__DIR__);
     }
 }

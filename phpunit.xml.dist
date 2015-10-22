@@ -8,14 +8,15 @@
 >
     <testsuites>
         <testsuite name="Paste Test Suite">
-            <directory>tests/Paste</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">source/Paste</directory>
+            <directory suffix=".php">source</directory>
             <exclude>
+                <file>source/bootstrap.php</file>
                 <directory suffix=".php">source/Paste/Console/Command</directory>
             </exclude>
         </whitelist>
