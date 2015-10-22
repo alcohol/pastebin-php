@@ -7,6 +7,7 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+/** @var Composer\Autoload\ClassLoader $loader */
 $loader = require_once __DIR__ . '/../source/bootstrap.php';
 
 use Alcohol\Paste\Application;
@@ -18,12 +19,13 @@ use Symfony\Component\HttpKernel\HttpCache\Store;
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) {
     $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
     $apcloader->register(true);
+    $loader->unregister();
 }
 
 $application = new Application(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
-$application->loadClassCache();
 
 if ('prod' === getenv('SYMFONY_ENV')) {
+    $application->loadClassCache();
     $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
 }
 
