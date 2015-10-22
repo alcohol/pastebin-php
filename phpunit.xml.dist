@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.6/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.0/phpunit.xsd"
     bootstrap="source/bootstrap.php"
     colors="true"
     stderr="true"
@@ -13,11 +13,11 @@
     </testsuites>
 
     <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
+        <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">source</directory>
             <exclude>
+                <directory suffix=".php">source/Console</directory>
                 <file>source/bootstrap.php</file>
-                <directory suffix=".php">source/Paste/Console/Command</directory>
             </exclude>
         </whitelist>
     </filter>
