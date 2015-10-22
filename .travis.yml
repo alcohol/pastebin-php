@@ -27,7 +27,7 @@ before_install:
   - composer self-update --clean-backups --no-interaction
 
 install:
-  - composer install --prefer-dist --optimize-autoloader --no-interaction --profile -v
+  - composer update --prefer-lowest --prefer-dist --optimize-autoloader --no-interaction --profile -v
 
 script:
   - vendor/bin/phpunit
