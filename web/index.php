@@ -8,7 +8,7 @@
  */
 
 /** @var Composer\Autoload\ClassLoader $loader */
-$loader = require_once __DIR__ . '/../source/bootstrap.php';
+$loader = require_once __DIR__.'/../source/bootstrap.php';
 
 use Alcohol\Paste\Application;
 use Symfony\Component\ClassLoader\ApcClassLoader;
@@ -26,7 +26,7 @@ $application = new Application(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEB
 
 if ('prod' === getenv('SYMFONY_ENV')) {
     $application->loadClassCache();
-    $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
+    $application = new HttpCache($application, new Store($application->getCacheDir().'/http'));
 
     Request::enableHttpMethodParameterOverride();
 }

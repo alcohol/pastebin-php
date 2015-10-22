@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 abstract class IntegrationTest extends WebTestCase
 {
-    public static function createKernel(array $options = array())
+    public static function createKernel(array $options = [])
     {
         return new Application(
             isset($options['environment']) ? $options['environment'] : 'test',
