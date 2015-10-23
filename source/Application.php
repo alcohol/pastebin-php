@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Kernel;
 class Application extends Kernel
 {
     /** @var string */
-    protected $name = 'paste.robbast.nl';
+    protected $name = 'paste';
 
     /** @var array */
     public static $environments = ['test', 'dev', 'prod'];
