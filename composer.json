@@ -1,36 +1,35 @@
 {
-  "name": "alcohol/sf-minimal-demo",
-  "description": "A minimalistic Symfony demo application",
-  "license": "MIT",
-  "require": {
-    "php": ">=5.4",
-    "doctrine/cache": "^1.4.0",
-    "predis/predis": "^1.0.3",
-    "symfony/symfony": "^2.7.4",
-    "symfony/monolog-bundle": "^2.7.4",
-    "vlucas/phpdotenv": "^2.0.0"
-  },
-  "require-dev": {
-    "phpunit/phpunit": "^4.8.7||^5.0.0",
-    "phpunit/php-invoker": "@stable",
-    "mybuilder/phpunit-accelerator": "@stable"
-  },
-  "autoload": {
-    "psr-4": {
-      "Alcohol\\Paste\\": ["source"]
+    "type": "project",
+    "license": "MIT",
+    "require": {
+        "php": ">=5.4",
+        "doctrine/cache": "^1.4.0",
+        "predis/predis": "^1.0.3",
+        "symfony/symfony": "^2.7.4",
+        "symfony/monolog-bundle": "^2.7.4",
+        "vlucas/phpdotenv": "^2.0.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^4.8.7||^5.0.0",
+        "phpunit/php-invoker": "@stable",
+        "mybuilder/phpunit-accelerator": "@stable"
+    },
+    "autoload": {
+        "psr-4": {
+            "Alcohol\\Paste\\": ["source"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Alcohol\\Paste\\": ["tests/integration"]
+        }
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "[ -f .env ] || cp -v .env.example .env"
+        ],
+        "post-update-cmd": [
+            "[ -f .env ] || cp -v .env.example .env"
+        ]
     }
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Alcohol\\Paste\\": ["tests/integration"]
-    }
-  },
-  "scripts": {
-    "post-install-cmd": [
-      "[ -f .env ] || cp -v .env.example .env"
-    ],
-    "post-update-cmd": [
-      "[ -f .env ] || cp -v .env.example .env"
-    ]
-  }
 }
