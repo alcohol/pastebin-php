@@ -8,23 +8,17 @@ A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
 
 [![Build Status](https://img.shields.io/travis/alcohol/paste.robbast.nl.svg)](https://travis-ci.org/alcohol/paste.robbast.nl)
 
+
 ## Dependencies (External)
 
 * redis-server (production environment)
 
 
-## Installing
+## Setup
 
 ```
-git clone https://github.com/alcohol/sf-minimal-demo.git
-cd sf-minimal-demo
 composer install
 ```
-
-> Make sure the **httpd** or **fcgi** user has read, write and execute access on `var/`.
-
-
-## Configuring
 
 Modify the `.env` file.
 
@@ -33,6 +27,8 @@ Modify the `.env` file.
 
 
 ## Nginx config
+
+> Make sure the **httpd** and/or **fcgi** user has read and write access on `var/`.
 
 Adjust where applicable. If unsure, consult [Nginx documentation](http://nginx.org/en/docs/).
 
@@ -64,6 +60,7 @@ server {
     }
 }
 ```
+
 
 ## Apache config
 
