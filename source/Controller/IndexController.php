@@ -53,7 +53,7 @@ ALTERNATIVELY
     use <a href='$form'>this form</a> to paste from a browser
 
 SOURCE
-    <a href='https://github.com/alcohol/sf-minimal-demo/'>github.com/alcohol</a>
+    <a href='https://github.com/alcohol/paste.robbast.nl/'>github.com/alcohol/paste.robbast.nl</a>
 </pre>
 BODY;
 
