@@ -1,4 +1,4 @@
-# alcohol\sf-minimal-demo
+# alcohol/paste.robbast.nl
 
 A demo that attempts to setup a minimalistic Symfony application.
 
@@ -6,7 +6,7 @@ Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_th
 
 A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
 
-[![Build Status](https://img.shields.io/travis/alcohol/sf-minimal-demo.svg)](https://travis-ci.org/alcohol/sf-minimal-demo)
+[![Build Status](https://img.shields.io/travis/alcohol/paste.robbast.nl.svg)](https://travis-ci.org/alcohol/paste.robbast.nl)
 
 ## Dependencies (External)
 
@@ -111,4 +111,4 @@ Feel free to submit a pull request or create an issue.
 
 ## License
 
-alcohol\sf-minimal-demo is licensed under the MIT license.
+alcohol/sf-minimal-demo is licensed under the MIT license.
