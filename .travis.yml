@@ -1,17 +1,17 @@
 language: php
 
+services:
+  - redis-server
+
 env:
   secure: "AgSRwP3OD/NDYv1l8IWXvKcVs2HFMW31zpL847Y0E59BkFsHrE6GWnOlJedUhMrcw6rw9OnWejc6YOypLZb8TUt2zJtj9k4xbucQmRZRQkF6cYXfcvKNmJqV0Glmdk/A9FmLhXl9kcWlsVNDDcQWYdLxNGYZeNkn7fwzbu8ycfE="
 
 cache:
   directories:
-    - $HOME/.composer/cache
+    - $HOME/.composer/cache/files
 
 git:
   depth: 10
-
-services:
-  - redis-server
 
 sudo: false
 
@@ -21,13 +21,19 @@ php:
   - 5.6
   - 7
   - hhvm
+  - nightly
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: nightly
 
 before_install:
-  - composer config --global github-oauth.github.com $GITHUB_TRAVIS_TOKEN
-  - composer self-update --clean-backups --no-interaction
+  - composer self-update --no-interaction --no-progress
+  - composer config --no-interaction --global github-oauth.github.com $GITHUB_TRAVIS_TOKEN
 
 install:
-  - composer update --prefer-lowest --prefer-dist --optimize-autoloader --no-interaction --profile -v
+  - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
 
 script:
   - vendor/bin/phpunit

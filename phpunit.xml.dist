@@ -6,6 +6,7 @@
     colors="true"
     stderr="true"
 >
+
     <testsuites>
         <testsuite name="Paste Test Suite">
             <directory>tests</directory>
@@ -25,4 +26,9 @@
     <listeners>
         <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
     </listeners>
+
+    <logging>
+        <log type="coverage-text" target="php://stderr" />
+    </logging>
+
 </phpunit>

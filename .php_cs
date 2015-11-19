@@ -7,8 +7,19 @@ For the full copyright and license information, please view
 the LICENSE file that was distributed with this source code.
 EOF;
 
+$finder = Symfony\CS\Finder\DefaultFinder::create()
+    ->files()
+    ->name('*.php')
+    ->exclude('var')
+    ->exclude('vendor')
+    ->in(__DIR__)
+;
+
 /* Based on dev-master|^2.0 of php-cs-fixer */
-return Symfony\CS\Config\Config::create()
+return Symfony\CS\Config\Config::create('paste.robbast.nl', 'paste.robbast.nl style guide')
+    ->setUsingCache(false)
+    ->setUsingLinter(true)
+    ->setRiskyAllowed(true)
     ->setRules([
         // default
         '@PSR2' => true,
@@ -28,31 +39,30 @@ return Symfony\CS\Config\Config::create()
         'operators_spaces' => true,
         'ordered_use' => true,
         'phpdoc_indent' => true,
+        'phpdoc_inline_tag' => true,
         'phpdoc_no_access' => true,
         'phpdoc_no_empty_return' => true,
         'phpdoc_no_package' => true,
-        'phpdoc_separation' => true,
         'phpdoc_order' => true,
         'phpdoc_scalar' => true,
-        'phpdoc_short_description' => true,
+        'phpdoc_separation' => true,
+        'phpdoc_summary' => true,
+        'phpdoc_to_comment' => true,
         'phpdoc_trim' => true,
         'remove_leading_slash_use' => true,
         'remove_lines_between_uses' => true,
         'return' => true,
         'short_array_syntax' => true,
+        'single_array_no_trailing_comma' => true,
         'single_blank_line_before_namespace' => true,
         'single_quote' => true,
         'spaces_cast' => true,
+        'strict' => true,
+        'ternary_spaces' => true,
+        'trim_array_spaces' => true,
         'unalign_double_arrow' => true,
         'unalign_equals' => true,
         'whitespacy_lines' => true,
     ])
-    ->finder(
-        Symfony\CS\Finder\DefaultFinder::create()
-            ->files()
-            ->name('*.php')
-            ->exclude('var')
-            ->exclude('vendor')
-            ->in(__DIR__)
-    )
+    ->finder($finder)
 ;
