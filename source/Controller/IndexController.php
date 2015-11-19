@@ -33,7 +33,7 @@ class IndexController
      */
     public function __invoke(Request $request)
     {
-        $version = `git log --pretty="%H" -n1 HEAD`;
+        $version = `git log --pretty="%h" -n1 HEAD`;
 
         $href = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
         $form = <<<FORM
