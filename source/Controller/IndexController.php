@@ -33,6 +33,8 @@ class IndexController
      */
     public function __invoke(Request $request)
     {
+        $version = `git log --pretty="%H" -n1 HEAD`;
+
         $href = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
         $form = <<<FORM
 data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
@@ -54,6 +56,9 @@ ALTERNATIVELY
 
 SOURCE
     <a href='https://github.com/alcohol/paste.robbast.nl/'>github.com/alcohol/paste.robbast.nl</a>
+
+VERSION
+    <a href='https://github.com/alcohol/paste.robbast.nl/commit/$version'>$version</a>
 </pre>
 BODY;
 
