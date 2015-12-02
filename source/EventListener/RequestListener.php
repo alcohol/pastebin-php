@@ -13,7 +13,6 @@ use Alcohol\Paste\Security\HashGenerator;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Security\Core\Util\StringUtils;
 
 final class RequestListener
 {
@@ -55,7 +54,7 @@ final class RequestListener
 
         $code = $request->attributes->get('code');
 
-        if (false === StringUtils::equals($request->headers->get('X-Paste-Token'), $this->generator->generateHash($code))) {
+        if (false === hash_equals($request->headers->get('X-Paste-Token'), $this->generator->generateHash($code))) {
             throw new NotFoundHttpException();
         }
     }
