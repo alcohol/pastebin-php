@@ -43,7 +43,11 @@ class CreateController
      */
     public function __invoke(Request $request)
     {
-        $body = $request->request->has('paste') ? $request->request->get('paste') : $request->getContent();
+        if ($request->request->has('paste')) {
+            $body = $request->request->get('paste');
+        } else {
+            $body = $request->getContent();
+        }
 
         if (empty($body)) {
             throw new BadRequestHttpException('No input received.');
@@ -64,7 +68,7 @@ class CreateController
 
         $location = $this
             ->router
-            ->generate('paste.read', ['code' => $paste->getCode()], RouterInterface::ABSOLUTE_URL)
+            ->generate('paste.read', ['id' => $paste->getCode()], RouterInterface::ABSOLUTE_URL)
         ;
 
         $headers = [

@@ -31,25 +31,19 @@ class UpdateController
 
     /**
      * @param Request $request
-     * @param string $code
+     * @param string $id
      *
      * @return Response
      */
-    public function __invoke(Request $request, $code)
+    public function __invoke(Request $request, $id)
     {
         try {
-            $paste = $this->repository->find($code);
+            $paste = $this->repository->find($id);
         } catch (StorageException $exception) {
             throw new NotFoundHttpException();
         }
 
-        if ($request->request->has('paste')) {
-            $body = $request->request->get('paste');
-        } else {
-            $body = $request->getContent();
-        }
-
-        $paste->setBody($body);
+        $paste->setBody($request->getContent());
 
         $ttl = null;
         if ($request->headers->has('X-Paste-Ttl')) {

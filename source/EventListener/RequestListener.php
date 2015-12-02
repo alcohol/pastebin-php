@@ -48,11 +48,7 @@ final class RequestListener
             throw new BadRequestHttpException();
         }
 
-        if (false === $request->attributes->has('code')) {
-            throw new BadRequestHttpException();
-        }
-
-        $code = $request->attributes->get('code');
+        $code = $request->attributes->get('id');
 
         if (false === hash_equals($request->headers->get('X-Paste-Token'), $this->generator->generateHash($code))) {
             throw new NotFoundHttpException();

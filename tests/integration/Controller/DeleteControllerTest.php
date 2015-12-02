@@ -51,6 +51,14 @@ class DeleteControllerTest extends IntegrationTest
             '"DELETE /{id}" should return a 204 No Content response if correct token is provided.'
         );
 
+        $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => $token]);
+
+        $this->assertEquals(
+            404,
+            $client->getResponse()->getStatusCode(),
+            '"DELETE /{id}" should return a 404 Not Found when trying to delete a paste that does not exist.'
+        );
+
         $client->request('GET', $location);
 
         $this->assertEquals(

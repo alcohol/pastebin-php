@@ -30,14 +30,14 @@ class ReadController
 
     /**
      * @param Request $request
-     * @param string $code
+     * @param string $id
      *
      * @return Response
      */
-    public function __invoke(Request $request, $code)
+    public function __invoke(Request $request, $id)
     {
         try {
-            $paste = $this->repository->find($code);
+            $paste = $this->repository->find($id);
         } catch (StorageException $exception) {
             throw new NotFoundHttpException();
         }

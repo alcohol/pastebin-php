@@ -11,7 +11,6 @@ namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\Exception\StorageException;
 use Alcohol\Paste\Repository\PasteRepository;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -29,14 +28,14 @@ class DeleteController
     }
 
     /**
-     * @param string $code
+     * @param string $id
      *
      * @return Response
      */
-    public function __invoke($code)
+    public function __invoke($id)
     {
         try {
-            $paste = $this->repository->find($code);
+            $paste = $this->repository->find($id);
         } catch (StorageException $exception) {
             throw new NotFoundHttpException();
         }

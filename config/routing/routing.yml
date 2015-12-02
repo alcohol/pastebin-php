@@ -9,16 +9,16 @@ paste.create:
   defaults: { _controller: paste.controller.create }
 
 paste.read:
-  path: /{code}
+  path: /{id}
   methods: [GET]
   defaults: { _controller: paste.controller.read }
 
 paste.update:
-  path: /{code}
-  methods: [PUT,PATCH]
+  path: /{id}
+  methods: [PUT]
   defaults: { _controller: paste.controller.update }
 
 paste.delete:
-  path: /{code}
+  path: /{id}
   methods: [DELETE]
   defaults: { _controller: paste.controller.delete }

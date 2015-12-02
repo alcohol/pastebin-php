@@ -53,5 +53,13 @@ class UpdateControllerTest extends IntegrationTest
             $client->getResponse()->getContent(),
             '"GET /{id}" should return modified content stored.'
         );
+
+        $client->request('PUT', $location.'X', [], [], ['HTTP_X-Paste-Token' => $token], $modified);
+
+        $this->assertEquals(
+            404,
+            $client->getResponse()->getStatusCode(),
+            '"PUT /{id}" should return a 404 Not Found if invalid {id} is passed.'
+        );
     }
 }
