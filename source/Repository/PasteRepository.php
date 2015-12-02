@@ -12,31 +12,24 @@ namespace Alcohol\Paste\Repository;
 use Alcohol\Paste\Entity\Paste;
 use Alcohol\Paste\Exception\StorageException;
 use Doctrine\Common\Cache\Cache;
-use Symfony\Component\Security\Core\Util\SecureRandom;
 
 final class PasteRepository
 {
     /** @var Cache */
     private $cache;
 
-    /** @var SecureRandom */
-    private $generator;
-
     /** @var int */
     private $default_ttl;
 
     /**
      * @param Cache $cache
-     * @param SecureRandom $generator
      * @param int $default_ttl
      */
     public function __construct(
         Cache $cache,
-        SecureRandom $generator,
         $default_ttl
     ) {
         $this->cache = $cache;
-        $this->generator = $generator;
         $this->default_ttl = $default_ttl;
     }
 
@@ -48,7 +41,8 @@ final class PasteRepository
     public function create($body)
     {
         do {
-            $code = bin2hex($this->generator->nextBytes(4));
+            $bytes = random_bytes(4);
+            $code = bin2hex($bytes);
         } while ($this->cache->contains($code));
 
         $paste = new Paste($code, $body);

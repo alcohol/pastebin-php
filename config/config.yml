@@ -7,48 +7,48 @@ framework:
 
 services:
   paste.hash_generator:
-    class: Alcohol\Paste\Security\HashGenerator
-    arguments: [ %secret% ]
+    class: 'Alcohol\Paste\Security\HashGenerator'
+    arguments: [ '%secret%' ]
   paste.repository:
-    class: Alcohol\Paste\Repository\PasteRepository
-    arguments: [ @paste.cache, @security.secure_random, %paste.ttl% ]
+    class: 'Alcohol\Paste\Repository\PasteRepository'
+    arguments: [ '@paste.cache', %paste.ttl% ]
   paste.controller.index:
-    class: Alcohol\Paste\Controller\IndexController
-    arguments: [ @router ]
+    class: 'Alcohol\Paste\Controller\IndexController'
+    arguments: [ '@router' ]
   paste.controller.create:
-    class: Alcohol\Paste\Controller\CreateController
-    arguments: [ @paste.repository, @router, %secret% ]
+    class: 'Alcohol\Paste\Controller\CreateController'
+    arguments: [ '@paste.repository', '@router', '%secret%' ]
   paste.controller.read:
-    class: Alcohol\Paste\Controller\ReadController
-    arguments: [ @paste.repository ]
+    class: 'Alcohol\Paste\Controller\ReadController'
+    arguments: [ '@paste.repository' ]
   paste.controller.update:
-    class: Alcohol\Paste\Controller\UpdateController
-    arguments: [ @paste.repository ]
+    class: 'Alcohol\Paste\Controller\UpdateController'
+    arguments: [ '@paste.repository' ]
   paste.controller.delete:
-    class: Alcohol\Paste\Controller\DeleteController
-    arguments: [ @paste.repository ]
+    class: 'Alcohol\Paste\Controller\DeleteController'
+    arguments: [ '@paste.repository' ]
   paste.kernel.exception_listener:
-    class: Alcohol\Paste\EventListener\ExceptionListener
-    arguments: [ @logger ]
+    class: 'Alcohol\Paste\EventListener\ExceptionListener'
+    arguments: [ '@logger' ]
     tags:
       - { name: kernel.event_listener, event: kernel.exception, method: handleEvent }
   paste.kernel.request_listener:
-    class: Alcohol\Paste\EventListener\RequestListener
-    arguments: [ @paste.hash_generator ]
+    class: 'Alcohol\Paste\EventListener\RequestListener'
+    arguments: [ '@paste.hash_generator' ]
     tags:
       - { name: kernel.event_listener, event: kernel.request, method: handleEvent }
   paste.kernel.response_listener:
-    class: Alcohol\Paste\EventListener\ResponseListener
-    arguments: [ @paste.hash_generator ]
+    class: 'Alcohol\Paste\EventListener\ResponseListener'
+    arguments: [ '@paste.hash_generator' ]
     tags:
       - { name: kernel.event_listener, event: kernel.response, method: handleEvent }
   paste.command.read:
-    class: Alcohol\Paste\Console\Command\ReadCommand
-    arguments: [ @paste.repository ]
+    class: 'Alcohol\Paste\Console\Command\ReadCommand'
+    arguments: [ '@paste.repository' ]
     tags:
       - { name: console.command }
   paste.command.delete:
-    class: Alcohol\Paste\Console\Command\DeleteCommand
-    arguments: [ @paste.repository ]
+    class: 'Alcohol\Paste\Console\Command\DeleteCommand'
+    arguments: [ '@paste.repository' ]
     tags:
       - { name: console.command }

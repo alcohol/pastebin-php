@@ -7,11 +7,11 @@ parameters:
 monolog:
   handlers:
     main:
-      type: stream
+      type: 'stream'
       path: '%kernel.logs_dir%/%kernel.name%.log'
-      level: debug
+      level: 'debug'
 
 services:
   paste.cache:
-    class: Doctrine\Common\Cache\FilesystemCache
+    class: 'Doctrine\Common\Cache\FilesystemCache'
     arguments: [ '%kernel.cache_dir%/data' ]
