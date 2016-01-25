@@ -7,14 +7,14 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-/** @var Composer\Autoload\ClassLoader $loader */
-$loader = require_once __DIR__.'/../source/bootstrap.php';
-
 use Alcohol\Paste\Application;
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpCache\Store;
+
+/** @var Composer\Autoload\ClassLoader $loader */
+$loader = require_once __DIR__.'/../source/bootstrap.php';
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) {
     $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
