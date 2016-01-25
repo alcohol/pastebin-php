@@ -24,7 +24,7 @@ if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) 
 
 $application = new Application(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
 
-if ('prod' === getenv('SYMFONY_ENV')) {
+if (in_array(getenv('SYMFONY_ENV'), ['prod'], true)) {
     $application->loadClassCache();
     $application = new HttpCache($application, new Store($application->getCacheDir().'/http'));
 
