@@ -1,8 +1,8 @@
 imports:
-  - { resource: config.yml }
+  - { resource: config.prod.yml }
 
 parameters:
-  paste.ttl: 86400 # 1 day
+  paste.ttl: 3600
 
 monolog:
   handlers:

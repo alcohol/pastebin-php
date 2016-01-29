@@ -66,8 +66,8 @@ BODY;
         $response
             ->setPublic()
             ->setETag(md5($response->getContent()))
-            ->setTtl(60 * 60)
-            ->setClientTtl(60 * 10)
+            ->setTtl(3600)
+            ->setClientTtl(300)
         ;
 
         if (!$request->isNoCache()) {
