@@ -8,7 +8,8 @@ env:
 
 cache:
   directories:
-    - $HOME/.composer/cache/files
+    - "$HOME/.composer/cache/files"
+    - "$HOME/.php-cs-fixer"
 
 git:
   depth: 10
@@ -34,5 +35,9 @@ before_install:
 install:
   - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
 
+before_script:
+  - mkdir -p "$HOME/.php-cs-fixer"
+
 script:
   - vendor/bin/phpunit
+  - vendor/bin/php-cs-fixer fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
