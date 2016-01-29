@@ -43,12 +43,10 @@ class ReadController
         }
 
         $response = new Response($paste, 200, ['Content-Type' => 'text/plain']);
-
         $response
-            ->setPublic()
             ->setETag(md5($response->getContent()))
-            ->setTtl(60 * 60)
-            ->setClientTtl(60 * 10)
+            ->setTtl(60)
+            ->setClientTtl(300)
         ;
 
         if (!$request->isNoCache()) {

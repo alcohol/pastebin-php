@@ -64,9 +64,8 @@ BODY;
 
         $response = new Response($body, 200);
         $response
-            ->setPublic()
             ->setETag(md5($response->getContent()))
-            ->setTtl(3600)
+            ->setTtl(60)
             ->setClientTtl(300)
         ;
 
