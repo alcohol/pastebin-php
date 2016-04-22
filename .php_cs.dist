@@ -16,7 +16,7 @@ $finder = (new Symfony\Component\Finder\Finder)
 ;
 
 /* Based on dev-master|^2.0 of php-cs-fixer */
-return (new Symfony\CS\Config('paste.robbast.nl', 'paste.robbast.nl style guide'))
+return (new PhpCsFixer\Config('paste.robbast.nl', 'paste.robbast.nl style guide'))
     ->setUsingCache(true)
     ->setUsingLinter(true)
     ->setRiskyAllowed(true)
