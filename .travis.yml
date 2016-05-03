@@ -1,8 +1,5 @@
 language: php
 
-services:
-  - redis-server
-
 env:
   secure: "AgSRwP3OD/NDYv1l8IWXvKcVs2HFMW31zpL847Y0E59BkFsHrE6GWnOlJedUhMrcw6rw9OnWejc6YOypLZb8TUt2zJtj9k4xbucQmRZRQkF6cYXfcvKNmJqV0Glmdk/A9FmLhXl9kcWlsVNDDcQWYdLxNGYZeNkn7fwzbu8ycfE="
 
