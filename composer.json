@@ -10,7 +10,7 @@
         "vlucas/phpdotenv": "^2.0.0"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "dev-master || ^2.0",
+        "friendsofphp/php-cs-fixer": "dev-master || ^2.0",
         "phpunit/phpunit": "^4.8.7 || ^5.0.0",
         "phpunit/php-invoker": "@stable",
         "mybuilder/phpunit-accelerator": "@stable"
