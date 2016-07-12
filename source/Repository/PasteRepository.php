@@ -38,7 +38,13 @@ final class PasteRepository
      */
     public function create($body)
     {
+        $retries = 10;
+
         do {
+            if (0 === $retries--) {
+                throw new StorageException('Failed to generate a unique key.');
+            }
+
             $bytes = random_bytes(4);
             $code = bin2hex($bytes);
         } while ($this->cache->contains($code));
