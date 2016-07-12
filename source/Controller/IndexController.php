@@ -36,12 +36,14 @@ class IndexController
         $version = `git log --pretty="%h" -n1 HEAD`;
 
         $href = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
+
         $form = <<<FORM
 data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
 <textarea name="paste" cols="100" rows="30"></textarea>
 <input type="hidden" name="redirect" value="redirect"/>
 <br><button type="submit">paste</button></form>
 FORM;
+
         $body = <<<BODY
 <style>body { padding: 2em; }</style>
 <pre>
@@ -64,7 +66,7 @@ BODY;
 
         $response = new Response($body, 200);
         $response
-            ->setETag(md5($response->getContent()))
+            ->setEtag(md5($response->getContent()))
             ->setTtl(60)
             ->setClientTtl(300)
         ;

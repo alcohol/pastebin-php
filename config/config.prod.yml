@@ -30,6 +30,7 @@ services:
         scheme: '%redis.scheme%'
         host: '%redis.host%'
         port: %redis.port%
+
   paste.cache:
     class: 'Doctrine\Common\Cache\PredisCache'
     arguments: [ '@predis.client' ]
@@ -39,12 +40,13 @@ services:
   paste.repository:
     class: 'Alcohol\Paste\Repository\PasteRepository'
     arguments: [ '@paste.cache', %paste.ttl% ]
+
   paste.controller.index:
     class: 'Alcohol\Paste\Controller\IndexController'
     arguments: [ '@router' ]
   paste.controller.create:
     class: 'Alcohol\Paste\Controller\CreateController'
-    arguments: [ '@paste.repository', '@router', '%secret%' ]
+    arguments: [ '@paste.repository', '@router' ]
   paste.controller.read:
     class: 'Alcohol\Paste\Controller\ReadController'
     arguments: [ '@paste.repository' ]
@@ -54,11 +56,13 @@ services:
   paste.controller.delete:
     class: 'Alcohol\Paste\Controller\DeleteController'
     arguments: [ '@paste.repository' ]
+
   paste.kernel.exception_listener:
     class: 'Alcohol\Paste\EventListener\ExceptionListener'
     arguments: [ '@logger' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.exception', method: 'handleEvent' }
+
   paste.kernel.request_listener:
     class: 'Alcohol\Paste\EventListener\RequestListener'
     arguments: [ '@paste.hash_generator' ]
@@ -69,6 +73,7 @@ services:
     arguments: [ '@paste.hash_generator' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.response', method: 'handleEvent' }
+
   paste.command.read:
     class: 'Alcohol\Paste\Console\Command\ReadCommand'
     arguments: [ '@paste.repository' ]

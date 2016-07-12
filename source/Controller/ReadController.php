@@ -44,7 +44,7 @@ class ReadController
 
         $response = new Response($paste, 200, ['Content-Type' => 'text/plain']);
         $response
-            ->setETag(md5($response->getContent()))
+            ->setEtag(md5($response->getContent()))
             ->setTtl(60)
             ->setClientTtl(300)
         ;

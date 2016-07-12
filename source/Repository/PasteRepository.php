@@ -25,10 +25,8 @@ final class PasteRepository
      * @param Cache $cache
      * @param int $default_ttl
      */
-    public function __construct(
-        Cache $cache,
-        $default_ttl
-    ) {
+    public function __construct(Cache $cache, $default_ttl)
+    {
         $this->cache = $cache;
         $this->default_ttl = $default_ttl;
     }

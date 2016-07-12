@@ -53,7 +53,7 @@ class UpdateController
         try {
             $this->repository->persist($paste, $ttl);
         } catch (StorageException $exception) {
-            throw new ServiceUnavailableHttpException(300, $exception->getmessage(), $exception);
+            throw new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
         }
 
         return new Response('', 204);
