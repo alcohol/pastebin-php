@@ -1,8 +1,5 @@
 language: php
 
-env:
-  secure: "AgSRwP3OD/NDYv1l8IWXvKcVs2HFMW31zpL847Y0E59BkFsHrE6GWnOlJedUhMrcw6rw9OnWejc6YOypLZb8TUt2zJtj9k4xbucQmRZRQkF6cYXfcvKNmJqV0Glmdk/A9FmLhXl9kcWlsVNDDcQWYdLxNGYZeNkn7fwzbu8ycfE="
-
 cache:
   directories:
     - "$HOME/.composer/cache/files"
@@ -14,8 +11,6 @@ git:
 sudo: false
 
 php:
-  - 5.5
-  - 5.6
   - 7
   - hhvm
   - nightly
@@ -24,10 +19,6 @@ matrix:
   fast_finish: true
   allow_failures:
     - php: nightly
-
-before_install:
-  - composer self-update --no-interaction --no-progress --snapshot
-  - composer config --no-interaction --global github-oauth.github.com $GITHUB_TRAVIS_TOKEN
 
 install:
   - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader

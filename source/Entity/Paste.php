@@ -21,50 +21,40 @@ class Paste
      * @param string $code
      * @param string $body
      */
-    public function __construct($code, $body)
+    public function __construct(string $code, string $body)
     {
-        $this
-            ->setCode($code)
-            ->setBody($body)
-        ;
+        $this->setCode($code);
+        $this->setBody($body);
     }
 
     /**
      * @param string $code
-     *
-     * @return $this
      */
-    protected function setCode($code)
+    protected function setCode(string $code)
     {
         $this->code = $code;
-
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getCode()
+    public function getCode(): string
     {
         return $this->code;
     }
 
     /**
      * @param string $body
-     *
-     * @return $this
      */
-    public function setBody($body)
+    public function setBody(string $body)
     {
         $this->body = $body;
-
-        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBody()
+    public function getBody(): string
     {
         return $this->body;
     }
@@ -72,7 +62,7 @@ class Paste
     /**
      * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->body;
     }
@@ -80,7 +70,7 @@ class Paste
     /**
      * @return array
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         return ['code', 'body'];
     }

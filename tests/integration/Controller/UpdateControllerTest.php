@@ -19,6 +19,7 @@ class UpdateControllerTest extends IntegrationTest
 {
     public function testPostRaw()
     {
+        $ttl = 2;
         $original = 'Lorem ipsum';
         $modified = 'Ipsum lorem';
 
@@ -38,7 +39,10 @@ class UpdateControllerTest extends IntegrationTest
             '"GET /{id}" should return original content stored.'
         );
 
-        $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => $token], $modified);
+        $client->request('PUT', $location, [], [], [
+            'HTTP_X-Paste-Token' => $token,
+            'HTTP_X-Paste-Ttl' => $ttl
+        ], $modified);
 
         $this->assertEquals(
             204,

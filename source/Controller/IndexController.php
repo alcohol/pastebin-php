@@ -31,7 +31,7 @@ class IndexController
      *
      * @return Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         $version = `git log --pretty="%h" -n1 HEAD`;
 

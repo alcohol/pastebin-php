@@ -19,10 +19,12 @@ class ReadControllerTest extends IntegrationTest
 {
     public function testPostRaw()
     {
+        $ttl = 2;
+
         $client = static::createClient();
         $client->disableReboot();
 
-        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        $client->request('POST', '/', [], [], ['HTTP_X-Paste-Ttl' => $ttl], 'Lorem ipsum');
 
         $location = $client->getResponse()->headers->get('Location');
 
@@ -32,6 +34,16 @@ class ReadControllerTest extends IntegrationTest
             'Lorem ipsum',
             $client->getResponse()->getContent(),
             '"GET /{id}" should return content stored.'
+        );
+
+        sleep($ttl + 1);
+
+        $client->request('GET', $location);
+
+        $this->assertEquals(
+            404,
+            $client->getResponse()->getStatusCode(),
+            '"GET /{id}" should return a 404 after past has expired.'
         );
     }
 }

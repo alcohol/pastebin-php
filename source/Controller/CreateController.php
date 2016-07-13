@@ -41,7 +41,7 @@ class CreateController
      *
      * @return Response
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
         if ($request->request->has('paste')) {
             $body = $request->request->get('paste');

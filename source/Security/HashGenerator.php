@@ -17,7 +17,7 @@ final class HashGenerator
     /**
      * @param string $secret
      */
-    public function __construct($secret)
+    public function __construct(string $secret)
     {
         $this->secret = $secret;
     }
@@ -29,7 +29,7 @@ final class HashGenerator
      *
      * @return string
      */
-    public function generateHash($paste_id)
+    public function generateHash(string $paste_id): string
     {
         return hash('sha256', sprintf('%s.%s', $paste_id, $this->secret), false);
     }

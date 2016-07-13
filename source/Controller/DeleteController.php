@@ -32,7 +32,7 @@ class DeleteController
      *
      * @return Response
      */
-    public function __invoke($id)
+    public function __invoke(string $id): Response
     {
         try {
             $paste = $this->repository->find($id);

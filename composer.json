@@ -2,7 +2,7 @@
     "type": "project",
     "license": "MIT",
     "require": {
-        "php": "^5.5.0 || ^7.0.0",
+        "php": "^7.0.0",
         "doctrine/cache": "^1.4.0",
         "predis/predis": "^1.0.3",
         "symfony/symfony": "^2.8.0 || ^3.0.0",

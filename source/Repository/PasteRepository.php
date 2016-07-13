@@ -25,7 +25,7 @@ final class PasteRepository
      * @param Cache $cache
      * @param int $default_ttl
      */
-    public function __construct(Cache $cache, $default_ttl)
+    public function __construct(Cache $cache, int $default_ttl)
     {
         $this->cache = $cache;
         $this->default_ttl = $default_ttl;
@@ -36,7 +36,7 @@ final class PasteRepository
      *
      * @return Paste
      */
-    public function create($body)
+    public function create(string $body): Paste
     {
         $retries = 10;
 
@@ -61,7 +61,7 @@ final class PasteRepository
      *
      * @return Paste
      */
-    public function find($code)
+    public function find(string $code): Paste
     {
         $paste = $this->cache->fetch($code);
 
@@ -79,7 +79,7 @@ final class PasteRepository
      *
      * @return bool
      */
-    public function delete(Paste $paste)
+    public function delete(Paste $paste): bool
     {
         if (!$this->cache->delete($paste->getCode())) {
             throw new StorageException('Cannot delete from cache.');
@@ -96,7 +96,7 @@ final class PasteRepository
      *
      * @return Paste
      */
-    public function persist(Paste $paste, $ttl = null)
+    public function persist(Paste $paste, int $ttl = null): Paste
     {
         if (null === $ttl) {
             $ttl = $this->default_ttl;

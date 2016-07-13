@@ -29,7 +29,7 @@ class Application extends Kernel
      *
      * @throws \RuntimeException
      */
-    public function __construct($environment, $debug)
+    public function __construct(string $environment, bool $debug)
     {
         if (!in_array($environment, self::$environments, true)) {
             throw new \RuntimeException(sprintf(
