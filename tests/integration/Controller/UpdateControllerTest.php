@@ -41,7 +41,7 @@ class UpdateControllerTest extends IntegrationTest
 
         $client->request('PUT', $location, [], [], [
             'HTTP_X-Paste-Token' => $token,
-            'HTTP_X-Paste-Ttl' => $ttl
+            'HTTP_X-Paste-Ttl' => $ttl,
         ], $modified);
 
         $this->assertEquals(
