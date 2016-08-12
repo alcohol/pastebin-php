@@ -12,7 +12,6 @@ namespace Alcohol\Paste\Controller;
 use Alcohol\Paste\IntegrationTest;
 
 /**
- * @medium
  * @group integration
  */
 class CreateControllerTest extends IntegrationTest

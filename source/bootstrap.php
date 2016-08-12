@@ -7,10 +7,10 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+use Dotenv\Dotenv;
+
 /** @var Composer\Autoload\ClassLoader $loader */
 $loader = require dirname(__DIR__).'/vendor/autoload.php';
-
-use Dotenv\Dotenv;
 
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();

@@ -3,15 +3,15 @@
     "license": "MIT",
     "require": {
         "php": "^7.0.0",
-        "doctrine/cache": "^1.4.0",
-        "predis/predis": "^1.0.3",
-        "symfony/symfony": "^2.8.0 || ^3.0.0",
-        "symfony/monolog-bundle": "^2.8.0",
-        "vlucas/phpdotenv": "^2.0.0"
+        "doctrine/cache": "^1.4",
+        "predis/predis": "^1.0",
+        "symfony/symfony": "^3.0",
+        "symfony/monolog-bundle": "^2.8",
+        "vlucas/phpdotenv": "^2.0"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "dev-master || ^2.0",
-        "phpunit/phpunit": "^4.8.7 || ^5.0.0",
+        "phpunit/phpunit": "^4.8 || ^5.0",
         "phpunit/php-invoker": "@stable",
         "mybuilder/phpunit-accelerator": "@stable"
     },

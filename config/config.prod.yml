@@ -8,7 +8,7 @@ framework:
   secret: '%secret%'
   http_method_override: true
   router:
-    resource: '%kernel.root_dir%/config/routing/routing.%kernel.environment%.yml'
+    resource: '%kernel.root_dir%/config/routing.yml'
     strict_requirements: %kernel.debug%
 
 monolog:

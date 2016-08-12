@@ -12,12 +12,11 @@ namespace Alcohol\Paste\Controller;
 use Alcohol\Paste\IntegrationTest;
 
 /**
- * @medium
  * @group integration
  */
 class DeleteControllerTest extends IntegrationTest
 {
-    public function testPostRaw()
+    public function testDelete()
     {
         $client = static::createClient();
         $client->disableReboot();

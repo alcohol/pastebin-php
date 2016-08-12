@@ -12,11 +12,13 @@ namespace Alcohol\Paste\Controller;
 use Alcohol\Paste\IntegrationTest;
 
 /**
- * @medium
  * @group integration
  */
 class IndexControllerTest extends IntegrationTest
 {
+    /**
+     * @testdox Index page should render.
+     */
     public function testIndex()
     {
         $client = static::createClient();
@@ -32,9 +34,5 @@ class IndexControllerTest extends IntegrationTest
             $crawler->filter('a')->count(),
             '"GET /" response should contain at least one link.'
         );
-    }
-
-    public static function tearDownAfterClass()
-    {
     }
 }
