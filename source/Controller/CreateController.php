@@ -7,10 +7,14 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\Exception\StorageException;
 use Alcohol\Paste\Repository\PasteRepository;
+use League\Plates\Engine;
+use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,14 +30,19 @@ class CreateController
     /** @var RouterInterface */
     protected $router;
 
+    /** @var Engine */
+    private $plates;
+
     /**
-     * @param PasteRepository $repository
+     * @param Engine $plates
      * @param RouterInterface $router
+     * @param PasteRepository $repository
      */
-    public function __construct(PasteRepository $repository, RouterInterface $router)
+    public function __construct(Engine $plates, RouterInterface $router, PasteRepository $repository)
     {
-        $this->repository = $repository;
+        $this->plates = $plates;
         $this->router = $router;
+        $this->repository = $repository;
     }
 
     /**
@@ -76,7 +85,9 @@ class CreateController
             'X-Paste-Id' => $paste->getCode(),
         ];
 
-        if ($request->request->has('redirect')) {
+        $accept = AcceptHeader::fromString($request->headers->get('Accept'));
+
+        if ($accept->has('text/html')) {
             return new RedirectResponse($location, 303, $headers);
         }
 

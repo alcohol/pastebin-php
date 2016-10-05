@@ -13,6 +13,11 @@ paste.read:
   methods: [GET]
   defaults: { _controller: paste.controller.read }
 
+paste.read.raw:
+  path: /{id}/raw
+  methods: [GET]
+  defaults: { _controller: paste.controller.read, raw: true }
+
 paste.update:
   path: /{id}
   methods: [PUT]

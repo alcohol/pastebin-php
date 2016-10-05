@@ -3,6 +3,7 @@ parameters:
   redis.scheme: 'tcp'
   redis.host: 'localhost'
   redis.port: 6379
+  tpl.dir: '%kernel.root_dir%/templates'
 
 framework:
   secret: '%secret%'
@@ -23,6 +24,10 @@ monolog:
       level: 'debug'
 
 services:
+  league.plates:
+    class: 'League\Plates\Engine'
+    arguments: [ '%tpl.dir%' ]
+
   predis.client:
     class: 'Predis\Client'
     arguments:
@@ -43,13 +48,13 @@ services:
 
   paste.controller.index:
     class: 'Alcohol\Paste\Controller\IndexController'
-    arguments: [ '@router' ]
+    arguments: [ '@league.plates', '@router' ]
   paste.controller.create:
     class: 'Alcohol\Paste\Controller\CreateController'
-    arguments: [ '@paste.repository', '@router' ]
+    arguments: [ '@league.plates', '@router', '@paste.repository' ]
   paste.controller.read:
     class: 'Alcohol\Paste\Controller\ReadController'
-    arguments: [ '@paste.repository' ]
+    arguments: [ '@league.plates', '@router', '@paste.repository' ]
   paste.controller.update:
     class: 'Alcohol\Paste\Controller\UpdateController'
     arguments: [ '@paste.repository' ]

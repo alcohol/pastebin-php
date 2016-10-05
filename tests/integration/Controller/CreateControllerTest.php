@@ -7,6 +7,8 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\IntegrationTest;
@@ -22,7 +24,7 @@ class CreateControllerTest extends IntegrationTest
     public function testPostRaw()
     {
         $client = static::createClient();
-        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], 'Lorem ipsum');
 
         $this->assertEquals(
             201,
@@ -52,7 +54,7 @@ class CreateControllerTest extends IntegrationTest
     public function testPostRawFail()
     {
         $client = static::createClient();
-        $client->request('POST', '/', [], [], [], '');
+        $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], '');
 
         $this->assertEquals(
             400,

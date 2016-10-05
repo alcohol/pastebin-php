@@ -7,10 +7,15 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Alcohol\Paste\Controller;
 
+use League\Plates\Engine;
+use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Process\Process;
 use Symfony\Component\Routing\RouterInterface;
 
 class IndexController
@@ -18,11 +23,16 @@ class IndexController
     /** @var RouterInterface */
     protected $router;
 
+    /** @var Engine */
+    private $plates;
+
     /**
+     * @param Engine $plates
      * @param RouterInterface $router
      */
-    public function __construct(RouterInterface $router)
+    public function __construct(Engine $plates, RouterInterface $router)
     {
+        $this->plates = $plates;
         $this->router = $router;
     }
 
@@ -33,39 +43,23 @@ class IndexController
      */
     public function __invoke(Request $request): Response
     {
-        $version = `git log --pretty="%h" -n1 HEAD`;
-
+        $process = new Process('git log --pretty="%h" -n1 HEAD');
+        $version = (0 === $process->run()) ? $process->getOutput() : 'head';
+        $accept = AcceptHeader::fromString($request->headers->get('Accept'));
         $href = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
+        $variables = ['version' => $version, 'href' => $href];
 
-        $form = <<<FORM
-data:text/html,<form action="$href" method="POST" accept-charset="UTF-8">
-<textarea name="paste" cols="100" rows="30"></textarea>
-<input type="hidden" name="redirect" value="redirect"/>
-<br><button type="submit">paste</button></form>
-FORM;
+        if ($accept->has('text/html')) {
+            $body = $this->plates->render('index/html', $variables);
+            $headers = ['Content-Type' => 'text/html'];
+        } else {
+            $body = $this->plates->render('index/plain', $variables);
+            $headers = ['Content-Type' => 'text/plain'];
+        }
 
-        $body = <<<BODY
-<style>body { padding: 2em; }</style>
-<pre>
-DESCRIPTION
-    paste: command line pastebin.
-
-USING
-    &lt;command&gt; | curl --data-binary '@-' $href
-
-ALTERNATIVELY
-    use <a href='$form'>this form</a> to paste from a browser
-
-SOURCE
-    <a href='https://github.com/alcohol/paste.robbast.nl/'>github.com/alcohol/paste.robbast.nl</a>
-
-VERSION
-    <a href='https://github.com/alcohol/paste.robbast.nl/commit/$version'>$version</a>
-</pre>
-BODY;
-
-        $response = new Response($body, 200);
+        $response = new Response($body, 200, $headers);
         $response
+            ->setVary(['Accept', 'Accept-Encoding'])
             ->setEtag(md5($response->getContent()))
             ->setTtl(60)
             ->setClientTtl(300)
