@@ -7,6 +7,8 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Alcohol\Paste;
 
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -79,7 +81,11 @@ class Application extends Kernel
      */
     public function getCacheDir()
     {
-        return $this->rootDir . '/var/cache/' . $this->environment;
+        return sprintf(
+            '%s/var/%s/cache',
+            $this->rootDir,
+            $this->environment
+        );
     }
 
     /**
@@ -87,7 +93,11 @@ class Application extends Kernel
      */
     public function getLogDir()
     {
-        return $this->rootDir . '/var/log/' . $this->environment;
+        return sprintf(
+            '%s/var/%s/log',
+            $this->rootDir,
+            $this->environment
+        );
     }
 
     /**

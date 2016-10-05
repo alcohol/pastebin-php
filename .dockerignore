@@ -1,0 +1,9 @@
+*
+!bin
+!config
+!source
+!templates
+!web
+!composer.json
+!composer.lock
+!LICENSE

@@ -7,6 +7,8 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\IntegrationTest;
@@ -58,7 +60,7 @@ class DeleteControllerTest extends IntegrationTest
             '"DELETE /{id}" should return a 404 Not Found when trying to delete a paste that does not exist.'
         );
 
-        $client->request('GET', $location);
+        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
         $this->assertEquals(
             404,

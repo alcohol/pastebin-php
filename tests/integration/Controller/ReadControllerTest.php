@@ -7,6 +7,8 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\IntegrationTest;
@@ -27,7 +29,7 @@ class ReadControllerTest extends IntegrationTest
 
         $location = $client->getResponse()->headers->get('Location');
 
-        $client->request('GET', $location);
+        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
         $this->assertEquals(
             'Lorem ipsum',
@@ -37,7 +39,7 @@ class ReadControllerTest extends IntegrationTest
 
         sleep($ttl + 1);
 
-        $client->request('GET', $location);
+        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
         $this->assertEquals(
             404,

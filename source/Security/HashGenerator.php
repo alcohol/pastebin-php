@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
  *
@@ -8,6 +10,8 @@
  */
 
 namespace Alcohol\Paste\Security;
+
+use Webmozart\Assert\Assert;
 
 final class HashGenerator
 {
@@ -19,6 +23,8 @@ final class HashGenerator
      */
     public function __construct(string $secret)
     {
+        Assert::stringNotEmpty($secret, 'Argument "$secret" is required and should be a not-empty string.');
+
         $this->secret = $secret;
     }
 

@@ -1,0 +1,94 @@
+html, body {
+    color: #666;
+    background-color: #fcfcfc;
+}
+
+div.topbar {
+    padding: 1em;
+    background-color: #fff;
+    border-bottom: #999 1px solid;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+div.topbar > p {
+    color: #aaa;
+}
+
+div.topbar span.fa {
+    color: #222;
+}
+
+#hljs-form {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+}
+
+a {
+    color: #333;
+    text-decoration: none;
+}
+a:hover,
+a:focus {
+    color: #a91b0c;
+    text-decoration: underline;
+}
+a:focus {
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.btn-primary {
+    color: #ffffff;
+    background-color: #d9230f;
+    border-color: #d9230f;
+}
+.btn-primary:focus,
+.btn-primary.focus {
+    color: #ffffff;
+    background-color: #a91b0c;
+    border-color: #621007;
+}
+.btn-primary:hover {
+    color: #ffffff;
+    background-color: #a91b0c;
+    border-color: #a01a0b;
+}
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    color: #ffffff;
+    background-color: #a91b0c;
+    border-color: #a01a0b;
+}
+.btn-primary:active:hover,
+.btn-primary.active:hover,
+.open > .dropdown-toggle.btn-primary:hover,
+.btn-primary:active:focus,
+.btn-primary.active:focus,
+.open > .dropdown-toggle.btn-primary:focus,
+.btn-primary:active.focus,
+.btn-primary.active.focus,
+.open > .dropdown-toggle.btn-primary.focus {
+    color: #ffffff;
+    background-color: #881609;
+    border-color: #621007;
+}
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+    background-image: none;
+}
+.btn-primary.disabled:hover,
+.btn-primary[disabled]:hover,
+fieldset[disabled] .btn-primary:hover,
+.btn-primary.disabled:focus,
+.btn-primary[disabled]:focus,
+fieldset[disabled] .btn-primary:focus,
+.btn-primary.disabled.focus,
+.btn-primary[disabled].focus,
+fieldset[disabled] .btn-primary.focus {
+    background-color: #d9230f;
+    border-color: #d9230f;
+}

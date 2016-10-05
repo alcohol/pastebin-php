@@ -7,6 +7,8 @@
  * the LICENSE file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\IntegrationTest;
@@ -30,7 +32,7 @@ class UpdateControllerTest extends IntegrationTest
         $token = $client->getResponse()->headers->get('X-Paste-Token');
         $location = $client->getResponse()->headers->get('Location');
 
-        $client->request('GET', $location);
+        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
         $this->assertEquals(
             $original,
@@ -49,7 +51,7 @@ class UpdateControllerTest extends IntegrationTest
             '"PUT /{id}" should return a 204 No Content response.'
         );
 
-        $client->request('GET', $location);
+        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
         $this->assertEquals(
             $modified,
