@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
 /** @var Composer\Autoload\ClassLoader $loader */
-$loader = require_once __DIR__.'/../source/bootstrap.php';
+$loader = require_once __DIR__ . '/../source/bootstrap.php';
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) {
     $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
@@ -26,7 +26,7 @@ $application = new Application(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEB
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true)) {
     $application->loadClassCache();
-    $application = new HttpCache($application, new Store($application->getCacheDir().'/http'));
+    $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
 
     Request::enableHttpMethodParameterOverride();
 }

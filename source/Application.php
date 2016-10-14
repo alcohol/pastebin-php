@@ -68,7 +68,7 @@ class Application extends Kernel
         $config = sprintf('%s/config/config.%s.yml', $this->rootDir, $this->getEnvironment());
 
         if (!is_readable($config)) {
-            throw new \RuntimeException('Cannot read configuration file: '.$config);
+            throw new \RuntimeException('Cannot read configuration file: ' . $config);
         }
 
         $loader->load($config);
@@ -79,7 +79,7 @@ class Application extends Kernel
      */
     public function getCacheDir()
     {
-        return $this->rootDir.'/var/cache/'.$this->environment;
+        return $this->rootDir . '/var/cache/' . $this->environment;
     }
 
     /**
@@ -87,7 +87,7 @@ class Application extends Kernel
      */
     public function getLogDir()
     {
-        return $this->rootDir.'/var/log/'.$this->environment;
+        return $this->rootDir . '/var/log/' . $this->environment;
     }
 
     /**

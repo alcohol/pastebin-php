@@ -57,7 +57,7 @@ class UpdateControllerTest extends IntegrationTest
             '"GET /{id}" should return modified content stored.'
         );
 
-        $client->request('PUT', $location.'X', [], [], ['HTTP_X-Paste-Token' => $token], $modified);
+        $client->request('PUT', $location . 'X', [], [], ['HTTP_X-Paste-Token' => $token], $modified);
 
         $this->assertEquals(
             404,

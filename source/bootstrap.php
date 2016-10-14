@@ -10,7 +10,7 @@
 use Dotenv\Dotenv;
 
 /** @var Composer\Autoload\ClassLoader $loader */
-$loader = require dirname(__DIR__).'/vendor/autoload.php';
+$loader = require dirname(__DIR__) . '/vendor/autoload.php';
 
 $dotenv = new Dotenv(dirname(__DIR__));
 $dotenv->load();
