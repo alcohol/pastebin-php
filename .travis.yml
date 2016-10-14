@@ -5,6 +5,10 @@ cache:
     - "$HOME/.composer/cache/files"
     - "$HOME/.php-cs-fixer"
 
+branches:
+  only:
+    - master
+
 git:
   depth: 10
 
