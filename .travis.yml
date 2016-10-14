@@ -31,4 +31,4 @@ before_script:
 
 script:
   - vendor/bin/phpunit
-  - vendor/bin/php-cs-fixer fix --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
+  - vendor/bin/php-cs-fixer fix --allow-risky true --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
