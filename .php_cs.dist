@@ -12,6 +12,7 @@ $config = new PhpCsFixer\Config('paste.robbast.nl', 'paste.robbast.nl style guid
 
 $finder
     ->in(__DIR__)
+    ->exclude('var')
 ;
 
 /* Based on dev-master|^2.0 of php-cs-fixer */
