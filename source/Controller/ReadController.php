@@ -65,7 +65,7 @@ class ReadController
             $body = $this->plates->render('read/html', [
                 'paste' => $paste,
                 'hrefNew' => $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL),
-                'hrefRaw' => $this->router->generate('paste.read.raw', ['id' => $paste->getCode()], RouterInterface::ABSOLUTE_URL)
+                'hrefRaw' => $this->router->generate('paste.read.raw', ['id' => $paste->getCode()], RouterInterface::ABSOLUTE_URL),
             ]);
             $headers = ['Content-Type' => 'text/html'];
         } else {

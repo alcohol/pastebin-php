@@ -45,7 +45,7 @@ final class HashGeneratorTest extends \PHPUnit_Framework_TestCase
             'integer' => [123, \TypeError::class],
             'float' => [1.23, \TypeError::class],
             'array' => [[], \TypeError::class],
-            'object / class' => [new \stdClass, \TypeError::class],
+            'object / class' => [new \stdClass(), \TypeError::class],
             'empty string' => ['', \InvalidArgumentException::class],
         ];
     }

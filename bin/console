@@ -1,6 +1,15 @@
 #!/usr/bin/env php
 <?php
 
+/*
+ * (c) Rob Bast <rob.bast@gmail.com>
+ *
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
 set_time_limit(0);
 
 $loader = require_once __DIR__ . '/../source/bootstrap.php';
@@ -11,6 +20,6 @@ use Symfony\Component\Console\Input\ArgvInput;
 
 $input = new ArgvInput();
 $environment = $input->getParameterOption(['--env', '-e'], getenv('SYMFONY_ENV'));
-$application = new Application($environment, getenv('SYMFONY_DEBUG'));
+$application = new Application($environment, (bool) getenv('SYMFONY_DEBUG'));
 $console = new Console($application);
 $console->run($input);
