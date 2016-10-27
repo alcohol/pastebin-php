@@ -11,22 +11,13 @@ declare(strict_types=1);
 
 use Alcohol\Paste\AppCache;
 use Alcohol\Paste\AppKernel;
-use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @var Composer\Autoload\ClassLoader $loader */
 $loader = require_once __DIR__ . '/../source/bootstrap.php';
-
-if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) {
-    $apcloader = new ApcClassLoader(sha1(__FILE__), $loader);
-    $apcloader->register(true);
-    $loader->unregister();
-}
-
 $kernel = new AppKernel(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true)) {
-    $kernel->loadClassCache();
     $kernel = new AppCache($kernel);
 
     Request::enableHttpMethodParameterOverride();
