@@ -9,8 +9,12 @@ framework:
   secret: '%secret%'
   http_method_override: true
   router:
-    resource: '%kernel.root_dir%/config/routing.yml'
-    strict_requirements: %kernel.debug%
+    resource: '%kernel.root_dir%/config/routing.prod.yml'
+    strict_requirements: '%kernel.debug%'
+  templating:
+    engines: ['twig']
+  session:
+    cookie_secure: true
 
 monolog:
   handlers:
@@ -23,10 +27,10 @@ monolog:
       path: '%kernel.logs_dir%/%kernel.name%.log'
       level: 'debug'
 
+twig:
+  paths: ['%kernel.root_dir%/templates']
+
 services:
-  league.plates:
-    class: 'League\Plates\Engine'
-    arguments: [ '%tpl.dir%' ]
 
   predis.client:
     class: 'Predis\Client'
@@ -34,7 +38,7 @@ services:
       -
         scheme: '%redis.scheme%'
         host: '%redis.host%'
-        port: %redis.port%
+        port: '%redis.port%'
 
   paste.cache:
     class: 'Doctrine\Common\Cache\PredisCache'
@@ -44,17 +48,17 @@ services:
     arguments: [ '%secret%' ]
   paste.repository:
     class: 'Alcohol\Paste\Repository\PasteRepository'
-    arguments: [ '@paste.cache', %paste.ttl% ]
+    arguments: [ '@paste.cache', '%paste.ttl%' ]
 
   paste.controller.index:
     class: 'Alcohol\Paste\Controller\IndexController'
-    arguments: [ '@league.plates', '@router' ]
+    arguments: [ '@templating', '@router' ]
   paste.controller.create:
     class: 'Alcohol\Paste\Controller\CreateController'
-    arguments: [ '@league.plates', '@router', '@paste.repository' ]
+    arguments: [ '@templating', '@router', '@paste.repository' ]
   paste.controller.read:
     class: 'Alcohol\Paste\Controller\ReadController'
-    arguments: [ '@league.plates', '@router', '@paste.repository' ]
+    arguments: [ '@templating', '@router', '@paste.repository' ]
   paste.controller.update:
     class: 'Alcohol\Paste\Controller\UpdateController'
     arguments: [ '@paste.repository' ]
@@ -67,7 +71,6 @@ services:
     arguments: [ '@logger' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.exception', method: 'handleEvent' }
-
   paste.kernel.request_listener:
     class: 'Alcohol\Paste\EventListener\RequestListener'
     arguments: [ '@paste.hash_generator' ]

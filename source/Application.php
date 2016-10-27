@@ -11,8 +11,11 @@ declare(strict_types=1);
 
 namespace Alcohol\Paste;
 
+use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
+use Symfony\Bundle\TwigBundle\TwigBundle;
+use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpKernel\Kernel;
@@ -53,11 +56,19 @@ class Application extends Kernel
      */
     public function registerBundles()
     {
-        return [
+        $bundles = [
             /* 3rd party bundles */
+            new TwigBundle(),
             new FrameworkBundle(),
             new MonologBundle(),
         ];
+
+        if ($this->isDebug()) {
+            $bundles[] = new DebugBundle();
+            $bundles[] = new WebProfilerBundle();
+        }
+
+        return $bundles;
     }
 
     /**

@@ -5,10 +5,10 @@
         "php": "^7.0.0",
         "doctrine/cache": "^1.4",
         "predis/predis": "^1.0",
-        "symfony/symfony": "^3.0",
+        "symfony/symfony": "^3.2-dev",
+        "twig/twig": "^2.0-dev",
         "symfony/monolog-bundle": "^2.8",
         "vlucas/phpdotenv": "^2.0",
-        "league/plates": "^3.0",
         "webmozart/assert": "^1.1"
     },
     "require-dev": {

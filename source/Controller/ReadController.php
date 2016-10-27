@@ -13,7 +13,7 @@ namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\Exception\StorageException;
 use Alcohol\Paste\Repository\PasteRepository;
-use League\Plates\Engine;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,21 +25,21 @@ class ReadController
     /** @var PasteRepository */
     protected $repository;
 
-    /** @var Engine */
-    private $plates;
+    /** @var EngineInterface */
+    private $engine;
     /**
      * @var RouterInterface
      */
     private $router;
 
     /**
-     * @param Engine $plates
+     * @param EngineInterface $engine
      * @param RouterInterface $router
      * @param PasteRepository $repository
      */
-    public function __construct(Engine $plates, RouterInterface $router, PasteRepository $repository)
+    public function __construct(EngineInterface $engine, RouterInterface $router, PasteRepository $repository)
     {
-        $this->plates = $plates;
+        $this->engine = $engine;
         $this->router = $router;
         $this->repository = $repository;
     }
@@ -62,7 +62,7 @@ class ReadController
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));
 
         if ($accept->has('text/html') && !$raw) {
-            $body = $this->plates->render('read/html', [
+            $body = $this->engine->render('read/html.html.twig', [
                 'paste' => $paste,
                 'hrefNew' => $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL),
                 'hrefRaw' => $this->router->generate('paste.read.raw', ['id' => $paste->getCode()], RouterInterface::ABSOLUTE_URL),

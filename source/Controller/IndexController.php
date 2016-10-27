@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Alcohol\Paste\Controller;
 
-use League\Plates\Engine;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,16 +23,16 @@ class IndexController
     /** @var RouterInterface */
     protected $router;
 
-    /** @var Engine */
-    private $plates;
+    /** @var EngineInterface */
+    private $engine;
 
     /**
-     * @param Engine $plates
+     * @param EngineInterface $engine
      * @param RouterInterface $router
      */
-    public function __construct(Engine $plates, RouterInterface $router)
+    public function __construct(EngineInterface $engine, RouterInterface $router)
     {
-        $this->plates = $plates;
+        $this->engine = $engine;
         $this->router = $router;
     }
 
@@ -50,10 +50,10 @@ class IndexController
         $variables = ['version' => $version, 'href' => $href];
 
         if ($accept->has('text/html')) {
-            $body = $this->plates->render('index/html', $variables);
+            $body = $this->engine->render('index/html.html.twig', $variables);
             $headers = ['Content-Type' => 'text/html'];
         } else {
-            $body = $this->plates->render('index/plain', $variables);
+            $body = $this->engine->render('index/plain.html.twig', $variables);
             $headers = ['Content-Type' => 'text/plain'];
         }
 

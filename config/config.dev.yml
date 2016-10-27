@@ -1,6 +1,16 @@
 imports:
   - { resource: config.prod.yml }
 
+framework:
+  router:
+    resource: '%kernel.root_dir%/config/routing.dev.yml'
+    strict_requirements: true
+  profiler: { only_exceptions: false }
+
+web_profiler:
+  toolbar: true
+  intercept_redirects: false
+
 parameters:
   paste.ttl: 3600
 

@@ -13,7 +13,7 @@ namespace Alcohol\Paste\Controller;
 
 use Alcohol\Paste\Exception\StorageException;
 use Alcohol\Paste\Repository\PasteRepository;
-use League\Plates\Engine;
+use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,17 +30,17 @@ class CreateController
     /** @var RouterInterface */
     protected $router;
 
-    /** @var Engine */
-    private $plates;
+    /** @var EngineInterface */
+    private $engine;
 
     /**
-     * @param Engine $plates
+     * @param EngineInterface $engine
      * @param RouterInterface $router
      * @param PasteRepository $repository
      */
-    public function __construct(Engine $plates, RouterInterface $router, PasteRepository $repository)
+    public function __construct(EngineInterface $engine, RouterInterface $router, PasteRepository $repository)
     {
-        $this->plates = $plates;
+        $this->engine = $engine;
         $this->router = $router;
         $this->repository = $repository;
     }
