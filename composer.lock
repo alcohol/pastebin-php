@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "2be6246814ba536f2a20d1e06bd0751e",
+    "content-hash": "320081f66a28d8ba25609f980c0a5b9a",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -403,58 +403,6 @@
                 "parser"
             ],
             "time": "2014-09-09T13:34:57+00:00"
-        },
-        {
-            "name": "league/plates",
-            "version": "3.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/plates.git",
-                "reference": "2d8569e9f140a70d6a05db38006926f7547cb802"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/plates/zipball/2d8569e9f140a70d6a05db38006926f7547cb802",
-                "reference": "2d8569e9f140a70d6a05db38006926f7547cb802",
-                "shasum": ""
-            },
-            "require-dev": {
-                "mikey179/vfsstream": "~1.4.0",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~1.5"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.0-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\Plates\\": "src"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jonathan Reinink",
-                    "email": "jonathan@reinink.ca",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Plates, the native PHP template system that's fast, easy to use and easy to extend.",
-            "homepage": "http://platesphp.com",
-            "keywords": [
-                "league",
-                "package",
-                "templates",
-                "templating",
-                "views"
-            ],
-            "time": "2015-07-09T02:14:40+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1075,12 +1023,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "fdb7834f695552d4e51f2c9ea9d73eed0b77f10f"
+                "reference": "bda7e6b7e545b37e76d76bc030ef70eee41db827"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/fdb7834f695552d4e51f2c9ea9d73eed0b77f10f",
-                "reference": "fdb7834f695552d4e51f2c9ea9d73eed0b77f10f",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/bda7e6b7e545b37e76d76bc030ef70eee41db827",
+                "reference": "bda7e6b7e545b37e76d76bc030ef70eee41db827",
                 "shasum": ""
             },
             "require": {
@@ -1209,7 +1157,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-10-24 18:44:12"
+            "time": "2016-10-27 04:11:23"
         },
         {
             "name": "twig/twig",
@@ -1217,12 +1165,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "5e4fa99dc97ef98be3ca0b5e18d0e605e3cfe26d"
+                "reference": "50c8024766a97c39d7c28a6ab3a34be43f2a7493"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/5e4fa99dc97ef98be3ca0b5e18d0e605e3cfe26d",
-                "reference": "5e4fa99dc97ef98be3ca0b5e18d0e605e3cfe26d",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/50c8024766a97c39d7c28a6ab3a34be43f2a7493",
+                "reference": "50c8024766a97c39d7c28a6ab3a34be43f2a7493",
                 "shasum": ""
             },
             "require": {
@@ -1271,7 +1219,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2016-10-24 23:59:56"
+            "time": "2016-10-25 17:31:35"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -1435,12 +1383,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfPHP/PHP-CS-Fixer.git",
-                "reference": "6b55b6371b92e9af4f755c42168ab2a37a5a922a"
+                "reference": "75b546184b55b775d4c95d1af6052b622213e1a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/6b55b6371b92e9af4f755c42168ab2a37a5a922a",
-                "reference": "6b55b6371b92e9af4f755c42168ab2a37a5a922a",
+                "url": "https://api.github.com/repos/FriendsOfPHP/PHP-CS-Fixer/zipball/75b546184b55b775d4c95d1af6052b622213e1a3",
+                "reference": "75b546184b55b775d4c95d1af6052b622213e1a3",
                 "shasum": ""
             },
             "require": {
@@ -1491,7 +1439,7 @@
                 }
             ],
             "description": "A tool to automatically fix PHP code style",
-            "time": "2016-10-24T22:29:18+00:00"
+            "time": "2016-10-27T01:10:50+00:00"
         },
         {
             "name": "mybuilder/phpunit-accelerator",

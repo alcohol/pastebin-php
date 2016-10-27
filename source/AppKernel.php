@@ -20,7 +20,7 @@ use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpKernel\Kernel;
 
-class Application extends Kernel
+class AppKernel extends Kernel
 {
     /** @var string */
     protected $name = 'paste';
@@ -63,7 +63,7 @@ class Application extends Kernel
             new MonologBundle(),
         ];
 
-        if ($this->isDebug()) {
+        if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new DebugBundle();
             $bundles[] = new WebProfilerBundle();
         }

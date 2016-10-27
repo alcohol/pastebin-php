@@ -6,7 +6,7 @@ parameters:
   tpl.dir: '%kernel.root_dir%/templates'
 
 framework:
-  secret: '%secret%'
+  secret: '%env(SECRET)%'
   http_method_override: true
   router:
     resource: '%kernel.root_dir%/config/routing.prod.yml'
@@ -45,7 +45,7 @@ services:
     arguments: [ '@predis.client' ]
   paste.hash_generator:
     class: 'Alcohol\Paste\Security\HashGenerator'
-    arguments: [ '%secret%' ]
+    arguments: [ '%kernel.secret%' ]
   paste.repository:
     class: 'Alcohol\Paste\Repository\PasteRepository'
     arguments: [ '@paste.cache', '%paste.ttl%' ]

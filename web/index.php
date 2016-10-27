@@ -9,11 +9,10 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-use Alcohol\Paste\Application;
+use Alcohol\Paste\AppCache;
+use Alcohol\Paste\AppKernel;
 use Symfony\Component\ClassLoader\ApcClassLoader;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpCache\HttpCache;
-use Symfony\Component\HttpKernel\HttpCache\Store;
 
 /** @var Composer\Autoload\ClassLoader $loader */
 $loader = require_once __DIR__ . '/../source/bootstrap.php';
@@ -24,17 +23,18 @@ if (in_array(getenv('SYMFONY_ENV'), ['prod'], true) && extension_loaded('apc')) 
     $loader->unregister();
 }
 
-$application = new Application(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
+$kernel = new AppKernel(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true)) {
-    $application->loadClassCache();
-    $application = new HttpCache($application, new Store($application->getCacheDir() . '/http'));
+    $kernel->loadClassCache();
+    $kernel = new AppCache($kernel);
 
     Request::enableHttpMethodParameterOverride();
 }
 
 $request = Request::createFromGlobals();
-$response = $application->handle($request);
+
+$response = $kernel->handle($request);
 $response->send();
 
-$application->terminate($request, $response);
+$kernel->terminate($request, $response);
