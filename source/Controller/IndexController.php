@@ -50,10 +50,10 @@ class IndexController
         $variables = ['version' => $version, 'href' => $href];
 
         if ($accept->has('text/html')) {
-            $body = $this->engine->render('index/html.html.twig', $variables);
+            $body = $this->engine->render('index.html.twig', $variables);
             $headers = ['Content-Type' => 'text/html'];
         } else {
-            $body = $this->engine->render('index/plain.html.twig', $variables);
+            $body = $this->engine->render('index.text.twig', $variables);
             $headers = ['Content-Type' => 'text/plain'];
         }
 
