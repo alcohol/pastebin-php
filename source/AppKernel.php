@@ -45,10 +45,6 @@ class AppKernel extends Kernel
         }
 
         parent::__construct($environment, $debug);
-
-        if ($this->isDebug()) {
-            Debug::enable();
-        }
     }
 
     /**
