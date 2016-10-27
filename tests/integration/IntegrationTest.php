@@ -17,7 +17,7 @@ abstract class IntegrationTest extends WebTestCase
 {
     public static function createKernel(array $options = [])
     {
-        return new Application(
+        return new AppKernel(
             isset($options['environment']) ? $options['environment'] : 'test',
             isset($options['debug']) ? $options['debug'] : true
         );
