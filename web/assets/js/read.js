@@ -25,4 +25,6 @@ addEventListener('load', function() {
             hljs.highlightBlock(code);
         }
     });
+
+    hljs.highlightBlock(code);
 });
