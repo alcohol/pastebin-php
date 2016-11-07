@@ -11,13 +11,12 @@ $finder = new PhpCsFixer\Finder();
 $config = new PhpCsFixer\Config('paste.robbast.nl', 'paste.robbast.nl style guide');
 
 $finder
-    ->in(__DIR__)
     ->exclude('var')
+    ->in(__DIR__)
 ;
 
 /* Based on dev-master|^2.0 of php-cs-fixer */
 $config
-    ->setUsingCache(true)
     ->setRules([
         // default
         '@PSR2' => true,
@@ -37,7 +36,7 @@ $config
         'short_array_syntax' => true,
         'simplified_null_return' => false,
     ])
-    ->finder($finder)
+    ->setFinder($finder)
 ;
 
 return $config;
