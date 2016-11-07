@@ -19,7 +19,8 @@ git:
 sudo: false
 
 php:
-  - 7
+  - 7.0
+  - 7.1
   - nightly
 
 matrix:
