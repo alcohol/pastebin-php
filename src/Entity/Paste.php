@@ -9,7 +9,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Entity;
+namespace AppBundle\Entity;
 
 class Paste
 {

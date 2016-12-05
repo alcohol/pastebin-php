@@ -9,10 +9,10 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Repository;
+namespace AppBundle\Repository;
 
-use Alcohol\Paste\Entity\Paste;
-use Alcohol\Paste\Exception\StorageException;
+use AppBundle\Entity\Paste;
+use AppBundle\Exception\StorageException;
 use Doctrine\Common\Cache\Cache;
 
 final class PasteRepository

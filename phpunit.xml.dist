@@ -2,7 +2,7 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.0/phpunit.xsd"
-    bootstrap="source/bootstrap.php"
+    bootstrap="app/bootstrap.php"
     colors="true"
     stderr="true"
 >
@@ -15,17 +15,12 @@
 
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">source</directory>
+            <directory suffix=".php">src</directory>
             <exclude>
-                <directory suffix=".php">source/Console</directory>
-                <file>source/bootstrap.php</file>
+                <directory suffix=".php">src/Console</directory>
             </exclude>
         </whitelist>
     </filter>
-
-    <listeners>
-        <listener class="\MyBuilder\PhpunitAccelerator\TestListener"/>
-    </listeners>
 
     <logging>
         <log type="coverage-text" target="php://stderr" />

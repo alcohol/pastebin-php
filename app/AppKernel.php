@@ -9,7 +9,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste;
+namespace AppBundle;
 
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -17,7 +17,6 @@ use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\Debug\Debug;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
@@ -57,6 +56,7 @@ class AppKernel extends Kernel
             new TwigBundle(),
             new FrameworkBundle(),
             new MonologBundle(),
+            new AppBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
@@ -74,7 +74,7 @@ class AppKernel extends Kernel
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
-        $config = sprintf('%s/config/config.%s.yml', $this->rootDir, $this->getEnvironment());
+        $config = sprintf('%s/../cfg/config.%s.yml', $this->rootDir, $this->getEnvironment());
 
         if (!is_readable($config)) {
             throw new \RuntimeException('Cannot read configuration file: ' . $config);
@@ -89,7 +89,7 @@ class AppKernel extends Kernel
     public function getCacheDir()
     {
         return sprintf(
-            '%s/var/%s/cache',
+            '%s/../var/%s/cache',
             $this->rootDir,
             $this->environment
         );
@@ -101,7 +101,7 @@ class AppKernel extends Kernel
     public function getLogDir()
     {
         return sprintf(
-            '%s/var/%s/log',
+            '%s/../var/%s/log',
             $this->rootDir,
             $this->environment
         );
@@ -112,6 +112,6 @@ class AppKernel extends Kernel
      */
     public function getRootDir()
     {
-        return dirname(__DIR__);
+        return __DIR__;
     }
 }

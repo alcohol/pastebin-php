@@ -9,7 +9,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste;
+namespace AppBundle;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

@@ -9,16 +9,14 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Controller;
+namespace AppBundle\Controller;
 
-use Alcohol\Paste\Exception\StorageException;
-use Alcohol\Paste\Repository\PasteRepository;
-use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Exception\StorageException;
+use AppBundle\Repository\PasteRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class UpdateController
+class DeleteController
 {
     /** @var PasteRepository */
     protected $repository;
@@ -32,12 +30,11 @@ class UpdateController
     }
 
     /**
-     * @param Request $request
      * @param string $id
      *
      * @return Response
      */
-    public function __invoke(Request $request, string $id): Response
+    public function __invoke(string $id): Response
     {
         try {
             $paste = $this->repository->find($id);
@@ -45,17 +42,10 @@ class UpdateController
             throw new NotFoundHttpException();
         }
 
-        $paste->setBody($request->getContent());
-
-        $ttl = null;
-        if ($request->headers->has('X-Paste-Ttl')) {
-            $ttl = (int) $request->headers->get('X-Paste-Ttl');
-        }
-
         try {
-            $this->repository->persist($paste, $ttl);
+            $this->repository->delete($paste);
         } catch (StorageException $exception) {
-            throw new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
 
         return new Response('', 204);

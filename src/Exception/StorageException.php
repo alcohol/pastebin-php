@@ -9,7 +9,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Exception;
+namespace AppBundle\Exception;
 
 class StorageException extends \RuntimeException
 {

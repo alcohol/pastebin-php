@@ -2,9 +2,9 @@
 
 A demo that attempts to setup a minimalistic Symfony application.
 
-Inspired by [this blogpost](http://www.whitewashing.de/2014/10/26/symfony_all_the_things_web.html) and also [sprunge.us](http://sprunge.us).
+Inspired by [sprunge.us](http://sprunge.us).
 
-A live deployment can be found at: [paste.robbast.nl](http://paste.robbast.nl)
+A live deployment can be found at: [paste.robbast.nl](https://paste.robbast.nl)
 
 [![Build Status](https://img.shields.io/travis/alcohol/paste.robbast.nl.svg)](https://travis-ci.org/alcohol/paste.robbast.nl)
 
@@ -22,15 +22,14 @@ composer install
 
 Modify the `.env` file.
 
-> See [external parameters](http://symfony.com/doc/current/cookbook/configuration/external_parameters.html)
-> regarding **SYMFONY__** prefixed environment variables.
+> See [external parameters] regarding **SYMFONY__** prefixed environment variables.
 
 
 ## Nginx config
 
 > Make sure the **httpd** and/or **fcgi** user has read and write access on `var/`.
 
-Adjust where applicable. If unsure, consult [Nginx documentation](http://nginx.org/en/docs/).
+Adjust where applicable. If unsure, consult [NGINX documentation].
 
 ``` Nginx
 upstream php-fpm {
@@ -109,3 +108,7 @@ Feel free to submit a pull request or create an issue.
 ## License
 
 alcohol/sf-minimal-demo is licensed under the MIT license.
+
+
+[external parameters]: http://symfony.com/doc/current/cookbook/configuration/external_parameters.html
+[NGINX documentation]: http://nginx.org/en/docs/

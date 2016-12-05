@@ -11,6 +11,7 @@ $finder = new PhpCsFixer\Finder();
 $config = new PhpCsFixer\Config('paste.robbast.nl', 'paste.robbast.nl style guide');
 
 $finder
+    ->exclude('cfg')
     ->exclude('var')
     ->in(__DIR__)
 ;

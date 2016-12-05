@@ -9,9 +9,9 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\EventListener;
+namespace AppBundle\EventListener;
 
-use Alcohol\Paste\Security\HashGenerator;
+use AppBundle\Security\HashGenerator;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

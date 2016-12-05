@@ -9,9 +9,9 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Console\Command;
+namespace AppBundle\Console\Command;
 
-use Alcohol\Paste\Repository\PasteRepository;
+use AppBundle\Repository\PasteRepository;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;

@@ -3,29 +3,29 @@
     "license": "MIT",
     "require": {
         "php": "^7.0.0",
-        "doctrine/cache": "^1.4",
-        "predis/predis": "^1.0",
+        "doctrine/cache": "^1.6",
+        "predis/predis": "^1.1",
         "symfony/monolog-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.2",
         "symfony/symfony": "^3.2",
-        "twig/twig": "^2.0-dev",
-        "vlucas/phpdotenv": "^2.0",
-        "webmozart/assert": "^1.1"
+        "twig/twig": "^1.28 || ^2.0",
+        "vlucas/phpdotenv": "^2.4",
+        "webmozart/assert": "^1.2"
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "dev-master || ^2.0",
         "phpunit/phpunit": "^4.8 || ^5.0",
-        "phpunit/php-invoker": "@stable",
-        "mybuilder/phpunit-accelerator": "@stable"
+        "phpunit/php-invoker": "^1.1"
     },
     "autoload": {
         "psr-4": {
-            "Alcohol\\Paste\\": ["source"]
-        }
+            "AppBundle\\": ["src"]
+        },
+        "classmap": ["app/AppKernel.php", "app/AppCache.php"]
     },
     "autoload-dev": {
         "psr-4": {
-            "Alcohol\\Paste\\": ["tests/integration"]
+            "AppBundle\\": ["tests/integration", "tests/unit"]
         }
     },
     "scripts": {

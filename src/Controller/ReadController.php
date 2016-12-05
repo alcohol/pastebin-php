@@ -9,10 +9,10 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Alcohol\Paste\Controller;
+namespace AppBundle\Controller;
 
-use Alcohol\Paste\Exception\StorageException;
-use Alcohol\Paste\Repository\PasteRepository;
+use AppBundle\Exception\StorageException;
+use AppBundle\Repository\PasteRepository;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;

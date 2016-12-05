@@ -3,13 +3,12 @@ parameters:
   redis.scheme: 'tcp'
   redis.host: 'localhost'
   redis.port: 6379
-  tpl.dir: '%kernel.root_dir%/templates'
 
 framework:
   secret: '%env(SECRET)%'
   http_method_override: true
   router:
-    resource: '%kernel.root_dir%/config/routing.prod.yml'
+    resource: '%kernel.root_dir%/../cfg/routing.prod.yml'
     strict_requirements: '%kernel.debug%'
   templating:
     engines: ['twig']
@@ -28,7 +27,8 @@ monolog:
       level: 'debug'
 
 twig:
-  paths: ['%kernel.root_dir%/templates']
+  debug: '%kernel.debug%'
+  strict_variables: '%kernel.debug%'
 
 services:
 
@@ -44,51 +44,51 @@ services:
     class: 'Doctrine\Common\Cache\PredisCache'
     arguments: [ '@predis.client' ]
   paste.hash_generator:
-    class: 'Alcohol\Paste\Security\HashGenerator'
+    class: 'AppBundle\Security\HashGenerator'
     arguments: [ '%kernel.secret%' ]
   paste.repository:
-    class: 'Alcohol\Paste\Repository\PasteRepository'
+    class: 'AppBundle\Repository\PasteRepository'
     arguments: [ '@paste.cache', '%paste.ttl%' ]
 
   paste.controller.index:
-    class: 'Alcohol\Paste\Controller\IndexController'
+    class: 'AppBundle\Controller\IndexController'
     arguments: [ '@templating', '@router' ]
   paste.controller.create:
-    class: 'Alcohol\Paste\Controller\CreateController'
+    class: 'AppBundle\Controller\CreateController'
     arguments: [ '@templating', '@router', '@paste.repository' ]
   paste.controller.read:
-    class: 'Alcohol\Paste\Controller\ReadController'
+    class: 'AppBundle\Controller\ReadController'
     arguments: [ '@templating', '@router', '@paste.repository' ]
   paste.controller.update:
-    class: 'Alcohol\Paste\Controller\UpdateController'
+    class: 'AppBundle\Controller\UpdateController'
     arguments: [ '@paste.repository' ]
   paste.controller.delete:
-    class: 'Alcohol\Paste\Controller\DeleteController'
+    class: 'AppBundle\Controller\DeleteController'
     arguments: [ '@paste.repository' ]
 
   paste.kernel.exception_listener:
-    class: 'Alcohol\Paste\EventListener\ExceptionListener'
+    class: 'AppBundle\EventListener\ExceptionListener'
     arguments: [ '@logger' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.exception', method: 'handleEvent' }
   paste.kernel.request_listener:
-    class: 'Alcohol\Paste\EventListener\RequestListener'
+    class: 'AppBundle\EventListener\RequestListener'
     arguments: [ '@paste.hash_generator' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.request', method: 'handleEvent' }
   paste.kernel.response_listener:
-    class: 'Alcohol\Paste\EventListener\ResponseListener'
+    class: 'AppBundle\EventListener\ResponseListener'
     arguments: [ '@paste.hash_generator' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.response', method: 'handleEvent' }
 
   paste.command.read:
-    class: 'Alcohol\Paste\Console\Command\ReadCommand'
+    class: 'AppBundle\Console\Command\ReadCommand'
     arguments: [ '@paste.repository' ]
     tags:
       - { name: 'console.command' }
   paste.command.delete:
-    class: 'Alcohol\Paste\Console\Command\DeleteCommand'
+    class: 'AppBundle\Console\Command\DeleteCommand'
     arguments: [ '@paste.repository' ]
     tags:
       - { name: 'console.command' }

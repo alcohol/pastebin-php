@@ -9,12 +9,12 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-use Alcohol\Paste\AppCache;
-use Alcohol\Paste\AppKernel;
+use AppBundle\AppCache;
+use AppBundle\AppKernel;
 use Symfony\Component\HttpFoundation\Request;
 
-/** @var Composer\Autoload\ClassLoader $loader */
-$loader = require_once __DIR__ . '/../source/bootstrap.php';
+/** @var \Composer\Autoload\ClassLoader $loader */
+$loader = require_once __DIR__ . '/../app/bootstrap.php';
 $kernel = new AppKernel(getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
 
 if (in_array(getenv('SYMFONY_ENV'), ['prod'], true)) {
