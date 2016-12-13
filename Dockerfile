@@ -25,17 +25,13 @@ RUN curl -s -f -L -o /tmp/composer-setup.php https://getcomposer.org/installer \
 
 WORKDIR /app
 
-COPY ["composer.json", "composer.lock", "/app/"]
-
-RUN composer install --no-interaction --no-ansi --no-autoloader --no-scripts --no-plugins --no-dev
-
-COPY /bin /app/bin/
-COPY /config /app/config/
-COPY /source /app/source/
-COPY /templates /app/templates/
+COPY ["composer.json", "composer.lock", "LICENSE", "/app/"]
+COPY /app /app/app/
+COPY /cfg /app/cfg/
+COPY /src /app/src/
 COPY /web /app/web/
 
-RUN composer dump-autoload --no-interaction --no-ansi --optimize --no-dev
+RUN composer install --no-interaction --no-ansi --no-autoloader --no-scripts --no-plugins --no-dev
 
 VOLUME /composer
 EXPOSE 8000
