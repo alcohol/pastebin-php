@@ -87,11 +87,7 @@ class AppKernel extends Kernel
      */
     public function getCacheDir()
     {
-        return sprintf(
-            '%s/../var/%s/cache',
-            $this->rootDir,
-            $this->environment
-        );
+        return sprintf('%s/../var/%s/cache', $this->rootDir, $this->environment);
     }
 
     /**
@@ -99,11 +95,7 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return sprintf(
-            '%s/../var/%s/log',
-            $this->rootDir,
-            $this->environment
-        );
+        return sprintf('%s/../var/%s/log', $this->rootDir, $this->environment);
     }
 
     /**
