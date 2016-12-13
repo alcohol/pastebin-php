@@ -56,7 +56,6 @@ class AppKernel extends Kernel
             new TwigBundle(),
             new FrameworkBundle(),
             new MonologBundle(),
-            new AppBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
