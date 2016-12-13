@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace AppBundle\Controller;
 
-use AppBundle\IntegrationTest;
+use Paste\IntegrationTest;
 
 /**
  * @group integration

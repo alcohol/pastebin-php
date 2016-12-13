@@ -9,10 +9,10 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace AppBundle\Controller;
+namespace Paste\Controller;
 
-use AppBundle\Exception\StorageException;
-use AppBundle\Repository\PasteRepository;
+use Paste\Exception\StorageException;
+use Paste\Repository\PasteRepository;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;

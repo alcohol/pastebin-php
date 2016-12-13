@@ -9,9 +9,9 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace AppBundle\EventListener;
+namespace Paste\EventListener;
 
-use AppBundle\Security\HashGenerator;
+use Paste\Security\HashGenerator;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 
 final class ResponseListener

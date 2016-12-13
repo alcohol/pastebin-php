@@ -9,7 +9,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace AppBundle\EventListener;
+namespace Paste\EventListener;
 
 use Predis\Connection\ConnectionException;
 use Psr\Log\LoggerInterface;

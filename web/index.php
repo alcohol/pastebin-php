@@ -9,8 +9,8 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-use AppBundle\AppCache;
-use AppBundle\AppKernel;
+use Paste\AppCache;
+use Paste\AppKernel;
 use Symfony\Component\HttpFoundation\Request;
 
 /** @var \Composer\Autoload\ClassLoader $loader */

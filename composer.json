@@ -19,13 +19,13 @@
     },
     "autoload": {
         "psr-4": {
-            "AppBundle\\": ["src"]
+            "Paste\\": ["src"]
         },
         "classmap": ["app/AppKernel.php", "app/AppCache.php"]
     },
     "autoload-dev": {
         "psr-4": {
-            "AppBundle\\": ["tests/integration", "tests/unit"]
+            "Paste\\": ["tests/integration", "tests/unit"]
         }
     },
     "scripts": {

@@ -9,7 +9,7 @@ declare(strict_types=1);
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace AppBundle;
+namespace Paste;
 
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
@@ -95,7 +95,8 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return sprintf('%s/../var/%s/log', $this->rootDir, $this->environment);
+        return sprintf('%s/../var/%s/log', $this->rootDir, $this->environment
+        );
     }
 
     /**
