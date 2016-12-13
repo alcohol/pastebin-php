@@ -61,7 +61,7 @@ class IndexController
         $response
             ->setVary(['Accept', 'Accept-Encoding'])
             ->setEtag(md5($response->getContent()))
-            ->setTtl(60)
+            ->setTtl(3600)
             ->setClientTtl(300)
         ;
 
