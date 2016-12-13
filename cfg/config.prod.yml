@@ -44,51 +44,51 @@ services:
     class: 'Doctrine\Common\Cache\PredisCache'
     arguments: [ '@predis.client' ]
   paste.hash_generator:
-    class: 'AppBundle\Security\HashGenerator'
+    class: 'Paste\Security\HashGenerator'
     arguments: [ '%kernel.secret%' ]
   paste.repository:
-    class: 'AppBundle\Repository\PasteRepository'
+    class: 'Paste\Repository\PasteRepository'
     arguments: [ '@paste.cache', '%paste.ttl%' ]
 
   paste.controller.index:
-    class: 'AppBundle\Controller\IndexController'
+    class: 'Paste\Controller\IndexController'
     arguments: [ '@templating', '@router' ]
   paste.controller.create:
-    class: 'AppBundle\Controller\CreateController'
+    class: 'Paste\Controller\CreateController'
     arguments: [ '@templating', '@router', '@paste.repository' ]
   paste.controller.read:
-    class: 'AppBundle\Controller\ReadController'
+    class: 'Paste\Controller\ReadController'
     arguments: [ '@templating', '@router', '@paste.repository' ]
   paste.controller.update:
-    class: 'AppBundle\Controller\UpdateController'
+    class: 'Paste\Controller\UpdateController'
     arguments: [ '@paste.repository' ]
   paste.controller.delete:
-    class: 'AppBundle\Controller\DeleteController'
+    class: 'Paste\Controller\DeleteController'
     arguments: [ '@paste.repository' ]
 
   paste.kernel.exception_listener:
-    class: 'AppBundle\EventListener\ExceptionListener'
+    class: 'Paste\EventListener\ExceptionListener'
     arguments: [ '@logger' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.exception', method: 'handleEvent' }
   paste.kernel.request_listener:
-    class: 'AppBundle\EventListener\RequestListener'
+    class: 'Paste\EventListener\RequestListener'
     arguments: [ '@paste.hash_generator' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.request', method: 'handleEvent' }
   paste.kernel.response_listener:
-    class: 'AppBundle\EventListener\ResponseListener'
+    class: 'Paste\EventListener\ResponseListener'
     arguments: [ '@paste.hash_generator' ]
     tags:
       - { name: 'kernel.event_listener', event: 'kernel.response', method: 'handleEvent' }
 
   paste.command.read:
-    class: 'AppBundle\Console\Command\ReadCommand'
+    class: 'Paste\Console\Command\ReadCommand'
     arguments: [ '@paste.repository' ]
     tags:
       - { name: 'console.command' }
   paste.command.delete:
-    class: 'AppBundle\Console\Command\DeleteCommand'
+    class: 'Paste\Console\Command\DeleteCommand'
     arguments: [ '@paste.repository' ]
     tags:
       - { name: 'console.command' }
