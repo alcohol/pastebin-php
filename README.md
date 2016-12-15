@@ -16,14 +16,14 @@ A live deployment can be found at: [paste.robbast.nl](https://paste.robbast.nl)
 
 ## Setup
 
-```
+``` shell
 composer install
 ```
 
 
 ## Running
 
-```
+``` shell
 bin/console server:run
 ```
 
@@ -32,7 +32,7 @@ bin/console server:run
 
 ## Testing
 
-```
+``` shell
 vendor/bin/phpunit
 ```
 
@@ -43,7 +43,7 @@ vendor/bin/phpunit
 
 Adjust where applicable. If unsure, consult [NGINX documentation].
 
-``` Nginx
+``` nginx
 upstream php-fpm {
     server unix:/run/php-fpm/php-fpm.sock;
 }
@@ -80,7 +80,7 @@ Install Nginx.
 
 ## cURL examples
 
-``` Shell
+``` shell
 $ curl -X POST --data-binary 'Lorem ipsum' http://pastebin.tld
 # 201 Created
 # Location: /54ae

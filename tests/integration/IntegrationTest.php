@@ -18,8 +18,8 @@ abstract class IntegrationTest extends WebTestCase
     public static function createKernel(array $options = [])
     {
         return new AppKernel(
-            isset($options['environment']) ? $options['environment'] : 'test',
-            isset($options['debug']) ? $options['debug'] : true
+            isset($options['environment']) ? $options['environment'] : getenv('SYMFONY_ENV'),
+            isset($options['debug']) ? $options['debug'] : (bool) getenv('SYMFONY_DEBUG')
         );
     }
 }
