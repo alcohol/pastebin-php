@@ -20,9 +20,21 @@ A live deployment can be found at: [paste.robbast.nl](https://paste.robbast.nl)
 composer install
 ```
 
-Modify the `.env` file.
 
-> See [external parameters] regarding **SYMFONY__** prefixed environment variables.
+## Running
+
+```
+bin/console server:run
+```
+
+> Note: do not forget to modify the `.env` file.
+
+
+## Testing
+
+```
+vendor/bin/phpunit
+```
 
 
 ## Nginx config
@@ -64,13 +76,6 @@ server {
 ## Apache config
 
 Install Nginx.
-
-
-## Testing
-
-```
-vendor/bin/phpunit
-```
 
 
 ## cURL examples
