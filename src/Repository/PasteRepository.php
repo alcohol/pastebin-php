@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace Paste\Repository;
 
+use Doctrine\Common\Cache\Cache;
 use Paste\Entity\Paste;
 use Paste\Exception\StorageException;
-use Doctrine\Common\Cache\Cache;
 
 final class PasteRepository
 {
