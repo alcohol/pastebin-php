@@ -62,11 +62,7 @@ class ReadController
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));
 
         if ($accept->has('text/html') && !$raw) {
-            $body = $this->engine->render('read.html.twig', [
-                'paste' => $paste,
-                'hrefNew' => $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL),
-                'hrefRaw' => $this->router->generate('paste.read.raw', ['id' => $paste->getCode()], RouterInterface::ABSOLUTE_URL),
-            ]);
+            $body = $this->engine->render('read.html.twig', ['paste' => $paste]);
             $headers = ['Content-Type' => 'text/html'];
         } else {
             $body = $paste;

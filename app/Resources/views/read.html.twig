@@ -6,11 +6,11 @@
     <div class="topbar w-100 d-block clearfix">
         <p class="d-inline">
             <span class="fa fa-fw fa-file-text-o" aria-hidden="true"></span>
-            <a href="{{ hrefNew }}">new</a>
+            <a href="{{ path('paste.create') }}">new</a>
         </p>
         <p class="d-inline m-l-1">
             <span class="fa fa-fw fa-code" aria-hidden="true"></span>
-            <a href="{{ hrefRaw }}">raw</a>
+            <a href="{{ path('paste.read.raw', {'id': paste.code}) }}">raw</a>
         </p>
     </div>
 </div>

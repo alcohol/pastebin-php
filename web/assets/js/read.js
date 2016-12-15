@@ -26,5 +26,14 @@ addEventListener('load', function() {
         }
     });
 
-    hljs.highlightBlock(code);
+    /*
+    var el = $(code);
+    if (el.hasClass('hljs')) {
+        [].forEach.call(document.querySelectorAll('#hljs-selector > option'), function (option) {
+            if (el.hasClass(option.value)) {
+                option.selected = true;
+            }
+        });
+    }
+    */
 });

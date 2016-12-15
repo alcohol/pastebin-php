@@ -46,14 +46,12 @@ class IndexController
         $process = new Process('git log --pretty="%h" -n1 HEAD');
         $version = (0 === $process->run()) ? $process->getOutput() : 'head';
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));
-        $href = $this->router->generate('paste.create', [], RouterInterface::ABSOLUTE_URL);
-        $variables = ['version' => $version, 'href' => $href];
 
         if ($accept->has('text/html')) {
-            $body = $this->engine->render('index.html.twig', $variables);
+            $body = $this->engine->render('index.html.twig', ['version' => $version]);
             $headers = ['Content-Type' => 'text/html'];
         } else {
-            $body = $this->engine->render('index.text.twig', $variables);
+            $body = $this->engine->render('index.text.twig', ['version' => $version]);
             $headers = ['Content-Type' => 'text/plain'];
         }
 
