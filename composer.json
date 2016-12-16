@@ -1,39 +1,53 @@
 {
-    "type": "project",
-    "license": "MIT",
-    "require": {
-        "php": "^7.0.0",
-        "doctrine/cache": "^1.6",
-        "predis/predis": "^1.1",
-        "symfony/monolog-bundle": "^3.0",
-        "symfony/phpunit-bridge": "^3.2",
-        "symfony/symfony": "^3.2",
-        "twig/twig": "^1.28 || ^2.0",
-        "vlucas/phpdotenv": "^2.4",
-        "webmozart/assert": "^1.2"
+  "type": "project",
+  "license": "MIT",
+  "require": {
+    "php": "^7.0.0",
+    "doctrine/cache": "^1.6",
+    "predis/predis": "^1.1",
+    "symfony/monolog-bundle": "^3.0",
+    "symfony/phpunit-bridge": "^3.2",
+    "symfony/symfony": "^3.2",
+    "twig/twig": "^1.28 || ^2.0",
+    "vlucas/phpdotenv": "^2.4",
+    "webmozart/assert": "^1.2"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "dev-master || ^2.0",
+    "phpunit/phpunit": "^4.8 || ^5.0",
+    "phpunit/php-invoker": "^1.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Paste\\": ["src"]
     },
-    "require-dev": {
-        "friendsofphp/php-cs-fixer": "dev-master || ^2.0",
-        "phpunit/phpunit": "^4.8 || ^5.0",
-        "phpunit/php-invoker": "^1.1"
-    },
-    "autoload": {
-        "psr-4": {
-            "Paste\\": ["src"]
-        },
-        "classmap": ["app/AppKernel.php", "app/AppCache.php"]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Paste\\": ["tests/integration", "tests/unit"]
-        }
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "[ -f .env ] || cp -v .env.example .env"
-        ],
-        "post-update-cmd": [
-            "[ -f .env ] || cp -v .env.example .env"
-        ]
+    "classmap": ["app/AppKernel.php", "app/AppCache.php"]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Paste\\": ["tests/integration", "tests/unit"]
     }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "[ -f .env ] || cp -v .env.example .env",
+      "@purge-cache",
+      "@fix-permissions"
+    ],
+    "post-update-cmd": [
+      "[ -f .env ] || cp -v .env.example .env",
+      "@purge-cache",
+      "@fix-permissions"
+    ],
+    "purge-cache": [
+      "rm -rf var/{dev,test,prod}"
+    ],
+    "fix-permissions": [
+      "chown --recursive --silent rob:http . || true",
+      "find . -type f -exec chmod 0640 '{}' +",
+      "find . -type d -exec chmod 0750 '{}' +",
+      "chmod 0770 var",
+      "chmod 0750 bin/console"
+    ]
+  }
 }
