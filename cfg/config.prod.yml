@@ -52,13 +52,13 @@ services:
 
   paste.controller.index:
     class: 'Paste\Controller\IndexController'
-    arguments: [ '@templating', '@router' ]
+    arguments: [ '@templating' ]
   paste.controller.create:
     class: 'Paste\Controller\CreateController'
     arguments: [ '@templating', '@router', '@paste.repository' ]
   paste.controller.read:
     class: 'Paste\Controller\ReadController'
-    arguments: [ '@templating', '@router', '@paste.repository' ]
+    arguments: [ '@templating', '@paste.repository' ]
   paste.controller.update:
     class: 'Paste\Controller\UpdateController'
     arguments: [ '@paste.repository' ]

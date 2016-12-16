@@ -16,24 +16,18 @@ use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Routing\RouterInterface;
 
 class IndexController
 {
-    /** @var RouterInterface */
-    protected $router;
-
     /** @var EngineInterface */
     private $engine;
 
     /**
      * @param EngineInterface $engine
-     * @param RouterInterface $router
      */
-    public function __construct(EngineInterface $engine, RouterInterface $router)
+    public function __construct(EngineInterface $engine)
     {
         $this->engine = $engine;
-        $this->router = $router;
     }
 
     /**

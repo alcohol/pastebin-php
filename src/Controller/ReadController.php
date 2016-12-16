@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Routing\RouterInterface;
 
 class ReadController
 {
@@ -27,20 +26,14 @@ class ReadController
 
     /** @var EngineInterface */
     private $engine;
-    /**
-     * @var RouterInterface
-     */
-    private $router;
 
     /**
      * @param EngineInterface $engine
-     * @param RouterInterface $router
      * @param PasteRepository $repository
      */
-    public function __construct(EngineInterface $engine, RouterInterface $router, PasteRepository $repository)
+    public function __construct(EngineInterface $engine, PasteRepository $repository)
     {
         $this->engine = $engine;
-        $this->router = $router;
         $this->repository = $repository;
     }
 
