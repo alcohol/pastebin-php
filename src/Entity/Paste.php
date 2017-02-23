@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -11,7 +9,7 @@ declare(strict_types=1);
 
 namespace Paste\Entity;
 
-class Paste
+class Paste implements \Serializable
 {
     /** @var string */
     protected $code;
@@ -20,27 +18,25 @@ class Paste
     protected $body;
 
     /**
-     * @param string $code
      * @param string $body
      */
-    public function __construct(string $code, string $body)
+    public function __construct(string $body)
     {
-        $this->setCode($code);
         $this->setBody($body);
     }
 
     /**
      * @param string $code
      */
-    protected function setCode(string $code)
+    public function setCode(string $code)
     {
         $this->code = $code;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getCode(): string
+    public function getCode()
     {
         return $this->code;
     }
@@ -70,10 +66,18 @@ class Paste
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function __sleep(): array
+    public function serialize(): string
     {
-        return ['code', 'body'];
+        return serialize([$this->code, $this->body]);
+    }
+
+    /**
+     * @param string $serialized
+     */
+    public function unserialize($serialized)
+    {
+        list($this->code, $this->body) = unserialize($serialized);
     }
 }

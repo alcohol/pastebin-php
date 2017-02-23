@@ -16,7 +16,7 @@ $finder
     ->in(__DIR__)
 ;
 
-/* Based on dev-master|^2.0 of php-cs-fixer */
+/* Based on ^2.0 of php-cs-fixer */
 $config
     ->setRules([
         // default
@@ -24,7 +24,9 @@ $config
         '@Symfony' => true,
         // additionally
         'array_syntax' => ['syntax' => 'short'],
+        'blank_line_after_opening_tag' => false,
         'concat_space' => ['spacing' => 'one'],
+        'declare_strict_types' => true,
         'header_comment' => ['header' => $header],
         'no_unused_imports' => false,
         'no_useless_else' => true,
@@ -32,7 +34,6 @@ $config
         'ordered_imports' => true,
         'phpdoc_align' => false,
         'phpdoc_order' => true,
-        'phpdoc_params' => false,
         'phpdoc_summary' => false,
         'simplified_null_return' => false,
     ])

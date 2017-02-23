@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -49,7 +47,7 @@ class AppKernel extends Kernel
     /**
      * @return array
      */
-    public function registerBundles()
+    public function registerBundles(): array
     {
         $bundles = [
             /* 3rd party bundles */
@@ -85,7 +83,7 @@ class AppKernel extends Kernel
     /**
      * @return string
      */
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return sprintf('%s/../var/%s/cache', $this->rootDir, $this->environment);
     }
@@ -93,7 +91,7 @@ class AppKernel extends Kernel
     /**
      * @return string
      */
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return sprintf('%s/../var/%s/log', $this->rootDir, $this->environment
         );
@@ -102,7 +100,7 @@ class AppKernel extends Kernel
     /**
      * @return string
      */
-    public function getRootDir()
+    public function getRootDir(): string
     {
         return __DIR__;
     }

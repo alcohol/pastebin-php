@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -11,8 +9,8 @@ declare(strict_types=1);
 
 namespace Paste\Controller;
 
-use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
+use Paste\Repository\StorageException;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;

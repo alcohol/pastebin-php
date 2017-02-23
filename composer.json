@@ -13,8 +13,8 @@
     "webmozart/assert": "^1.2"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "dev-master || ^2.0",
-    "phpunit/phpunit": "^4.8 || ^5.0",
+    "friendsofphp/php-cs-fixer": "^2.0",
+    "phpunit/phpunit": "^5.0",
     "phpunit/php-invoker": "^1.1"
   },
   "autoload": {
@@ -30,24 +30,10 @@
   },
   "scripts": {
     "post-install-cmd": [
-      "[ -f .env ] || cp -v .env.example .env",
-      "@purge-cache",
-      "@fix-permissions"
+      "[ -f .env ] || cp -v .env.example .env"
     ],
     "post-update-cmd": [
-      "[ -f .env ] || cp -v .env.example .env",
-      "@purge-cache",
-      "@fix-permissions"
-    ],
-    "purge-cache": [
-      "rm -rf var/{dev,test,prod}"
-    ],
-    "fix-permissions": [
-      "chown --recursive --silent rob:http . || true",
-      "find . -type f -exec chmod 0640 '{}' +",
-      "find . -type d -exec chmod 0750 '{}' +",
-      "chmod 0770 var",
-      "chmod 0750 bin/console"
+      "[ -f .env ] || cp -v .env.example .env"
     ]
   }
 }

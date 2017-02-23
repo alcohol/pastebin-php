@@ -1,6 +1,4 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -13,7 +11,6 @@ namespace Paste\Repository;
 
 use Doctrine\Common\Cache\Cache;
 use Paste\Entity\Paste;
-use Paste\Exception\StorageException;
 
 final class PasteRepository
 {
@@ -31,29 +28,6 @@ final class PasteRepository
     {
         $this->cache = $cache;
         $this->default_ttl = $default_ttl;
-    }
-
-    /**
-     * @param string $body
-     *
-     * @return Paste
-     */
-    public function create(string $body): Paste
-    {
-        $retries = 10;
-
-        do {
-            if (0 === $retries--) {
-                throw new StorageException('Failed to generate a unique key.');
-            }
-
-            $bytes = random_bytes(4);
-            $code = bin2hex($bytes);
-        } while ($this->cache->contains($code));
-
-        $paste = new Paste($code, $body);
-
-        return $paste;
     }
 
     /**
@@ -102,6 +76,21 @@ final class PasteRepository
     {
         if (null === $ttl) {
             $ttl = $this->default_ttl;
+        }
+
+        if (null === $paste->getCode()) {
+            $retries = 10;
+
+            do {
+                if (0 === $retries--) {
+                    throw new StorageException('Failed to generate a unique code.');
+                }
+
+                $bytes = random_bytes(4);
+                $code = bin2hex($bytes);
+            } while ($this->cache->contains($code));
+
+            $paste->setCode($code);
         }
 
         if (!$this->cache->save($paste->getCode(), serialize($paste), $ttl)) {
