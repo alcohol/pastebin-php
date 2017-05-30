@@ -14,15 +14,19 @@ use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
+use Symfony\Bundle\WebServerBundle\WebServerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $name = 'paste';
-
-    /** @var array */
+    /**
+     * @var array
+     */
     public static $environments = ['test', 'dev', 'prod'];
 
     /**
@@ -45,7 +49,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * @return array
+     * @return \Symfony\Component\HttpKernel\Bundle\BundleInterface[]
      */
     public function registerBundles(): array
     {
@@ -58,6 +62,7 @@ class AppKernel extends Kernel
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
             $bundles[] = new DebugBundle();
+            $bundles[] = new WebServerBundle();
             $bundles[] = new WebProfilerBundle();
         }
 
@@ -65,9 +70,7 @@ class AppKernel extends Kernel
     }
 
     /**
-     * @param LoaderInterface $loader
-     *
-     * @throws \RuntimeException
+     * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
      */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
@@ -93,8 +96,7 @@ class AppKernel extends Kernel
      */
     public function getLogDir(): string
     {
-        return sprintf('%s/../var/%s/log', $this->rootDir, $this->environment
-        );
+        return sprintf('%s/../var/%s/log', $this->rootDir, $this->environment);
     }
 
     /**

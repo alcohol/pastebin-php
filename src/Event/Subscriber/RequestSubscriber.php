@@ -7,20 +7,24 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Paste\EventListener;
+namespace Paste\Event\Subscriber;
 
 use Paste\Security\HashGenerator;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-final class RequestListener
+final class RequestSubscriber implements EventSubscriberInterface
 {
-    /** @var HashGenerator */
+    /**
+     * @var \Paste\Security\HashGenerator
+     */
     private $generator;
 
     /**
-     * @param HashGenerator $generator
+     * @param \Paste\Security\HashGenerator $generator
      */
     public function __construct(HashGenerator $generator)
     {
@@ -28,11 +32,24 @@ final class RequestListener
     }
 
     /**
-     * @param GetResponseEvent $event
-     *
-     * @throws BadRequestHttpException
+     * @return array
      */
-    public function handleEvent(GetResponseEvent $event)
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::REQUEST => [
+                ['onRequest', 0],
+            ]
+        ];
+    }
+
+    /**
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseEvent $event
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\BadRequestHttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function onRequest(GetResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;

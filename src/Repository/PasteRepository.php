@@ -11,17 +11,21 @@ namespace Paste\Repository;
 
 use Doctrine\Common\Cache\Cache;
 use Paste\Entity\Paste;
+use Paste\Exception\StorageException;
 
 final class PasteRepository
 {
-    /** @var Cache */
+    /**
+     * @var \Doctrine\Common\Cache\Cache
+     */
     private $cache;
-
-    /** @var int */
+    /**
+     * @var int
+     */
     private $default_ttl;
 
     /**
-     * @param Cache $cache
+     * @param \Doctrine\Common\Cache\Cache $cache
      * @param int $default_ttl
      */
     public function __construct(Cache $cache, int $default_ttl)
@@ -33,9 +37,9 @@ final class PasteRepository
     /**
      * @param string $code
      *
-     * @throws StorageException
+     * @throws \Paste\Exception\StorageException
      *
-     * @return Paste
+     * @return \Paste\Entity\Paste
      */
     public function find(string $code): Paste
     {
@@ -49,9 +53,9 @@ final class PasteRepository
     }
 
     /**
-     * @param Paste $paste
+     * @param \Paste\Entity\Paste $paste
      *
-     * @throws StorageException
+     * @throws \Paste\Exception\StorageException
      *
      * @return bool
      */
@@ -65,12 +69,12 @@ final class PasteRepository
     }
 
     /**
-     * @param Paste $paste
-     * @param int $ttl
+     * @param \Paste\Entity\Paste $paste
+     * @param int|null $ttl
      *
-     * @throws StorageException
+     * @throws \Paste\Exception\StorageException
      *
-     * @return Paste
+     * @return \Paste\Entity\Paste
      */
     public function persist(Paste $paste, int $ttl = null): Paste
     {

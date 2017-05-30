@@ -1,29 +1,29 @@
 paste.index:
   path: /
   methods: [GET]
-  defaults: { _controller: paste.controller.index }
+  defaults: { _controller: Paste\Controller\IndexController }
 
 paste.create:
   path: /
   methods: [PUT,POST]
-  defaults: { _controller: paste.controller.create }
+  defaults: { _controller: Paste\Controller\CreateController }
 
 paste.read:
   path: /{id}
   methods: [GET]
-  defaults: { _controller: paste.controller.read }
+  defaults: { _controller: Paste\Controller\ReadController }
 
 paste.read.raw:
   path: /{id}/raw
   methods: [GET]
-  defaults: { _controller: paste.controller.read, raw: true }
+  defaults: { _controller: Paste\Controller\ReadController, raw: true }
 
 paste.update:
   path: /{id}
   methods: [PUT]
-  defaults: { _controller: paste.controller.update }
+  defaults: { _controller: Paste\Controller\UpdateController }
 
 paste.delete:
   path: /{id}
   methods: [DELETE]
-  defaults: { _controller: paste.controller.delete }
+  defaults: { _controller: Paste\Controller\DeleteController }

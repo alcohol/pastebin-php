@@ -7,22 +7,26 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Paste\EventListener;
+namespace Paste\Event\Subscriber;
 
 use Predis\Connection\ConnectionException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-final class ExceptionListener
+final class ExceptionSubscriber implements EventSubscriberInterface
 {
-    /** @var LoggerInterface */
+    /**
+     * @var \Psr\Log\LoggerInterface
+     */
     private $logger;
 
     /**
-     * @param LoggerInterface $logger
+     * @param \Psr\Log\LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
     {
@@ -30,17 +34,28 @@ final class ExceptionListener
     }
 
     /**
-     * @param GetResponseForExceptionEvent $event
+     * @return array
      */
-    public function handleEvent(GetResponseForExceptionEvent $event)
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::EXCEPTION => [
+                ['onException', 10],
+                ['logException', 0],
+            ]
+        ];
+    }
+
+    /**
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     */
+    public function onException(GetResponseForExceptionEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;
         }
 
         $exception = $event->getException();
-
-        $this->logger->error($exception);
 
         $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
 
@@ -55,5 +70,13 @@ final class ExceptionListener
         }
 
         $event->setResponse($response);
+    }
+
+    /**
+     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
+     */
+    public function logException(GetResponseForExceptionEvent $event)
+    {
+        $this->logger->error($event->getException());
     }
 }

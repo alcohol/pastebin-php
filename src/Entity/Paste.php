@@ -9,12 +9,15 @@
 
 namespace Paste\Entity;
 
-class Paste implements \Serializable
+final class Paste implements \Serializable
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $code;
-
-    /** @var string */
+    /**
+     * @var string
+     */
     protected $body;
 
     /**

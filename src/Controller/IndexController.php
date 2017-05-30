@@ -15,13 +15,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Process\Process;
 
-class IndexController
+final class IndexController
 {
-    /** @var EngineInterface */
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
+     */
     private $engine;
 
     /**
-     * @param EngineInterface $engine
+     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $engine
      */
     public function __construct(EngineInterface $engine)
     {
@@ -29,9 +31,9 @@ class IndexController
     }
 
     /**
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function __invoke(Request $request): Response
     {
