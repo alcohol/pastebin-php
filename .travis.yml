@@ -24,11 +24,7 @@ services:
 matrix:
   include:
     - php: 7.0
-    - php: 7.0
-      env: SYMFONY_ENV=prod
     - php: 7.1
-    - php: 7.1
-      env: SYMFONY_ENV=prod
     - php: nightly
   fast_finish: true
   allow_failures:
