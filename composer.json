@@ -13,7 +13,6 @@
     "webmozart/assert": "^1.2"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^2.0",
     "phpunit/phpunit": "^5.0",
     "phpunit/php-invoker": "^1.1"
   },

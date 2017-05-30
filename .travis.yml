@@ -7,7 +7,6 @@ branches:
 cache:
   directories:
     - "$HOME/.composer/cache/files"
-    - "$HOME/.php-cs-fixer"
 
 branches:
   only:
@@ -33,11 +32,5 @@ matrix:
 install:
   - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
 
-before_script:
-  - mkdir -p "$HOME/.php-cs-fixer"
-
 script:
   - vendor/bin/phpunit
-
-after_script:
-  - vendor/bin/php-cs-fixer fix --allow-risky true --cache-file "$HOME/.php-cs-fixer/.php_cs.cache" --dry-run --diff --verbose
