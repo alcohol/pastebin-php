@@ -55,8 +55,10 @@ services:
   Predis\ClientInterface:
     alias: 'Predis\Client'
 
-  Doctrine\Common\Cache\PredisCache:
-    alias: 'Doctrine\Common\Cache\Cache'
+  Doctrine\Common\Cache\PredisCache: ~
+
+  Doctrine\Common\Cache\Cache:
+    alias: 'Doctrine\Common\Cache\PredisCache'
 
   Paste\Security\HashGenerator:
     arguments:
