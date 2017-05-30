@@ -7,8 +7,10 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Paste\Repository;
+namespace Paste\Exception;
 
-class StorageException extends \RuntimeException
+use Paste\Exception;
+
+class StorageException extends \RuntimeException implements Exception
 {
 }

@@ -9,18 +9,20 @@
 
 namespace Paste\Controller;
 
+use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
-use Paste\Repository\StorageException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class DeleteController
+final class DeleteController
 {
-    /** @var PasteRepository */
+    /**
+     * @var \Paste\Repository\PasteRepository
+     */
     protected $repository;
 
     /**
-     * @param PasteRepository $repository
+     * @param \Paste\Repository\PasteRepository $repository
      */
     public function __construct(PasteRepository $repository)
     {
@@ -30,7 +32,7 @@ class DeleteController
     /**
      * @param string $id
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function __invoke(string $id): Response
     {

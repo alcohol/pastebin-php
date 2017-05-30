@@ -17,5 +17,13 @@ web_profiler:
   toolbar: false
 
 services:
-  paste.cache:
-    class: 'Doctrine\Common\Cache\ArrayCache'
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Doctrine\Common\Cache\ArrayCache: ~
+
+  Doctrine\Common\Cache\Cache:
+    alias: 'Doctrine\Common\Cache\ArrayCache'
+

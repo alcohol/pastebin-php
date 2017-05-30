@@ -7,18 +7,22 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Paste\EventListener;
+namespace Paste\Event\Subscriber;
 
 use Paste\Security\HashGenerator;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
-final class ResponseListener
+final class ResponseSubscriber implements EventSubscriberInterface
 {
-    /** @var HashGenerator */
+    /**
+     * @var \Paste\Security\HashGenerator
+     */
     private $generator;
 
     /**
-     * @param HashGenerator $generator
+     * @param \Paste\Security\HashGenerator $generator
      */
     public function __construct(HashGenerator $generator)
     {
@@ -26,9 +30,21 @@ final class ResponseListener
     }
 
     /**
-     * @param FilterResponseEvent $event
+     * @return array
      */
-    public function handleEvent(FilterResponseEvent $event)
+    public static function getSubscribedEvents()
+    {
+        return [
+            KernelEvents::RESPONSE => [
+                ['onResponse', 0],
+            ]
+        ];
+    }
+
+    /**
+     * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
+     */
+    public function onResponse(FilterResponseEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;

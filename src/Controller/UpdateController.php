@@ -9,20 +9,22 @@
 
 namespace Paste\Controller;
 
+use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
-use Paste\Repository\StorageException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
-class UpdateController
+final class UpdateController
 {
-    /** @var PasteRepository */
+    /**
+     * @var \Paste\Repository\PasteRepository
+     */
     protected $repository;
 
     /**
-     * @param PasteRepository $repository
+     * @param \Paste\Repository\PasteRepository $repository
      */
     public function __construct(PasteRepository $repository)
     {
@@ -30,10 +32,10 @@ class UpdateController
     }
 
     /**
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      * @param string $id
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function __invoke(Request $request, string $id): Response
     {

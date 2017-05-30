@@ -10,8 +10,8 @@
 namespace Paste\Controller;
 
 use Paste\Entity\Paste;
+use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
-use Paste\Repository\StorageException;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -21,21 +21,25 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
-class CreateController
+final class CreateController
 {
-    /** @var PasteRepository */
+    /**
+     * @var \Paste\Repository\PasteRepository
+     */
     protected $repository;
-
-    /** @var RouterInterface */
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
     protected $router;
-
-    /** @var EngineInterface */
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
+     */
     private $engine;
 
     /**
-     * @param EngineInterface $engine
-     * @param RouterInterface $router
-     * @param PasteRepository $repository
+     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $engine
+     * @param \Symfony\Component\Routing\RouterInterface $router
+     * @param \Paste\Repository\PasteRepository $repository
      */
     public function __construct(EngineInterface $engine, RouterInterface $router, PasteRepository $repository)
     {
@@ -45,9 +49,9 @@ class CreateController
     }
 
     /**
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function __invoke(Request $request): Response
     {

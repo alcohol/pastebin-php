@@ -16,13 +16,15 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class DeleteCommand extends Command
+final class DeleteCommand extends Command
 {
-    /** @var PasteRepository */
+    /**
+     * @var \Paste\Repository\PasteRepository
+     */
     protected $repository;
 
     /**
-     * @param PasteRepository $repository
+     * @param \Paste\Repository\PasteRepository $repository
      */
     public function __construct(PasteRepository $repository)
     {
@@ -40,6 +42,12 @@ class DeleteCommand extends Command
         ;
     }
 
+    /**
+     * @param \Symfony\Component\Console\Input\InputInterface $input
+     * @param \Symfony\Component\Console\Output\OutputInterface $output
+     *
+     * @return int
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($output instanceof ConsoleOutputInterface) {

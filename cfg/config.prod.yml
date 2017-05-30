@@ -31,64 +31,37 @@ twig:
   strict_variables: '%kernel.debug%'
 
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
 
-  predis.client:
-    class: 'Predis\Client'
+  Paste\:
+    resource: '../src/*'
+    exclude: '../src/{Entity,Exception}'
+
+  Paste\Controller\:
+    resource: '../src/Controller/*'
+    public: true
+    tags: ['controller.service_arguments']
+
+  Predis\Client:
     arguments:
       -
         scheme: '%redis.scheme%'
         host: '%redis.host%'
         port: '%redis.port%'
 
-  paste.cache:
-    class: 'Doctrine\Common\Cache\PredisCache'
-    arguments: [ '@predis.client' ]
-  paste.hash_generator:
-    class: 'Paste\Security\HashGenerator'
-    arguments: [ '%kernel.secret%' ]
-  paste.repository:
-    class: 'Paste\Repository\PasteRepository'
-    arguments: [ '@paste.cache', '%paste.ttl%' ]
+  Predis\ClientInterface:
+    alias: 'Predis\Client'
 
-  paste.controller.index:
-    class: 'Paste\Controller\IndexController'
-    arguments: [ '@templating' ]
-  paste.controller.create:
-    class: 'Paste\Controller\CreateController'
-    arguments: [ '@templating', '@router', '@paste.repository' ]
-  paste.controller.read:
-    class: 'Paste\Controller\ReadController'
-    arguments: [ '@templating', '@paste.repository' ]
-  paste.controller.update:
-    class: 'Paste\Controller\UpdateController'
-    arguments: [ '@paste.repository' ]
-  paste.controller.delete:
-    class: 'Paste\Controller\DeleteController'
-    arguments: [ '@paste.repository' ]
+  Doctrine\Common\Cache\PredisCache:
+    alias: 'Doctrine\Common\Cache\Cache'
 
-  paste.kernel.exception_listener:
-    class: 'Paste\EventListener\ExceptionListener'
-    arguments: [ '@logger' ]
-    tags:
-      - { name: 'kernel.event_listener', event: 'kernel.exception', method: 'handleEvent' }
-  paste.kernel.request_listener:
-    class: 'Paste\EventListener\RequestListener'
-    arguments: [ '@paste.hash_generator' ]
-    tags:
-      - { name: 'kernel.event_listener', event: 'kernel.request', method: 'handleEvent' }
-  paste.kernel.response_listener:
-    class: 'Paste\EventListener\ResponseListener'
-    arguments: [ '@paste.hash_generator' ]
-    tags:
-      - { name: 'kernel.event_listener', event: 'kernel.response', method: 'handleEvent' }
+  Paste\Security\HashGenerator:
+    arguments:
+      $secret: '%kernel.secret%'
 
-  paste.command.read:
-    class: 'Paste\Console\Command\ReadCommand'
-    arguments: [ '@paste.repository' ]
-    tags:
-      - { name: 'console.command' }
-  paste.command.delete:
-    class: 'Paste\Console\Command\DeleteCommand'
-    arguments: [ '@paste.repository' ]
-    tags:
-      - { name: 'console.command' }
+  Paste\Repository\PasteRepository:
+    arguments:
+      $default_ttl: '%paste.ttl%'

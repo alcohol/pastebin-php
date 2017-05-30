@@ -13,7 +13,9 @@ use Paste\AppCache;
 use Paste\AppKernel;
 use Symfony\Component\HttpFoundation\Request;
 
-/** @var \Composer\Autoload\ClassLoader $loader */
+/**
+ * @var \Composer\Autoload\ClassLoader $loader
+ */
 $loader = require_once __DIR__ . '/../app/bootstrap.php';
 $kernel = new AppKernel((string) getenv('SYMFONY_ENV'), (bool) getenv('SYMFONY_DEBUG'));
 

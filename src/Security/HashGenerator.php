@@ -13,11 +13,15 @@ use Webmozart\Assert\Assert;
 
 final class HashGenerator
 {
-    /** @var string */
+    /**
+     * @var string
+     */
     private $secret;
 
     /**
      * @param string $secret
+     *
+     * @throws \InvalidArgumentException
      */
     public function __construct(string $secret)
     {
