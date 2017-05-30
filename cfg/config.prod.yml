@@ -1,5 +1,5 @@
 parameters:
-  paste.ttl: 604800
+  paste.ttl: 2592000
   redis.scheme: 'tcp'
   redis.host: 'localhost'
   redis.port: 6379
