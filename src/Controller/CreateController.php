@@ -65,7 +65,7 @@ final class CreateController
             throw new BadRequestHttpException('No input received.');
         }
 
-        $paste = new Paste($body);
+        $paste = Paste::create($body);
 
         $ttl = null;
         if ($request->headers->has('X-Paste-Ttl')) {
@@ -73,7 +73,7 @@ final class CreateController
         }
 
         try {
-            $this->repository->persist($paste, $ttl);
+            $paste = $this->repository->persist($paste, $ttl);
         } catch (StorageException $exception) {
             throw new ServiceUnavailableHttpException(300, $exception->getMessage());
         }

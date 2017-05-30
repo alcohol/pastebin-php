@@ -14,26 +14,51 @@ final class Paste implements \Serializable
     /**
      * @var string
      */
-    protected $code;
+    private $code;
     /**
      * @var string
      */
-    protected $body;
+    private $body;
 
     /**
      * @param string $body
+     *
+     * @return \Paste\Entity\Paste
      */
-    public function __construct(string $body)
+    public static function create($body)
     {
-        $this->setBody($body);
+        $paste = new self();
+        $paste->body = $body;
+
+        return $paste;
     }
 
     /**
      * @param string $code
+     *
+     * @return \Paste\Entity\Paste
      */
-    public function setCode(string $code)
+    public function persist($code)
     {
-        $this->code = $code;
+        $paste = new self();
+        $paste->code = $code;
+        $paste->body = $this->body;
+
+        return $paste;
+    }
+
+    /**
+     * @param string $body
+     *
+     * @return \Paste\Entity\Paste
+     */
+    public function update($body)
+    {
+        $paste = new self();
+        $paste->code = $this->code;
+        $paste->body = $body;
+
+        return $paste;
     }
 
     /**
@@ -45,17 +70,9 @@ final class Paste implements \Serializable
     }
 
     /**
-     * @param string $body
+     * @return string|null
      */
-    public function setBody(string $body)
-    {
-        $this->body = $body;
-    }
-
-    /**
-     * @return string
-     */
-    public function getBody(): string
+    public function getBody()
     {
         return $this->body;
     }

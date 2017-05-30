@@ -94,7 +94,7 @@ final class PasteRepository
                 $code = bin2hex($bytes);
             } while ($this->cache->contains($code));
 
-            $paste->setCode($code);
+            $paste = $paste->persist($code);
         }
 
         if (!$this->cache->save($paste->getCode(), serialize($paste), $ttl)) {

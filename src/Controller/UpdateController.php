@@ -45,7 +45,7 @@ final class UpdateController
             throw new NotFoundHttpException();
         }
 
-        $paste->setBody($request->getContent());
+        $paste = $paste->update($request->getContent());
 
         $ttl = null;
         if ($request->headers->has('X-Paste-Ttl')) {
