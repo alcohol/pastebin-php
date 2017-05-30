@@ -1,6 +1,7 @@
 # alcohol/paste.robbast.nl
 
-A demo that attempts to setup a minimalistic Symfony application.
+My personal pastebin application. Initially created as a minimalistic approach to setting up a Symfony application. Over
+time it has evolved and grown, with each new Symfony release.
 
 Inspired by [sprunge.us](http://sprunge.us).
 
