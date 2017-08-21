@@ -20,36 +20,35 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ExceptionSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var \Psr\Log\LoggerInterface
-     */
     private $logger;
 
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
-    /**
-     * @return array
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::EXCEPTION => [
-                ['onException', 10],
-                ['logException', 0],
-            ]
+                ['logException', 20],
+                ['handleException', 10],
+            ],
         ];
     }
 
-    /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
-     */
-    public function onException(GetResponseForExceptionEvent $event)
+    public function logException(GetResponseForExceptionEvent $event)
+    {
+        $exception = $event->getException();
+
+        $this->logger->error($exception->getMessage(), ['exception' => [
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+        ]]);
+    }
+
+    public function handleException(GetResponseForExceptionEvent $event)
     {
         if (!$event->isMasterRequest()) {
             return;
@@ -70,13 +69,5 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         }
 
         $event->setResponse($response);
-    }
-
-    /**
-     * @param \Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent $event
-     */
-    public function logException(GetResponseForExceptionEvent $event)
-    {
-        $this->logger->error($event->getException());
     }
 }

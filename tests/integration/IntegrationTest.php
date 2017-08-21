@@ -10,6 +10,7 @@
 namespace Paste;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Response;
 
 abstract class IntegrationTest extends WebTestCase
 {
@@ -19,5 +20,13 @@ abstract class IntegrationTest extends WebTestCase
             isset($options['environment']) ? $options['environment'] : getenv('SYMFONY_ENV'),
             isset($options['debug']) ? $options['debug'] : (bool) getenv('SYMFONY_DEBUG')
         );
+    }
+
+    public function extractLocationAndToken(Response $response): array
+    {
+        return [
+            $response->headers->get('Location'),
+            $response->headers->get('X-Paste-Token'),
+        ];
     }
 }

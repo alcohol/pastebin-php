@@ -17,24 +17,13 @@ use Symfony\Component\Process\Process;
 
 final class IndexController
 {
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-     */
     private $engine;
 
-    /**
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $engine
-     */
     public function __construct(EngineInterface $engine)
     {
         $this->engine = $engine;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function __invoke(Request $request): Response
     {
         $process = new Process('git log --pretty="%h" -n1 HEAD');

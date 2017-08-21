@@ -9,8 +9,11 @@
 
 namespace Paste\Controller;
 
+use Paste\Exception\InvalidTokenException;
+use Paste\Exception\MissingTokenException;
 use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
+use Paste\Security\HashGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,31 +21,29 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 final class UpdateController
 {
-    /**
-     * @var \Paste\Repository\PasteRepository
-     */
-    protected $repository;
+    private $repository;
+    private $generator;
 
-    /**
-     * @param \Paste\Repository\PasteRepository $repository
-     */
-    public function __construct(PasteRepository $repository)
+    public function __construct(PasteRepository $repository, HashGenerator $generator)
     {
         $this->repository = $repository;
+        $this->generator = $generator;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string $id
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function __invoke(Request $request, string $id): Response
     {
+        if (false === $request->headers->has('X-Paste-Token')) {
+            throw new MissingTokenException();
+        }
+
         try {
             $paste = $this->repository->find($id);
         } catch (StorageException $exception) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
+        }
+
+        if (false === hash_equals($request->headers->get('X-Paste-Token'), $this->generator->generateHash($id))) {
+            throw new InvalidTokenException();
         }
 
         $paste = $paste->update($request->getContent());

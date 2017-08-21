@@ -20,19 +20,11 @@ use Symfony\Component\HttpKernel\Kernel;
 
 class AppKernel extends Kernel
 {
-    /**
-     * @var string
-     */
-    protected $name = 'paste';
-    /**
-     * @var array
-     */
     public static $environments = ['test', 'dev', 'prod'];
 
+    protected $name = 'pastebin';
+
     /**
-     * @param string $environment
-     * @param bool $debug
-     *
      * @throws \RuntimeException
      */
     public function __construct(string $environment, bool $debug)
@@ -69,9 +61,6 @@ class AppKernel extends Kernel
         return $bundles;
     }
 
-    /**
-     * @param \Symfony\Component\Config\Loader\LoaderInterface $loader
-     */
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $config = sprintf('%s/../cfg/config.%s.yml', $this->rootDir, $this->getEnvironment());
@@ -83,25 +72,16 @@ class AppKernel extends Kernel
         $loader->load($config);
     }
 
-    /**
-     * @return string
-     */
     public function getCacheDir(): string
     {
         return sprintf('%s/../var/%s/cache', $this->rootDir, $this->environment);
     }
 
-    /**
-     * @return string
-     */
     public function getLogDir(): string
     {
         return sprintf('%s/../var/%s/log', $this->rootDir, $this->environment);
     }
 
-    /**
-     * @return string
-     */
     public function getRootDir(): string
     {
         return __DIR__;

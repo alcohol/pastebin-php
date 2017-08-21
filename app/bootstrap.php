@@ -10,11 +10,13 @@
 use Dotenv\Dotenv;
 
 /**
- * @var \Composer\Autoload\ClassLoader $loader
+ * @var \Composer\Autoload\ClassLoader
  */
 $loader = require dirname(__DIR__) . '/vendor/autoload.php';
 $dotenv = new Dotenv(dirname(__DIR__));
-$dotenv->load();
+if (file_exists(sprintf('%s/%s', dirname(__DIR__), '.env'))) {
+    $dotenv->load();
+}
 $dotenv->required([
     'SYMFONY_ENV',
     'SYMFONY_DEBUG',

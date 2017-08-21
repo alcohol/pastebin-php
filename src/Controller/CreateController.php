@@ -12,6 +12,7 @@ namespace Paste\Controller;
 use Paste\Entity\Paste;
 use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
+use Paste\Security\HashGenerator;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -23,36 +24,23 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CreateController
 {
-    /**
-     * @var \Paste\Repository\PasteRepository
-     */
-    protected $repository;
-    /**
-     * @var \Symfony\Component\Routing\RouterInterface
-     */
-    protected $router;
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-     */
+    private $repository;
+    private $router;
     private $engine;
+    private $generator;
 
-    /**
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $engine
-     * @param \Symfony\Component\Routing\RouterInterface $router
-     * @param \Paste\Repository\PasteRepository $repository
-     */
-    public function __construct(EngineInterface $engine, RouterInterface $router, PasteRepository $repository)
-    {
+    public function __construct(
+        EngineInterface $engine,
+        RouterInterface $router,
+        PasteRepository $repository,
+        HashGenerator $generator
+    ) {
         $this->engine = $engine;
         $this->router = $router;
         $this->repository = $repository;
+        $this->generator = $generator;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
     public function __invoke(Request $request): Response
     {
         if ($request->request->has('paste')) {
@@ -75,7 +63,7 @@ final class CreateController
         try {
             $paste = $this->repository->persist($paste, $ttl);
         } catch (StorageException $exception) {
-            throw new ServiceUnavailableHttpException(300, $exception->getMessage());
+            throw new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
         }
 
         $location = $this
@@ -86,6 +74,7 @@ final class CreateController
         $headers = [
             'Location' => $location,
             'X-Paste-Id' => $paste->getCode(),
+            'X-Paste-Token' => $this->generator->generateHash($paste->getCode()),
         ];
 
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));

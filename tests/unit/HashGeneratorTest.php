@@ -15,7 +15,7 @@ final class HashGeneratorTest extends \PHPUnit_Framework_TestCase
      * @test
      * @expectedException \TypeError
      */
-    public function itRequiresASecretToInstantiate()
+    public function it_requires_a_secret_to_instantiate()
     {
         new HashGenerator();
     }
@@ -27,7 +27,7 @@ final class HashGeneratorTest extends \PHPUnit_Framework_TestCase
      * @param mixed $input
      * @param \Throwable $expectedException
      */
-    public function itExplodesWhenSecretGivenIsOfType($input, $expectedException)
+    public function it_explodes_when_secret_given_is_of_type($input, $expectedException)
     {
         $this->expectException($expectedException);
 
@@ -45,13 +45,14 @@ final class HashGeneratorTest extends \PHPUnit_Framework_TestCase
             'array' => [[], \TypeError::class],
             'object / class' => [new \stdClass(), \TypeError::class],
             'empty string' => ['', \InvalidArgumentException::class],
+            'null' => [null, \TypeError::class],
         ];
     }
 
     /**
      * @test
      */
-    public function itInstantiatesWhenGivenAValidSecret()
+    public function it_instantiates_when_given_a_valid_secret()
     {
         $generator = new HashGenerator('secret');
 
@@ -61,36 +62,36 @@ final class HashGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function itProducesTheSameHashWhenGivenTheSameInput()
+    public function it_produces_the_same_hash_when_given_the_same_input()
     {
+        $input = 'hash-me';
         $generator = new HashGenerator('secret');
-        $generated = $generator->generateHash('abcd');
 
-        $this->assertSame($generated, $generator->generateHash('abcd'));
-        $this->assertSame($generated, $generator->generateHash('abcd'));
-        $this->assertSame($generated, $generator->generateHash('abcd'));
+        for ($i = 0; $i < 5; ++$i) {
+            $this->assertSame($generator->generateHash($input), $generator->generateHash($input));
+        }
     }
 
     /**
      * @test
      */
-    public function itProducesADifferentHashWhenGivenDifferentInputs()
+    public function it_produces_a_different_has_when_given_different_inputs()
     {
+        $input = 'hash-me';
         $generator = new HashGenerator('secret');
-        $generated = $generator->generateHash('abcd');
 
-        $this->assertNotSame($generated, $generator->generateHash('dcba'));
+        $this->assertNotSame($generator->generateHash($input), $generator->generateHash(strrev($input)));
     }
 
     /**
      * @test
      */
-    public function itProducesADifferentHashWhenGivenDifferentSecrets()
+    public function it_produces_a_different_hash_when_instantiated_with_a_different_secret_but_given_identical_input()
     {
-        $generator = new HashGenerator('secret1');
-        $generated = $generator->generateHash('abcd');
-        $generator = new HashGenerator('secret2');
+        $input = 'hash-me';
+        $generator1 = new HashGenerator('secret-foo');
+        $generator2 = new HashGenerator('secret-bar');
 
-        $this->assertNotSame($generated, $generator->generateHash('abcd'));
+        $this->assertNotSame($generator1->generateHash($input), $generator2->generateHash($input));
     }
 }

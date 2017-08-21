@@ -15,19 +15,9 @@ use Paste\Exception\StorageException;
 
 final class PasteRepository
 {
-    /**
-     * @var \Doctrine\Common\Cache\Cache
-     */
     private $cache;
-    /**
-     * @var int
-     */
     private $default_ttl;
 
-    /**
-     * @param \Doctrine\Common\Cache\Cache $cache
-     * @param int $default_ttl
-     */
     public function __construct(Cache $cache, int $default_ttl)
     {
         $this->cache = $cache;
@@ -35,11 +25,7 @@ final class PasteRepository
     }
 
     /**
-     * @param string $code
-     *
      * @throws \Paste\Exception\StorageException
-     *
-     * @return \Paste\Entity\Paste
      */
     public function find(string $code): Paste
     {
@@ -53,11 +39,7 @@ final class PasteRepository
     }
 
     /**
-     * @param \Paste\Entity\Paste $paste
-     *
      * @throws \Paste\Exception\StorageException
-     *
-     * @return bool
      */
     public function delete(Paste $paste): bool
     {
@@ -69,12 +51,7 @@ final class PasteRepository
     }
 
     /**
-     * @param \Paste\Entity\Paste $paste
-     * @param int|null $ttl
-     *
      * @throws \Paste\Exception\StorageException
-     *
-     * @return \Paste\Entity\Paste
      */
     public function persist(Paste $paste, int $ttl = null): Paste
     {

@@ -16,54 +16,56 @@ use Paste\IntegrationTest;
  */
 class DeleteControllerTest extends IntegrationTest
 {
-    public function testDelete()
+    /**
+     * @test
+     */
+    public function it_should_return_a_400_if_paste_exists_but_authentication_header_is_missing()
     {
         $client = static::createClient();
         $client->disableReboot();
-
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
-
-        $token = $client->getResponse()->headers->get('X-Paste-Token');
-        $location = $client->getResponse()->headers->get('Location');
-
+        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location);
 
-        $this->assertEquals(
-            400,
-            $client->getResponse()->getStatusCode(),
-            '"DELETE /{id}" should return a 400 Bad Request if no token is provided.'
-        );
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
 
-        $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => 'invalid-token']);
+    /**
+     * @test
+     */
+    public function it_should_return_a_404_if_paste_exists_but_authentication_header_is_invalid()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
+        $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
 
-        $this->assertEquals(
-            404,
-            $client->getResponse()->getStatusCode(),
-            '"DELETE /{id}" should return a 404 Not Found if invalid token is provided.'
-        );
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
 
+    /**
+     * @test
+     */
+    public function it_should_return_a_404_if_paste_does_not_exist_but_authentication_header_is_given()
+    {
+        $client = static::createClient();
+        $client->request('DELETE', '/dummy', [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_return_a_204_if_paste_exists_and_valid_authentication_header_is_given()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        list($location, $token) = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => $token]);
 
-        $this->assertEquals(
-            204,
-            $client->getResponse()->getStatusCode(),
-            '"DELETE /{id}" should return a 204 No Content response if correct token is provided.'
-        );
-
-        $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => $token]);
-
-        $this->assertEquals(
-            404,
-            $client->getResponse()->getStatusCode(),
-            '"DELETE /{id}" should return a 404 Not Found when trying to delete a paste that does not exist.'
-        );
-
-        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
-
-        $this->assertEquals(
-            404,
-            $client->getResponse()->getStatusCode(),
-            '"GET /{id}" should return a 404 Not Found after deleting.'
-        );
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
     }
 }

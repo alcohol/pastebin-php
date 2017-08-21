@@ -1,69 +1,16 @@
-parameters:
-  paste.ttl: 2592000
-  redis.scheme: 'tcp'
-  redis.host: 'localhost'
-  redis.port: 6379
-
-framework:
-  secret: '%env(SECRET)%'
-  http_method_override: true
-  router:
-    resource: '%kernel.root_dir%/../cfg/routing.prod.yml'
-    strict_requirements: '%kernel.debug%'
-  templating:
-    engines: ['twig']
-  session:
-    cookie_secure: true
+imports:
+  - { resource: config.yml }
 
 monolog:
   handlers:
     main:
-      type: 'fingers_crossed'
-      action_level: 'notice'
-      handler: 'nested'
+      type: fingers_crossed
+      action_level: error
+      handler: nested
     nested:
-      type: 'stream'
-      path: '%kernel.logs_dir%/%kernel.name%.log'
-      level: 'debug'
-
-twig:
-  debug: '%kernel.debug%'
-  strict_variables: '%kernel.debug%'
-
-services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-    public: false
-
-  Paste\:
-    resource: '../src/*'
-    exclude: '../src/{Entity,Exception}'
-
-  Paste\Controller\:
-    resource: '../src/Controller/*'
-    public: true
-    tags: ['controller.service_arguments']
-
-  Predis\Client:
-    arguments:
-      -
-        scheme: '%redis.scheme%'
-        host: '%redis.host%'
-        port: '%redis.port%'
-
-  Predis\ClientInterface:
-    alias: 'Predis\Client'
-
-  Doctrine\Common\Cache\PredisCache: ~
-
-  Doctrine\Common\Cache\Cache:
-    alias: 'Doctrine\Common\Cache\PredisCache'
-
-  Paste\Security\HashGenerator:
-    arguments:
-      $secret: '%kernel.secret%'
-
-  Paste\Repository\PasteRepository:
-    arguments:
-      $default_ttl: '%paste.ttl%'
+      type: stream
+      path: '%kernel.logs_dir%/%kernel.environment%.log'
+      level: debug
+    console:
+      type: console
+      process_psr_3_messages: false

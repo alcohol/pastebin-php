@@ -16,33 +16,29 @@ use Paste\IntegrationTest;
  */
 class ReadControllerTest extends IntegrationTest
 {
-    public function testPostRaw()
+    /**
+     * @test
+     */
+    public function it_should_return_a_404_if_a_paste_does_not_exist()
     {
-        $ttl = 2;
+        $client = static::createClient();
+        $client->request('GET', '/dummy', [], [], ['HTTP_Accept' => 'text/plain']);
 
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_return_a_200_with_correct_body_if_paste_exists()
+    {
         $client = static::createClient();
         $client->disableReboot();
-
-        $client->request('POST', '/', [], [], ['HTTP_X-Paste-Ttl' => $ttl], 'Lorem ipsum');
-
-        $location = $client->getResponse()->headers->get('Location');
-
+        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
-        $this->assertEquals(
-            'Lorem ipsum',
-            $client->getResponse()->getContent(),
-            '"GET /{id}" should return content stored.'
-        );
-
-        sleep($ttl + 1);
-
-        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
-
-        $this->assertEquals(
-            404,
-            $client->getResponse()->getStatusCode(),
-            '"GET /{id}" should return a 404 after past has expired.'
-        );
+        $this->assertTrue($client->getResponse()->isOk());
+        $this->assertEquals('Lorem ipsum', $client->getResponse()->getContent());
     }
 }

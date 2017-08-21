@@ -6,10 +6,6 @@ parameters:
 
 framework:
   test: ~
-  router:
-    resource: '%kernel.root_dir%/../cfg/routing.test.yml'
-  session:
-    storage_id: session.storage.mock_file
   profiler:
     collect: false
 

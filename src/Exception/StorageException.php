@@ -11,6 +11,6 @@ namespace Paste\Exception;
 
 use Paste\Exception;
 
-class StorageException extends \RuntimeException implements Exception
+final class StorageException extends \RuntimeException implements Exception
 {
 }

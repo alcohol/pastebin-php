@@ -1,24 +1,18 @@
+sudo: false
+dist: trusty
 language: php
 
-branches:
-  only:
-    - master
-
-cache:
-  directories:
-    - "$HOME/.composer/cache/files"
-
-branches:
-  only:
-    - master
+addons:
+  apt:
+    packages:
+      - parallel
 
 git:
   depth: 10
 
-sudo: false
-
-services:
-  - redis-server
+branches:
+  only:
+    - master
 
 matrix:
   include:
@@ -29,8 +23,16 @@ matrix:
   allow_failures:
     - php: nightly
 
+before_install:
+  - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+
 install:
   - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
 
 script:
   - vendor/bin/phpunit
+
+cache:
+  directories:
+    - "$HOME/.composer/cache/files"
+    - "vendor"

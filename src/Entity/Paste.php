@@ -11,20 +11,9 @@ namespace Paste\Entity;
 
 final class Paste implements \Serializable
 {
-    /**
-     * @var string
-     */
     private $code;
-    /**
-     * @var string
-     */
     private $body;
 
-    /**
-     * @param string $body
-     *
-     * @return \Paste\Entity\Paste
-     */
     public static function create($body)
     {
         $paste = new self();
@@ -33,26 +22,16 @@ final class Paste implements \Serializable
         return $paste;
     }
 
-    /**
-     * @param string $code
-     *
-     * @return \Paste\Entity\Paste
-     */
-    public function persist($code)
+    public function persist($code): Paste
     {
         $paste = new self();
-        $paste->code = $code;
         $paste->body = $this->body;
+        $paste->code = $code;
 
         return $paste;
     }
 
-    /**
-     * @param string $body
-     *
-     * @return \Paste\Entity\Paste
-     */
-    public function update($body)
+    public function update($body): Paste
     {
         $paste = new self();
         $paste->code = $this->code;
@@ -61,42 +40,27 @@ final class Paste implements \Serializable
         return $paste;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCode()
+    public function getCode(): ?string
     {
         return $this->code;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getBody()
+    public function getBody(): string
     {
-        return $this->body;
+        return (string) $this->body;
     }
 
-    /**
-     * @return string
-     */
     public function __toString(): string
     {
-        return $this->body;
+        return (string) $this->body;
     }
 
-    /**
-     * @return string
-     */
     public function serialize(): string
     {
         return serialize([$this->code, $this->body]);
     }
 
-    /**
-     * @param string $serialized
-     */
-    public function unserialize($serialized)
+    public function unserialize($serialized): void
     {
         list($this->code, $this->body) = unserialize($serialized);
     }

@@ -16,53 +16,60 @@ use Paste\IntegrationTest;
  */
 class UpdateControllerTest extends IntegrationTest
 {
-    public function testPostRaw()
+    /**
+     * @test
+     */
+    public function it_should_return_a_400_if_paste_exists_but_authentication_header_is_missing()
     {
-        $ttl = 2;
-        $original = 'Lorem ipsum';
-        $modified = 'Ipsum lorem';
-
         $client = static::createClient();
         $client->disableReboot();
+        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
+        $client->request('PUT', $location, [], [], [], 'Ipsum lorem');
 
-        $client->request('POST', '/', [], [], [], $original);
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
 
-        $token = $client->getResponse()->headers->get('X-Paste-Token');
-        $location = $client->getResponse()->headers->get('Location');
+    /**
+     * @test
+     */
+    public function it_should_return_a_404_if_paste_exists_but_authentication_header_is_invalid()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
+        $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token'], 'Ipsum lorem');
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_return_a_404_if_paste_does_not_exist_but_authentication_header_is_given()
+    {
+        $client = static::createClient();
+        $client->request('PUT', '/dummy', [], [], ['HTTP_X-Paste-Token' => 'dummy-token'], 'Ipsum lorem');
+
+        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @test
+     */
+    public function it_should_return_a_204_if_paste_exists_and_valid_authentication_header_is_given()
+    {
+        $client = static::createClient();
+        $client->disableReboot();
+        $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+        list($location, $token) = $this->extractLocationAndToken($client->getResponse());
+        $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => $token], 'Ipsum lorem');
+
+        $this->assertEquals(204, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
-        $this->assertEquals(
-            $original,
-            $client->getResponse()->getContent(),
-            '"GET /{id}" should return original content stored.'
-        );
-
-        $client->request('PUT', $location, [], [], [
-            'HTTP_X-Paste-Token' => $token,
-            'HTTP_X-Paste-Ttl' => $ttl,
-        ], $modified);
-
-        $this->assertEquals(
-            204,
-            $client->getResponse()->getStatusCode(),
-            '"PUT /{id}" should return a 204 No Content response.'
-        );
-
-        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
-
-        $this->assertEquals(
-            $modified,
-            $client->getResponse()->getContent(),
-            '"GET /{id}" should return modified content stored.'
-        );
-
-        $client->request('PUT', $location . 'X', [], [], ['HTTP_X-Paste-Token' => $token], $modified);
-
-        $this->assertEquals(
-            404,
-            $client->getResponse()->getStatusCode(),
-            '"PUT /{id}" should return a 404 Not Found if invalid {id} is passed.'
-        );
+        $this->assertEquals('Ipsum lorem', $client->getResponse()->getContent());
     }
 }

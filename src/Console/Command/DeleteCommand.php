@@ -18,14 +18,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class DeleteCommand extends Command
 {
-    /**
-     * @var \Paste\Repository\PasteRepository
-     */
     protected $repository;
 
-    /**
-     * @param \Paste\Repository\PasteRepository $repository
-     */
     public function __construct(PasteRepository $repository)
     {
         parent::__construct();
@@ -42,12 +36,6 @@ final class DeleteCommand extends Command
         ;
     }
 
-    /**
-     * @param \Symfony\Component\Console\Input\InputInterface $input
-     * @param \Symfony\Component\Console\Output\OutputInterface $output
-     *
-     * @return int
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         if ($output instanceof ConsoleOutputInterface) {

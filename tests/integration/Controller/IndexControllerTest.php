@@ -17,22 +17,13 @@ use Paste\IntegrationTest;
 class IndexControllerTest extends IntegrationTest
 {
     /**
-     * @testdox Index page should render.
+     * @test
      */
-    public function testIndex()
+    public function it_should_return_a_200_response()
     {
         $client = static::createClient();
-        $crawler = $client->request('GET', '/');
+        $client->request('GET', '/');
 
-        $this->assertTrue(
-            $client->getResponse()->isOk(),
-            '"GET /" should return a 200 OK response.'
-        );
-
-        $this->assertGreaterThan(
-            0,
-            $crawler->filter('a')->count(),
-            '"GET /" response should contain at least one link.'
-        );
+        $this->assertTrue($client->getResponse()->isOk());
     }
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 $header = <<<EOF
 (c) Rob Bast <rob.bast@gmail.com>
@@ -8,34 +8,31 @@ the LICENSE file that was distributed with this source code.
 EOF;
 
 $finder = new PhpCsFixer\Finder();
-$config = new PhpCsFixer\Config('paste.robbast.nl', 'paste.robbast.nl style guide');
+$config = new PhpCsFixer\Config('paste.robbast.nl');
 
 $finder
+    ->in(__DIR__)
     ->exclude('cfg')
     ->exclude('var')
-    ->in(__DIR__)
+    ->append([
+        '.php_cs.dist',
+    ])
 ;
 
-/* Based on ^2.0 of php-cs-fixer */
 $config
     ->setRules([
-        // default
         '@PSR2' => true,
         '@Symfony' => true,
-        // additionally
+        '@PHP70Migration:risky' => true,
         'array_syntax' => ['syntax' => 'short'],
         'blank_line_after_opening_tag' => false,
         'concat_space' => ['spacing' => 'one'],
-        'declare_strict_types' => true,
-        'header_comment' => ['header' => $header],
-        'no_unused_imports' => false,
+        'method_argument_space' => ['ensure_fully_multiline' => true],
         'no_useless_else' => true,
-        'no_useless_return' => true,
-        'ordered_imports' => true,
+        'ordered_imports' => ['sortAlgorithm' => 'alpha'],
         'phpdoc_align' => false,
         'phpdoc_order' => true,
         'phpdoc_summary' => false,
-        'simplified_null_return' => false,
     ])
     ->setFinder($finder)
 ;

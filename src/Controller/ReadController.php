@@ -19,38 +19,21 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class ReadController
 {
-    /**
-     * @var \Paste\Repository\PasteRepository
-     */
-    protected $repository;
-    /**
-     * @var \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface
-     */
+    private $repository;
     private $engine;
 
-    /**
-     * @param \Symfony\Bundle\FrameworkBundle\Templating\EngineInterface $engine
-     * @param \Paste\Repository\PasteRepository $repository
-     */
     public function __construct(EngineInterface $engine, PasteRepository $repository)
     {
         $this->engine = $engine;
         $this->repository = $repository;
     }
 
-    /**
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @param string $id
-     * @param bool $raw
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function __invoke(Request $request, string $id, $raw = false): Response
+    public function __invoke(Request $request, string $id, bool $raw = false): Response
     {
         try {
             $paste = $this->repository->find($id);
         } catch (StorageException $exception) {
-            throw new NotFoundHttpException();
+            throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
 
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));
