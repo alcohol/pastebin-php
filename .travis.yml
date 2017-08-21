@@ -16,7 +16,6 @@ branches:
 
 matrix:
   include:
-    - php: 7.0
     - php: 7.1
     - php: nightly
   fast_finish: true
