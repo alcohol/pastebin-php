@@ -2,11 +2,6 @@ sudo: false
 dist: trusty
 language: php
 
-addons:
-  apt:
-    packages:
-      - parallel
-
 git:
   depth: 10
 
