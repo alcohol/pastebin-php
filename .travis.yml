@@ -1,13 +1,19 @@
-sudo: false
 dist: trusty
+
+sudo: required
+
 language: php
 
-git:
-  depth: 10
+services:
+  - docker
 
-branches:
-  only:
-    - master
+git:
+  depth: 3
+
+cache:
+  directories:
+    - "$HOME/.composer/cache/files"
+    - "vendor"
 
 matrix:
   include:
@@ -18,15 +24,29 @@ matrix:
     - php: nightly
 
 before_install:
+  - docker --version
   - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 install:
-  - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+  - composer install --no-interaction --no-progress --prefer-dist
+
+before_script:
+  - bin/console cache:warmup
 
 script:
   - vendor/bin/phpunit
 
-cache:
-  directories:
-    - "$HOME/.composer/cache/files"
-    - "vendor"
+after_script:
+  - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-dev
+  - rm -rf var/*
+  - bin/console --env=prod --no-debug cache:warmup
+  - docker build --file docker/services/nginx/Dockerfile --tag alcohol/pastebin-nginx:latest .
+  - docker build --file docker/services/php-fpm/Dockerfile --tag alcohol/pastebin-fpm:latest .
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
+      docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD;
+      docker push alcohol/pastebin-nginx:latest;
+      docker push alcohol/pastebin-fpm:latest;
+      docker logout;
+    fi

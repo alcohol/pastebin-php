@@ -1,0 +1,38 @@
+version: '3.3'
+
+services:
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/services/nginx/Dockerfile
+    container_name: paste.robbast.nl-nginx
+    labels:
+      - "traefik.frontend.rule=Host:pastebin.docker.localhost"
+    links:
+      - php-fpm
+      - php-fpm:fcgi
+    networks:
+      - pastebin-internal
+      - traefik
+
+  php-fpm:
+    build:
+      context: .
+      dockerfile: docker/services/php-fpm/Dockerfile
+    container_name: paste.robbast.nl-fpm
+    environment:
+      - SECRET=not-so-secret
+      - SYMFONY_ENV=dev
+      - SYMFONY_DEBUG=1
+    working_dir: /srv
+    volumes:
+      - .:/srv
+    networks:
+      - pastebin-internal
+
+networks:
+  pastebin-internal:
+    internal: true
+  traefik:
+    external: true

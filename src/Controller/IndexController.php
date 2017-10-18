@@ -13,7 +13,6 @@ use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Process\Process;
 
 final class IndexController
 {
@@ -26,15 +25,13 @@ final class IndexController
 
     public function __invoke(Request $request): Response
     {
-        $process = new Process('git log --pretty="%h" -n1 HEAD');
-        $version = (0 === $process->run()) ? $process->getOutput() : 'head';
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));
 
         if ($accept->has('text/html')) {
-            $body = $this->engine->render('index.html.twig', ['version' => $version]);
+            $body = $this->engine->render('index.html.twig');
             $headers = ['Content-Type' => 'text/html'];
         } else {
-            $body = $this->engine->render('index.text.twig', ['version' => $version]);
+            $body = $this->engine->render('index.text.twig');
             $headers = ['Content-Type' => 'text/plain'];
         }
 
