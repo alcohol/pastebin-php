@@ -1,4 +1,6 @@
-FROM nginx:mainline-alpine
+FROM scratch
+
+COPY --from=nginx:mainline-alpine / /
 
 LABEL traefik.enable=true
 LABEL traefik.backend=pastebin
@@ -16,5 +18,8 @@ RUN touch /var/run/nginx.pid \
  && find /srv -type d -exec chmod 700 {} \+ \
  && find /srv -type f -exec chmod 600 {} \+
 
+STOPSIGNAL SIGTERM
 EXPOSE 8000
 USER nginx
+
+CMD ["nginx", "-g", "daemon off;"]
