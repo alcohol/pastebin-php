@@ -15,6 +15,7 @@ $finder
     ->exclude('cfg')
     ->exclude('var')
     ->append([
+        'bin/console',
         '.php_cs.dist',
     ])
 ;
