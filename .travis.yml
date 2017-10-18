@@ -28,16 +28,16 @@ before_install:
   - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 install:
-  - composer install --no-interaction --no-progress --prefer-dist
+  - composer install --no-interaction --no-progress --prefer-dist --ansi
 
 before_script:
   - bin/console cache:warmup
 
 script:
-  - vendor/bin/phpunit
+  - vendor/bin/phpunit --colors always --stderr --coverage-text
 
 after_script:
-  - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-dev
+  - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-dev --ansi
   - rm -rf var/*
   - bin/console --env=prod --no-debug cache:warmup
   - docker build --file docker/services/nginx/Dockerfile --tag alcohol/pastebin-nginx:latest .

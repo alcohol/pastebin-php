@@ -27,8 +27,4 @@
         </whitelist>
     </filter>
 
-    <logging>
-        <log type="coverage-text" target="php://stderr"/>
-    </logging>
-
 </phpunit>
