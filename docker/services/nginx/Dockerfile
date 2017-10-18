@@ -16,4 +16,5 @@ RUN touch /var/run/nginx.pid \
  && find /srv -type d -exec chmod 700 {} \+ \
  && find /srv -type f -exec chmod 600 {} \+
 
+EXPOSE 8000
 USER nginx
