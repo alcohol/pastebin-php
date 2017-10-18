@@ -35,8 +35,6 @@ before_script:
 
 script:
   - vendor/bin/phpunit --colors=always --stderr --coverage-text
-
-after_script:
   - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-dev --ansi
   - rm -rf var/*
   - bin/console --env=prod --no-debug cache:warmup
