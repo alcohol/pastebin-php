@@ -26,6 +26,9 @@ matrix:
 before_install:
   - docker --version
   - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - docker --version
 
 install:
   - composer install --no-interaction --no-progress --prefer-dist --ansi
