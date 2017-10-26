@@ -10,7 +10,7 @@ services:
     cap_drop:
       - ALL
     labels:
-      - "traefik.frontend.rule=Host:pastebin.docker.localhost"
+      traefik.frontend.rule: "Host:pastebin.docker.localhost"
     links:
       - php-fpm
       - php-fpm:fcgi
