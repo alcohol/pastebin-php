@@ -9,7 +9,9 @@
 
 namespace Paste\Security;
 
-final class HashGeneratorTest extends \PHPUnit_Framework_TestCase
+use PHPUnit\Framework\TestCase;
+
+final class HashGeneratorTest extends TestCase
 {
     /**
      * @test
