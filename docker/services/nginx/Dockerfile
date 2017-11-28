@@ -6,7 +6,6 @@ LABEL traefik.enable=true
 LABEL traefik.backend=pastebin
 LABEL traefik.frontend.rule=Host:paste.robbast.nl,p.robbast.nl
 LABEL traefik.port=8000
-LABEL traefik.docker.network=traefik
 
 WORKDIR /srv
 
