@@ -22,7 +22,7 @@ final class Paste implements \Serializable
         return $paste;
     }
 
-    public function persist($code): Paste
+    public function persist($code): self
     {
         $paste = new self();
         $paste->body = $this->body;
@@ -31,7 +31,7 @@ final class Paste implements \Serializable
         return $paste;
     }
 
-    public function update($body): Paste
+    public function update($body): self
     {
         $paste = new self();
         $paste->code = $this->code;
