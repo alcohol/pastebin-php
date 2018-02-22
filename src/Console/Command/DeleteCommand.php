@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class DeleteCommand extends Command
 {
+    protected static $defaultName = 'paste:delete';
     protected $repository;
 
     public function __construct(PasteRepository $repository)
@@ -30,7 +31,6 @@ final class DeleteCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('paste:delete')
             ->setDescription('Deletes a paste.')
             ->addArgument('id', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Identifier of paste to read.', [])
         ;

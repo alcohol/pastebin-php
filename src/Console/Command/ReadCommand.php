@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ReadCommand extends Command
 {
+    protected static $defaultName = 'paste:read';
     protected $repository;
 
     public function __construct(PasteRepository $repository)
@@ -31,7 +32,6 @@ final class ReadCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('paste:read')
             ->setDescription('Look up a paste.')
             ->addArgument('id', InputArgument::REQUIRED, 'Identifier of paste to lookup.')
         ;
