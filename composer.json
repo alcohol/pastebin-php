@@ -2,7 +2,7 @@
   "type": "project",
   "license": "MIT",
   "require": {
-    "php": "^7.1",
+    "php": "^7.2",
     "doctrine/cache": "^1.7",
     "predis/predis": "^1.1",
     "symfony/monolog-bundle": "^3.1",
