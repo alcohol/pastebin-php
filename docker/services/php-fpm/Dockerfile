@@ -15,4 +15,5 @@ RUN find /srv -type d -exec chmod 700 {} \+ \
  && find /srv/var -type f -exec chmod 600 {} \+ \
  && chown -R www-data:www-data /srv
 
+EXPOSE 9000
 USER www-data:www-data
