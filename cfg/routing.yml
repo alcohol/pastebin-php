@@ -8,6 +8,11 @@ paste.create:
   methods: [PUT,POST]
   defaults: { _controller: Paste\Controller\CreateController }
 
+paste.health:
+  path: /health
+  methods: [HEAD,GET]
+  defaults: { _controller: Paste\Controller\HealthController }
+
 paste.read:
   path: /{id}
   methods: [GET]
