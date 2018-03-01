@@ -17,6 +17,7 @@ COPY ["docker/services/nginx/nginx.conf", "/etc/nginx/"]
 COPY ["web/", "/srv/web/"]
 
 RUN touch /var/run/nginx.pid \
+ && mkdir -p /var/cache/nginx/client_temp \
  && chown -R nginx /srv /var/cache/nginx /var/run/nginx.pid \
  && find /srv -type d -exec chmod 700 {} \+ \
  && find /srv -type f -exec chmod 600 {} \+
