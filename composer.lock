@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "136e13553db8775b405d4a0e76c35e4f",
+    "content-hash": "96a7bb54cb4cd4ab9ae4b222b4f4ed0d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1133,16 +1133,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v4.0.4",
+            "version": "v4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "927f4f4069b69052f9e002fb287bd52ecfd52aa9"
+                "reference": "ff68b3a2dbe3c8e7dbdd7e153ef0b6ef985139de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/927f4f4069b69052f9e002fb287bd52ecfd52aa9",
-                "reference": "927f4f4069b69052f9e002fb287bd52ecfd52aa9",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/ff68b3a2dbe3c8e7dbdd7e153ef0b6ef985139de",
+                "reference": "ff68b3a2dbe3c8e7dbdd7e153ef0b6ef985139de",
                 "shasum": ""
             },
             "require": {
@@ -1280,7 +1280,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-01-29T13:27:23+00:00"
+            "time": "2018-03-01T19:48:49+00:00"
         },
         {
             "name": "twig/twig",
@@ -3434,7 +3434,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^7.1"
+        "php": "^7.2"
     },
     "platform-dev": [],
     "platform-overrides": {
