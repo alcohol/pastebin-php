@@ -12,8 +12,7 @@ $config = new PhpCsFixer\Config('paste.robbast.nl');
 
 $finder
     ->in(__DIR__)
-    ->exclude('cfg')
-    ->exclude('var')
+    ->exclude(['var', 'docker', 'vendor'])
     ->append([
         'bin/console',
         '.php_cs.dist',
