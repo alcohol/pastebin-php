@@ -1,0 +1,12 @@
+parameters:
+  paste.ttl: 300
+
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Doctrine\Common\Cache\ArrayCache: ~
+
+  Doctrine\Common\Cache\Cache: '@Doctrine\Common\Cache\ArrayCache'

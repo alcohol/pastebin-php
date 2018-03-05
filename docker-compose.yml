@@ -26,9 +26,9 @@ services:
     cap_drop:
       - ALL
     environment:
-      - SECRET=not-so-secret
-      - SYMFONY_ENV=dev
-      - SYMFONY_DEBUG=1
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - APP_SECRET=not-so-secret
     working_dir: /srv
     volumes:
       - .:/srv

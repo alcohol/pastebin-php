@@ -11,18 +11,18 @@ namespace Paste\Controller;
 
 use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Twig\Environment;
 
 final class ReadController
 {
     private $repository;
     private $engine;
 
-    public function __construct(EngineInterface $engine, PasteRepository $repository)
+    public function __construct(Environment $engine, PasteRepository $repository)
     {
         $this->engine = $engine;
         $this->repository = $repository;

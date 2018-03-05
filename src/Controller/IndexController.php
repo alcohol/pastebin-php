@@ -9,16 +9,16 @@
 
 namespace Paste\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 final class IndexController
 {
     private $engine;
 
-    public function __construct(EngineInterface $engine)
+    public function __construct(Environment $engine)
     {
         $this->engine = $engine;
     }

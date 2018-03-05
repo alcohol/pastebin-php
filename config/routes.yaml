@@ -1,0 +1,36 @@
+paste.index:
+  path: /
+  methods: [GET]
+  controller: Paste\Controller\IndexController
+
+paste.create:
+  path: /
+  methods: [PUT,POST]
+  controller: Paste\Controller\CreateController
+
+paste.health:
+  path: /health
+  methods: [HEAD,GET]
+  controller: Paste\Controller\HealthController
+
+paste.read.raw:
+  path: /{id}/raw
+  methods: [GET]
+  controller: Paste\Controller\ReadController
+  defaults:
+    raw: true
+
+paste.read:
+  path: /{id}
+  methods: [GET]
+  controller: Paste\Controller\ReadController
+
+paste.update:
+  path: /{id}
+  methods: [PUT]
+  controller: Paste\Controller\UpdateController
+
+paste.delete:
+  path: /{id}
+  methods: [DELETE]
+  controller: Paste\Controller\DeleteController

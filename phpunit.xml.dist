@@ -2,27 +2,37 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/6.4/phpunit.xsd"
-    bootstrap="app/bootstrap.php"
+    bootstrap="vendor/autoload.php"
     colors="true"
     stderr="true"
 >
 
     <php>
-        <env name="SYMFONY_ENV" value="test"/>
-        <env name="SYMFONY_DEBUG" value="1"/>
+        <ini name="error_reporting" value="-1" />
+        <env name="KERNEL_CLASS" value="Paste\Kernel" />
+        <env name="APP_ENV" value="test" />
+        <env name="APP_DEBUG" value="1" />
+        <env name="APP_SECRET" value="s$cretf0rt3st" />
+        <env name="SHELL_VERBOSITY" value="-1" />
+
+        <!-- ###+ symfony/framework-bundle ### -->
+        <!-- env name="TRUSTED_PROXIES" value="127.0.0.1,127.0.0.2" -->
+        <!-- env name="TRUSTED_HOSTS" value="localhost,example.com" -->
+        <!-- ###- symfony/framework-bundle ### -->
     </php>
 
     <testsuites>
         <testsuite name="Paste Test Suite">
-            <directory>tests</directory>
+            <directory>./tests/integration/</directory>
+            <directory>./tests/unit/</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist addUncoveredFilesFromWhitelist="true" processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">./src/</directory>
             <exclude>
-                <directory suffix=".php">src/Console</directory>
+                <directory suffix=".php">./src/Console/</directory>
             </exclude>
         </whitelist>
     </filter>

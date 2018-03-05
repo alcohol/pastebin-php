@@ -2,13 +2,15 @@ FROM php:7.2-fpm-alpine3.7
 
 WORKDIR /srv
 
-COPY ["app/", "/srv/app/"]
 COPY ["bin/", "/srv/bin/"]
-COPY ["cfg/", "/srv/cfg/"]
+COPY ["config/", "/srv/config/"]
+COPY ["public/", "/srv/public/"]
 COPY ["src/", "/srv/src/"]
+COPY ["templates/", "/srv/templates/"]
+COPY ["translations/", "/srv/translations/"]
 COPY ["var/", "/srv/var/"]
 COPY ["vendor/", "/srv/vendor/"]
-COPY ["web/", "/srv/web/"]
+COPY ["composer.json", "composer.lock", "/srv/"]
 
 RUN find /srv -type d -exec chmod 700 {} \+ \
  && find /srv -type f -exec chmod 400 {} \+ \

@@ -13,7 +13,6 @@ use Paste\Entity\Paste;
 use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
 use Paste\Security\HashGenerator;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,16 +25,13 @@ final class CreateController
 {
     private $repository;
     private $router;
-    private $engine;
     private $generator;
 
     public function __construct(
-        EngineInterface $engine,
         RouterInterface $router,
         PasteRepository $repository,
         HashGenerator $generator
     ) {
-        $this->engine = $engine;
         $this->router = $router;
         $this->repository = $repository;
         $this->generator = $generator;
