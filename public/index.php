@@ -1,4 +1,5 @@
 <?php declare(strict_types=1);
+
 use Paste\Kernel;
 use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
@@ -16,7 +17,7 @@ if (false === getenv('APP_ENV')) {
 }
 
 $env = getenv('APP_ENV') ?? 'dev';
-$debug = getenv('APP_DEBUG') ?? ('prod' !== $env);
+$debug = (bool) (getenv('APP_DEBUG') ?? ('prod' !== $env));
 
 if ($debug) {
     umask(0000);
@@ -35,7 +36,7 @@ if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
     Request::setTrustedHosts(explode(',', $trustedHosts));
 }
 
-$kernel = new Kernel((string) $env, (bool) $debug);
+$kernel = new Kernel($env, $debug);
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
