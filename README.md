@@ -56,7 +56,7 @@ Feel free to submit a pull request or create an issue.
 
 ## License
 
-alcohol/sf-minimal-demo is licensed under the MIT license.
+alcohol/paste.robbast.nl is licensed under the MIT license.
 
 
 [external parameters]: http://symfony.com/doc/current/cookbook/configuration/external_parameters.html
