@@ -9,14 +9,14 @@ services:
     container_name: paste.robbast.nl-nginx
     cap_drop:
       - ALL
-    labels:
-      traefik.frontend.rule: "Host:pastebin.docker.localhost"
+    ports:
+      - "8000:8000"
     links:
       - php
       - php:fcgi
     networks:
+      - default
       - pastebin-internal
-      - traefik
 
   php:
     build:
@@ -36,7 +36,6 @@ services:
       - pastebin-internal
 
 networks:
+  default:
   pastebin-internal:
     internal: true
-  traefik:
-    external: true
