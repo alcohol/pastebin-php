@@ -15,11 +15,9 @@ services:
                         # fetching services directly from the container via $container->get() won't work.
                         # The best practice is to be explicit about your dependencies anyway.
 
-  # makes classes in src/ available to be used as services
-  # this creates a service per class whose id is the fully-qualified class name
   Paste\:
     resource: '../src/*'
-    exclude: '../src/{Entity,Exception,Kernel.php}'
+    exclude: '../src/{Controller,Entity,Exception,Kernel.php}'
 
   # controllers are imported separately to make sure services can be injected
   # as action arguments even if you don't extend any base controller class
