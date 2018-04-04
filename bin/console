@@ -26,7 +26,12 @@ if (!$input->getParameterOption(['--env', '-e']) && false === getenv('APP_ENV'))
 }
 
 $env = $input->getParameterOption(['--env', '-e'], getenv('APP_ENV') ?? 'dev', true);
-$debug = (bool) (getenv('APP_DEBUG') ?? ('prod' !== $env)) && !$input->hasParameterOption('--no-debug', true);
+
+if (false === getenv('APP_DEBUG')) {
+    $debug = (bool) 'prod' !== $env && !$input->hasParameterOption('--no-debug', true);
+} else {
+    $debug = (bool) getenv('APP_DEBUG');
+}
 
 if ($debug) {
     umask(0000);
