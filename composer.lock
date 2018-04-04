@@ -1460,16 +1460,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.0.6",
+            "version": "v4.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "14ffbbe2a72d0f6339b24eb830dd38cf63ba6630"
+                "reference": "cdfbf48b17ca56bb7fbcb4126f949665e5f426a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/14ffbbe2a72d0f6339b24eb830dd38cf63ba6630",
-                "reference": "14ffbbe2a72d0f6339b24eb830dd38cf63ba6630",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/cdfbf48b17ca56bb7fbcb4126f949665e5f426a3",
+                "reference": "cdfbf48b17ca56bb7fbcb4126f949665e5f426a3",
                 "shasum": ""
             },
             "require": {
@@ -1522,7 +1522,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-02-19T16:50:22+00:00"
+            "time": "2018-03-22T13:42:36+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
