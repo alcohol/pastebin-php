@@ -10,7 +10,7 @@ A live deployment can be found at: [paste.robbast.nl](https://paste.robbast.nl)
 [![Build Status](https://img.shields.io/travis/alcohol/paste.robbast.nl.svg)](https://travis-ci.org/alcohol/paste.robbast.nl)
 
 
-## Dependencies (External)
+## Dependencies (external)
 
 * redis-server (production environment)
 
@@ -18,7 +18,7 @@ A live deployment can be found at: [paste.robbast.nl](https://paste.robbast.nl)
 ## Testing
 
 ``` shell
-bin/phpunit
+vendor/bin/phpunit
 ```
 
 
@@ -57,7 +57,3 @@ Feel free to submit a pull request or create an issue.
 ## License
 
 alcohol/paste.robbast.nl is licensed under the MIT license.
-
-
-[external parameters]: http://symfony.com/doc/current/cookbook/configuration/external_parameters.html
-[NGINX documentation]: http://nginx.org/en/docs/
