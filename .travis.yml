@@ -34,11 +34,11 @@ install:
   - composer install --no-interaction --no-progress --prefer-dist --ansi
 
 before_script:
-  - bin/console cache:warmup
+  - bin/console cache:warmup --env=test
 
 script:
   - vendor/bin/phpunit --colors=always --stderr --coverage-text
-  - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader --no-dev --ansi
+  - composer install --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev --ansi
   - rm -rf var/*
   - bin/console --env=prod --no-debug cache:warmup
   - docker build --file docker/services/nginx/Dockerfile --tag alcohol/pastebin-nginx:latest .
