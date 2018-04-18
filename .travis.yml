@@ -46,7 +46,7 @@ script:
 
 after_success:
   - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      docker login --username $DOCKERHUB_USERNAME --password $DOCKERHUB_PASSWORD;
+      echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin;
       docker push alcohol/pastebin-nginx:latest;
       docker push alcohol/pastebin-fpm:latest;
       docker logout;
