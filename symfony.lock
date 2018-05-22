@@ -242,6 +242,9 @@
             "ref": "41416370e732d1c8e7a0953a5ce815b641cfba0f"
         }
     },
+    "symfony/polyfill-ctype": {
+        "version": "v1.8.0"
+    },
     "symfony/polyfill-mbstring": {
         "version": "v1.7.0"
     },
