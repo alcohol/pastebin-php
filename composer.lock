@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "29ea4ad929874fffb2873716438bf2f3",
@@ -4128,7 +4128,7 @@
         },
         {
             "name": "symfony/dotenv",
-            "version": "v4.0.9",
+            "version": "v4.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dotenv.git",
