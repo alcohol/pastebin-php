@@ -57,7 +57,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.2.2",
+      "php": "7.2.5",
       "ext-pcntl": "1.0"
     },
     "preferred-install": {
