@@ -60,7 +60,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.2.5",
+      "php": "7.2.6",
       "ext-pcntl": "1.0"
     },
     "preferred-install": {
