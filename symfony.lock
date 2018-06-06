@@ -2,6 +2,9 @@
     "composer/semver": {
         "version": "1.4.2"
     },
+    "composer/xdebug-handler": {
+        "version": "1.1.0"
+    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
@@ -91,9 +94,6 @@
             "version": "4.7",
             "ref": "c276fa48d4713de91eb410289b3b1834acb7e403"
         }
-    },
-    "phpunit/phpunit-mock-objects": {
-        "version": "5.0.6"
     },
     "predis/predis": {
         "version": "v1.1.1"
