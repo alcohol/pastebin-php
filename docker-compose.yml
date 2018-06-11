@@ -36,6 +36,8 @@ services:
       - pastebin-internal
 
 networks:
+
   default:
+
   pastebin-internal:
     internal: true
