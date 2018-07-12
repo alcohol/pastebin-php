@@ -1034,7 +1034,7 @@
         },
         {
             "name": "symfony/flex",
-            "version": "v1.0.80",
+            "version": "v1.0.82",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/flex.git",
