@@ -1,0 +1,102 @@
+version: '3.6'
+
+services:
+
+  proxy:
+    image: traefik
+    container_name: traefik-proxy
+    restart: unless-stopped
+    networks:
+      - traefik
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /etc/traefik/traefik.toml:/traefik.toml:ro
+      - /etc/traefik/acme.json:/acme.json
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+
+  pastebin-nginx:
+    image: alcohol/pastebin-nginx:latest
+    container_name: paste.robbast.nl-nginx
+    restart: unless-stopped
+    user: nginx
+    read_only: true
+    tmpfs:
+      - /tmp:uid=100
+      - /run:uid=100
+      - /var/cache/nginx:uid=100
+    expose:
+      - "8000"
+    labels:
+      traefik.docker.network: "traefik"
+    networks:
+      - pastebin-internal
+      - traefik
+    cap_drop:
+      - ALL
+    depends_on:
+      - pastebin-fpm
+
+  pastebin-fpm:
+    image: alcohol/pastebin-fpm:latest
+    container_name: paste.robbast.nl-fpm
+    restart: unless-stopped
+    user: www-data
+    read_only: true
+    tmpfs:
+      - /tmp:uid=82
+      - /srv/var:uid=82
+    expose:
+      - "9000"
+    env_file:
+      - .env
+    networks:
+      pastebin-internal:
+        aliases:
+          - fcgi
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+    depends_on:
+      - pastebin-redis
+
+  pastebin-redis:
+    image: redis:4-alpine
+    container_name: paste.robbast.nl-redis
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    expose:
+      - "6379"
+    command: "redis-server --appendonly yes"
+    volumes:
+      - "redisdata:/data"
+    networks:
+      pastebin-internal:
+        aliases:
+          - redis
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+
+networks:
+
+  traefik:
+    external: true
+
+  pastebin-internal:
+    internal: true
+
+volumes:
+
+  redisdata:
