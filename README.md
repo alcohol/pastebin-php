@@ -7,8 +7,7 @@ Inspired by [sprunge.us](http://sprunge.us).
 
 A live deployment can be found at: [paste.robbast.nl](https://paste.robbast.nl)
 
-[![Build Status](https://img.shields.io/travis/alcohol/paste.robbast.nl.svg)](https://travis-ci.org/alcohol/paste.robbast.nl)
-
+[![Build Status](https://travis-ci.org/alcohol/paste.robbast.nl.svg?branch=master)](https://travis-ci.org/alcohol/paste.robbast.nl)
 
 ## Dependencies (external)
 
