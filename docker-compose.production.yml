@@ -26,17 +26,17 @@ services:
     restart: unless-stopped
     user: nginx
     read_only: true
-    tmpfs:
-      - /tmp:uid=100
-      - /run:uid=100
-      - /var/cache/nginx:uid=100
-    expose:
-      - "8000"
     labels:
       traefik.docker.network: "traefik"
     networks:
       - pastebin-internal
       - traefik
+    expose:
+      - "8000"
+    tmpfs:
+      - /tmp:uid=100
+      - /run:uid=100
+      - /var/cache/nginx:uid=100
     cap_drop:
       - ALL
     depends_on:
@@ -48,17 +48,17 @@ services:
     restart: unless-stopped
     user: www-data
     read_only: true
-    tmpfs:
-      - /tmp:uid=82
-      - /srv/var:uid=82
-    expose:
-      - "9000"
-    env_file:
-      - .env
     networks:
       pastebin-internal:
         aliases:
           - fcgi
+    expose:
+      - "9000"
+    env_file:
+      - .env
+    tmpfs:
+      - /tmp:uid=82
+      - /srv/var:uid=82
     cap_drop:
       - ALL
     cap_add:
@@ -71,23 +71,25 @@ services:
     container_name: paste.robbast.nl-redis
     restart: unless-stopped
     read_only: true
-    tmpfs:
-      - /tmp
-    expose:
-      - "6379"
     command: "redis-server --appendonly yes"
-    volumes:
-      - "redisdata:/data"
     networks:
       pastebin-internal:
         aliases:
           - redis
+    expose:
+      - "6379"
+    tmpfs:
+      - /tmp
+    volumes:
+      - "pastebin-redisdata:/data"
     cap_drop:
       - ALL
     cap_add:
       - CHOWN
       - SETGID
       - SETUID
+    sysctls:
+      net.core.somaxconn: 1024
 
 networks:
 
@@ -99,4 +101,4 @@ networks:
 
 volumes:
 
-  redisdata:
+  pastebin-redisdata:
