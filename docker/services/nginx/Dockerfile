@@ -3,8 +3,6 @@ FROM scratch
 COPY --from=nginx:mainline-alpine / /
 
 RUN apk add --no-cache curl
-HEALTHCHECK --interval=1m --timeout=3s \
- CMD curl --fail --head http://localhost:8000/health || exit 1
 
 LABEL traefik.enable=true
 LABEL traefik.backend=pastebin
@@ -23,7 +21,9 @@ RUN touch /var/run/nginx.pid \
  && find /srv -type f -exec chmod 600 {} \+
 
 STOPSIGNAL SIGTERM
+
 EXPOSE 8000/tcp
+
 USER nginx
 
 CMD ["nginx", "-g", "daemon off;"]

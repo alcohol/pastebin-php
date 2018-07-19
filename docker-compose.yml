@@ -7,8 +7,6 @@ services:
       context: .
       dockerfile: docker/services/nginx/Dockerfile
     container_name: paste.robbast.nl-nginx
-    cap_drop:
-      - ALL
     ports:
       - "8000:8000"
     links:
@@ -23,8 +21,6 @@ services:
       context: .
       dockerfile: docker/services/php-fpm/Dockerfile
     container_name: paste.robbast.nl-fpm
-    cap_drop:
-      - ALL
     environment:
       - APP_ENV=dev
       - APP_DEBUG=1
@@ -33,7 +29,9 @@ services:
     volumes:
       - .:/srv
     networks:
-      - pastebin-internal
+      pastebin-internal:
+        aliases:
+          - fcgi
 
 networks:
 

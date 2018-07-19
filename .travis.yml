@@ -10,6 +10,11 @@ services:
 git:
   depth: 3
 
+env:
+  global:
+    - DOCKER_COMPOSE_VERSION=1.22.0
+    - DOCKER_COMPOSE_RELEASE="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"
+
 cache:
   directories:
     - "$HOME/.composer/cache/files"
@@ -24,11 +29,18 @@ matrix:
     - php: nightly
 
 before_install:
+  # upgrade docker
   - docker --version
-  - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - docker --version
+  # install a recent docker-compose version
+  - sudo curl --silent --fail --retry 3 --location --output /usr/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
+  - docker-compose --version
+  # disable xdebug if available
+  - phpenv config-rm xdebug.ini || echo "xdebug not available"
+  # disable default memory limit
+  - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
 install:
   - composer install --no-interaction --no-progress --prefer-dist --ansi
@@ -37,7 +49,7 @@ before_script:
   - bin/console cache:warmup --env=test
 
 script:
-  - vendor/bin/phpunit --colors=always --stderr --coverage-text
+  - phpdbq -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text
   - composer install --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev --ansi
   - rm -rf var/*
   - bin/console --env=prod --no-debug cache:warmup

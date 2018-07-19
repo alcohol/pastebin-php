@@ -24,7 +24,6 @@ services:
     image: alcohol/pastebin-nginx:latest
     container_name: paste.robbast.nl-nginx
     restart: unless-stopped
-    user: nginx
     read_only: true
     labels:
       traefik.docker.network: "traefik"
@@ -46,7 +45,6 @@ services:
     image: alcohol/pastebin-fpm:latest
     container_name: paste.robbast.nl-fpm
     restart: unless-stopped
-    user: www-data
     read_only: true
     networks:
       pastebin-internal:
