@@ -38,7 +38,7 @@ final class DeleteController
         try {
             $paste = $this->repository->find($id);
         } catch (StorageException $exception) {
-            throw new NotFoundHttpException($exception->getMessage(), $exception);
+            throw new NotFoundHttpException('Not found', $exception);
         }
 
         if (false === hash_equals($request->headers->get('X-Paste-Token'), $this->generator->generateHash($id))) {

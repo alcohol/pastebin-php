@@ -33,7 +33,7 @@ final class ReadController
         try {
             $paste = $this->repository->find($id);
         } catch (StorageException $exception) {
-            throw new NotFoundHttpException($exception->getMessage(), $exception);
+            throw new NotFoundHttpException('Not found', $exception);
         }
 
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));
