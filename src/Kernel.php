@@ -53,6 +53,21 @@ class Kernel extends BaseKernel
         }
     }
 
+    public function isDevelopment(): bool
+    {
+        return 'dev' === $this->environment;
+    }
+
+    public function isTesting(): bool
+    {
+        return 'test' === $this->environment;
+    }
+
+    public function isProduction(): bool
+    {
+        return 'prod' === $this->environment;
+    }
+
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
     {
         $container->setParameter('container.dumper.inline_class_loader', true);

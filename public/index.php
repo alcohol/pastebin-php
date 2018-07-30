@@ -25,18 +25,22 @@ if ($debug) {
     Debug::enable();
 }
 
-if ($trustedProxies = $_SERVER['TRUSTED_PROXIES'] ?? false) {
-    Request::setTrustedProxies(
-        explode(',', $trustedProxies),
-        Request::HEADER_X_FORWARDED_ALL ^ Request::HEADER_X_FORWARDED_HOST
-    );
-}
-
-if ($trustedHosts = $_SERVER['TRUSTED_HOSTS'] ?? false) {
-    Request::setTrustedHosts(explode(',', $trustedHosts));
-}
-
 $kernel = new Kernel($env, $debug);
+
+if ($kernel->isProduction()) {
+    Request::setTrustedProxies([
+        '10.0.0.0/8',
+        '172.16.0.0/12',
+        '192.168.0.0/16',
+        '127.0.0.1',
+    ], Request::HEADER_X_FORWARDED_ALL);
+
+    Request::setTrustedHosts([
+        '^p.robbast.nl$',
+        '^paste.robbast.nl$',
+    ]);
+}
+
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
 $response->send();
