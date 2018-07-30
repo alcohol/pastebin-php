@@ -34,7 +34,7 @@ class Kernel extends BaseKernel
 
     public function getCacheDir()
     {
-        return $this->getProjectDir() . '/var/cache/' . $this->environment;
+        return $this->getProjectDir() . '/var/cache/' . $this->getEnvironment();
     }
 
     public function getLogDir()
@@ -47,7 +47,7 @@ class Kernel extends BaseKernel
         $contents = require $this->getProjectDir() . '/config/bundles.php';
 
         foreach ($contents as $class => $envs) {
-            if (isset($envs['all']) || isset($envs[$this->environment])) {
+            if (isset($envs['all']) || isset($envs[$this->getEnvironment()])) {
                 yield new $class();
             }
         }
@@ -55,17 +55,17 @@ class Kernel extends BaseKernel
 
     public function isDevelopment(): bool
     {
-        return 'dev' === $this->environment;
+        return 'dev' === $this->getEnvironment();
     }
 
     public function isTesting(): bool
     {
-        return 'test' === $this->environment;
+        return 'test' === $this->getEnvironment();
     }
 
     public function isProduction(): bool
     {
-        return 'prod' === $this->environment;
+        return 'prod' === $this->getEnvironment();
     }
 
     protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
@@ -75,9 +75,9 @@ class Kernel extends BaseKernel
         $confDir = $this->getProjectDir() . '/config';
 
         $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{packages}/' . $this->getEnvironment() . '/**/*' . self::CONFIG_EXTS, 'glob');
         $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
-        $loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
+        $loader->load($confDir . '/{services}_' . $this->getEnvironment() . self::CONFIG_EXTS, 'glob');
     }
 
     protected function configureRoutes(RouteCollectionBuilder $routes)
@@ -85,7 +85,7 @@ class Kernel extends BaseKernel
         $confDir = $this->getProjectDir() . '/config';
 
         $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTS, '/', 'glob');
-        $routes->import($confDir . '/{routes}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
+        $routes->import($confDir . '/{routes}/' . $this->getEnvironment() . '/**/*' . self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir . '/{routes}' . self::CONFIG_EXTS, '/', 'glob');
     }
 }
