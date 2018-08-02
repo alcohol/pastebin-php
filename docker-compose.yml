@@ -2,20 +2,6 @@ version: '3.3'
 
 services:
 
-  nginx:
-    build:
-      context: .
-      dockerfile: docker/services/nginx/Dockerfile
-    container_name: paste.robbast.nl-nginx
-    ports:
-      - "8000:8000"
-    links:
-      - php
-      - php:fcgi
-    networks:
-      - default
-      - pastebin-internal
-
   php:
     build:
       context: .
@@ -33,9 +19,23 @@ services:
         aliases:
           - fcgi
 
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/services/nginx/Dockerfile
+    container_name: paste.robbast.nl-nginx
+    ports:
+      - "8000:8000"
+    links:
+      - php
+      - php:fcgi
+    networks:
+      - default
+      - pastebin-internal
+
 networks:
 
   default:
 
-  pastebin-internal:
+  internal:
     internal: true
