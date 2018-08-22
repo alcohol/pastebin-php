@@ -22,7 +22,11 @@ class IndexControllerTest extends IntegrationTest
     public function it_should_return_a_200_response()
     {
         $client = static::createClient();
-        $client->request('GET', '/');
+        $client->request('GET', '/', [], [], ['HTTP_Accept' => 'text/html']);
+
+        $this->assertTrue($client->getResponse()->isOk());
+
+        $client->request('GET', '/', [], [], ['HTTP_Accept' => 'text/plain']);
 
         $this->assertTrue($client->getResponse()->isOk());
     }

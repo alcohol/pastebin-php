@@ -44,7 +44,7 @@ final class PasteRepository
     public function delete(Paste $paste): bool
     {
         if (!$this->cache->delete($paste->getCode())) {
-            throw new StorageException('Cannot delete from cache.');
+            throw new StorageException('Cannot delete from cache.'); // @codeCoverageIgnore
         }
 
         return true;
@@ -64,7 +64,7 @@ final class PasteRepository
 
             do {
                 if (0 === $retries--) {
-                    throw new StorageException('Failed to generate a unique code.');
+                    throw new StorageException('Failed to generate a unique code.'); // @codeCoverageIgnore
                 }
 
                 $bytes = random_bytes(4);
@@ -75,7 +75,7 @@ final class PasteRepository
         }
 
         if (!$this->cache->save($paste->getCode(), serialize($paste), $ttl)) {
-            throw new StorageException('Cannot persist to cache.');
+            throw new StorageException('Cannot persist to cache.'); // @codeCoverageIgnore
         }
 
         return $paste;

@@ -35,7 +35,14 @@ class ReadControllerTest extends IntegrationTest
         $client = static::createClient();
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
+
         list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
+
+        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/html']);
+
+        $this->assertTrue($client->getResponse()->isOk());
+        $this->assertContains('Lorem ipsum', $client->getResponse()->getContent());
+
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
         $this->assertTrue($client->getResponse()->isOk());

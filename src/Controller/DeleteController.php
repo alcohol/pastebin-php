@@ -47,9 +47,11 @@ final class DeleteController
 
         try {
             $this->repository->delete($paste);
+        // @codeCoverageIgnoreStart
         } catch (StorageException $exception) {
             throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
+        // @codeCoverageIgnoreEnd
 
         return new Response('', 204);
     }

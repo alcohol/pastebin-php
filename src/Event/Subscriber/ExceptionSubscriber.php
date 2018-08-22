@@ -27,6 +27,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         $this->logger = $logger;
     }
 
+    /** @codeCoverageIgnore */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -51,7 +52,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
     public function handleException(GetResponseForExceptionEvent $event)
     {
         if (!$event->isMasterRequest()) {
-            return;
+            return; // @codeCoverageIgnore
         }
 
         $exception = $event->getException();
@@ -59,8 +60,10 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
 
         if ($exception instanceof ConnectionException) {
+            // @codeCoverageIgnoreStart
             $exception = new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
             $event->setException($exception);
+            // @codeCoverageIgnoreEnd
         }
 
         if ($exception instanceof HttpExceptionInterface) {

@@ -53,14 +53,16 @@ final class CreateController
 
         $ttl = null;
         if ($request->headers->has('X-Paste-Ttl')) {
-            $ttl = (int) $request->headers->get('X-Paste-Ttl');
+            $ttl = (int) $request->headers->get('X-Paste-Ttl'); // @codeCoverageIgnore
         }
 
         try {
             $paste = $this->repository->persist($paste, $ttl);
+        // @codeCoverageIgnoreStart
         } catch (StorageException $exception) {
             throw new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
         }
+        // @codeCoverageIgnoreEnd
 
         $location = $this
             ->router
