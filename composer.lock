@@ -1703,16 +1703,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v4.1.3",
+            "version": "v4.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "3c30714807f34b7de710cc33eb612cd42cf683b0"
+                "reference": "d5f433034543bbe3b0dfa2f34e6cc85bf839846f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/3c30714807f34b7de710cc33eb612cd42cf683b0",
-                "reference": "3c30714807f34b7de710cc33eb612cd42cf683b0",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/d5f433034543bbe3b0dfa2f34e6cc85bf839846f",
+                "reference": "d5f433034543bbe3b0dfa2f34e6cc85bf839846f",
                 "shasum": ""
             },
             "require": {
@@ -1765,7 +1765,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-07-26T08:55:25+00:00"
+            "time": "2018-08-27T17:47:02+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
