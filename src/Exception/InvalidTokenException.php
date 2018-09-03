@@ -11,10 +11,11 @@ namespace Paste\Exception;
 
 use Paste\Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Throwable;
 
 final class InvalidTokenException extends NotFoundHttpException implements Exception
 {
-    public function __construct($message = 'Invalid token.', \Exception $previous = null, $code = 0)
+    public function __construct(string $message = 'Invalid token.', ?Throwable $previous = null, int $code = 0)
     {
         parent::__construct($message, $previous, $code);
     }

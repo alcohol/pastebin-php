@@ -16,10 +16,7 @@ use Paste\IntegrationTest;
  */
 class CreateControllerTest extends IntegrationTest
 {
-    /**
-     * @test
-     */
-    public function posting_without_a_body_should_return_a_400()
+    public function test_posting_without_a_body_should_return_a_400(): void
     {
         $client = static::createClient();
         $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], '');
@@ -31,10 +28,7 @@ class CreateControllerTest extends IntegrationTest
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @test
-     */
-    public function posting_a_paste_should_return_the_expected_response_headers()
+    public function test_posting_a_paste_should_return_the_expected_response_headers(): void
     {
         $client = static::createClient();
         $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], 'Lorem ipsum');

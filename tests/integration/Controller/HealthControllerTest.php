@@ -16,7 +16,7 @@ use Paste\IntegrationTest;
  */
 class HealthControllerTest extends IntegrationTest
 {
-    public function test_it_should_return_a_200_response_for_HEAD_requests()
+    public function test_it_should_return_a_200_response_for_HEAD_requests(): void
     {
         $client = static::createClient();
         $client->request('HEAD', '/health');
@@ -24,7 +24,7 @@ class HealthControllerTest extends IntegrationTest
         $this->assertTrue($client->getResponse()->isOk());
     }
 
-    public function test_it_should_return_a_200_response_for_GET_requests()
+    public function test_it_should_return_a_200_response_for_GET_requests(): void
     {
         $client = static::createClient();
         $client->request('GET', '/health');

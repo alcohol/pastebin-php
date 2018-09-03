@@ -16,10 +16,7 @@ use Paste\IntegrationTest;
  */
 class IndexControllerTest extends IntegrationTest
 {
-    /**
-     * @test
-     */
-    public function it_should_return_a_200_response()
+    public function test_it_should_return_a_200_response(): void
     {
         $client = static::createClient();
         $client->request('GET', '/', [], [], ['HTTP_Accept' => 'text/html']);

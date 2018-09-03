@@ -29,7 +29,7 @@ final class ReadCommand extends Command
         $this->repository = $repository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Look up a paste.')

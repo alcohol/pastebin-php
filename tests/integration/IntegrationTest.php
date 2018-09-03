@@ -11,20 +11,14 @@ namespace Paste;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\KernelInterface;
 
 abstract class IntegrationTest extends WebTestCase
 {
-    public static function createKernel(array $options = [])
+    public static function createKernel(array $options = []): KernelInterface
     {
-        $env = isset($options['environment'])
-            ? $options['environment']
-            : getenv('APP_ENV')
-        ;
-
-        $debug = isset($options['debug'])
-            ? $options['debug']
-            : (bool) (getenv('APP_DEBUG') ?? ('prod' !== getenv('APP_ENV')))
-        ;
+        $env = $options['environment'] ?? getenv('APP_ENV');
+        $debug = $options['debug'] ?? (bool) (getenv('APP_DEBUG') ?? ('prod' !== getenv('APP_ENV')));
 
         return new Kernel($env, $debug);
     }

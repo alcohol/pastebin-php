@@ -16,38 +16,29 @@ use Paste\IntegrationTest;
  */
 class DeleteControllerTest extends IntegrationTest
 {
-    /**
-     * @test
-     */
-    public function it_should_return_a_400_if_paste_exists_but_authentication_header_is_missing()
+    public function test_it_should_return_a_400_if_paste_exists_but_authentication_header_is_missing(): void
     {
         $client = static::createClient();
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
-        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
+        [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location);
 
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_return_a_404_if_paste_exists_but_authentication_header_is_invalid()
+    public function test_it_should_return_a_404_if_paste_exists_but_authentication_header_is_invalid(): void
     {
         $client = static::createClient();
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
-        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
+        [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
 
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_return_a_404_if_paste_does_not_exist_but_authentication_header_is_given()
+    public function test_it_should_return_a_404_if_paste_does_not_exist_but_authentication_header_is_given(): void
     {
         $client = static::createClient();
         $client->request('DELETE', '/dummy', [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
@@ -55,15 +46,12 @@ class DeleteControllerTest extends IntegrationTest
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_return_a_204_if_paste_exists_and_valid_authentication_header_is_given()
+    public function test_it_should_return_a_204_if_paste_exists_and_valid_authentication_header_is_given(): void
     {
         $client = static::createClient();
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
-        list($location, $token) = $this->extractLocationAndToken($client->getResponse());
+        [$location, $token] = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => $token]);
 
         $this->assertEquals(204, $client->getResponse()->getStatusCode());

@@ -38,7 +38,7 @@ class PasteTest extends TestCase
     /**
      * @depends test_it_returns_a_new_instance_with_given_code_when_calling_persist
      */
-    public function test_it_returns_a_new_instance_with_given_body_when_calling_persist(Paste $paste)
+    public function test_it_returns_a_new_instance_with_given_body_when_calling_persist(Paste $paste): void
     {
         $body = 'bar';
 

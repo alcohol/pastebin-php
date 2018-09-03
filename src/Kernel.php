@@ -2,28 +2,30 @@
 
 namespace Paste;
 
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
+use Traversable;
 
 /** @codeCoverageIgnore */
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    const CONFIG_EXTS = '.{php,xml,yaml,yml}';
+    private const CONFIG_EXTS = '.{php,xml,yaml,yml}';
 
-    const ENVIRONMENTS = ['test', 'dev', 'prod'];
+    public const ENVIRONMENTS = ['test', 'dev', 'prod'];
 
     /**
-     * @throws \RuntimeException
+     * @throws RuntimeException
      */
     public function __construct(string $environment, bool $debug)
     {
         if (!in_array($environment, self::ENVIRONMENTS, true)) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 'Unsupported environment "%s", expected one of: %s',
                 $environment,
                 implode(', ', self::ENVIRONMENTS)
@@ -33,17 +35,17 @@ class Kernel extends BaseKernel
         parent::__construct($environment, $debug);
     }
 
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->getProjectDir() . '/var/cache/' . $this->getEnvironment();
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return $this->getProjectDir() . '/var/log';
     }
 
-    public function registerBundles()
+    public function registerBundles(): Traversable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
 
@@ -69,7 +71,7 @@ class Kernel extends BaseKernel
         return 'prod' === $this->getEnvironment();
     }
 
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader)
+    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
     {
         $container->setParameter('container.dumper.inline_class_loader', true);
 
@@ -81,7 +83,7 @@ class Kernel extends BaseKernel
         $loader->load($confDir . '/{services}_' . $this->getEnvironment() . self::CONFIG_EXTS, 'glob');
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes)
+    protected function configureRoutes(RouteCollectionBuilder $routes): void
     {
         $confDir = $this->getProjectDir() . '/config';
 

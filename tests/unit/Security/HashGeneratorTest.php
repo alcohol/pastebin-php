@@ -16,18 +16,17 @@ final class HashGeneratorTest extends TestCase
     /**
      * @expectedException \TypeError
      */
-    public function test_it_requires_a_secret_to_instantiate()
+    public function test_it_requires_a_secret_to_instantiate(): void
     {
         new HashGenerator();
     }
 
     /**
      * @dataProvider invalidSecrets
-     *
      * @param mixed $input
-     * @param \Throwable $expectedException
+     * @param string $expectedException
      */
-    public function test_it_explodes_when_secret_given_is_of_type($input, $expectedException)
+    public function test_it_explodes_when_secret_given_is_of_type($input, string $expectedException): void
     {
         $this->expectException($expectedException);
 
@@ -49,14 +48,14 @@ final class HashGeneratorTest extends TestCase
         ];
     }
 
-    public function test_it_instantiates_when_given_a_valid_secret()
+    public function test_it_instantiates_when_given_a_valid_secret(): void
     {
         $generator = new HashGenerator('secret');
 
         $this->assertInstanceOf(HashGenerator::class, $generator);
     }
 
-    public function test_it_produces_the_same_hash_when_given_the_same_input()
+    public function test_it_produces_the_same_hash_when_given_the_same_input(): void
     {
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
@@ -66,7 +65,7 @@ final class HashGeneratorTest extends TestCase
         }
     }
 
-    public function test_it_produces_a_different_has_when_given_different_inputs()
+    public function test_it_produces_a_different_has_when_given_different_inputs(): void
     {
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
@@ -74,7 +73,7 @@ final class HashGeneratorTest extends TestCase
         $this->assertNotSame($generator->generateHash($input), $generator->generateHash(strrev($input)));
     }
 
-    public function test_it_produces_a_different_hash_when_instantiated_with_a_different_secret_but_given_identical_input()
+    public function test_it_produces_a_different_hash_when_instantiated_with_a_different_secret_but_given_identical_input(): void
     {
         $input = 'hash-me';
         $generator1 = new HashGenerator('secret-foo');

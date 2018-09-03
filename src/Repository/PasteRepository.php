@@ -53,7 +53,7 @@ final class PasteRepository
     /**
      * @throws \Paste\Exception\StorageException
      */
-    public function persist(Paste $paste, int $ttl = null): Paste
+    public function persist(Paste $paste, ?int $ttl = null): Paste
     {
         if (null === $ttl) {
             $ttl = $this->default_ttl;

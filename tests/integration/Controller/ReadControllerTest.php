@@ -16,10 +16,7 @@ use Paste\IntegrationTest;
  */
 class ReadControllerTest extends IntegrationTest
 {
-    /**
-     * @test
-     */
-    public function it_should_return_a_404_if_a_paste_does_not_exist()
+    public function test_it_should_return_a_404_if_a_paste_does_not_exist(): void
     {
         $client = static::createClient();
         $client->request('GET', '/dummy', [], [], ['HTTP_Accept' => 'text/plain']);
@@ -27,16 +24,13 @@ class ReadControllerTest extends IntegrationTest
         $this->assertEquals(404, $client->getResponse()->getStatusCode());
     }
 
-    /**
-     * @test
-     */
-    public function it_should_return_a_200_with_correct_body_if_paste_exists()
+    public function test_it_should_return_a_200_with_correct_body_if_paste_exists(): void
     {
         $client = static::createClient();
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
 
-        list($location, /* $token */) = $this->extractLocationAndToken($client->getResponse());
+        [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/html']);
 

@@ -28,7 +28,7 @@ final class DeleteCommand extends Command
         $this->repository = $repository;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this
             ->setDescription('Deletes a paste.')
