@@ -6,7 +6,7 @@ services:
     build:
       context: .
       dockerfile: docker/services/php-fpm/Dockerfile
-    container_name: paste.robbast.nl-fpm
+    container_name: pastebin-fpm
     environment:
       - APP_ENV=dev
       - APP_DEBUG=1
@@ -15,7 +15,7 @@ services:
     volumes:
       - .:/srv
     networks:
-      internal:
+      default:
         aliases:
           - fcgi
 
@@ -23,19 +23,23 @@ services:
     build:
       context: .
       dockerfile: docker/services/nginx/Dockerfile
-    container_name: paste.robbast.nl-nginx
-    ports:
-      - "8000:8000"
+    container_name: pastebin-nginx
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik_webgateway
+      traefik.backend: pastebin
+      traefik.frontend.rule: "Host:pastebin.localhost"
+      traefik.port: 8000
     links:
       - php
       - php:fcgi
     networks:
+      - traefik_webgateway
       - default
-      - internal
 
 networks:
 
   default:
 
-  internal:
-    internal: true
+  traefik_webgateway:
+    external: true

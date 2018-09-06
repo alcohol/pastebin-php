@@ -3,10 +3,7 @@ FROM php:7.2-fpm-alpine3.7
 RUN apk add --update --no-cache tini \
  && apk add --update --no-cache --virtual .build-deps icu-dev zlib-dev \
  && docker-php-ext-configure intl \
- && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) intl opcache zip \
- && php -m | grep intl \
- && php -m | grep 'Zend OPcache' \
- && php -m | grep zip \
+ && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) intl mbstring opcache zip \
  && runDeps="$( \
     scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
     | tr ',' '\n' \
