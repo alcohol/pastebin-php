@@ -31,6 +31,9 @@ services:
         scheme: '%redis.scheme%'
         host: '%redis.host%'
         port: '%redis.port%'
+        timeout: 1
+        read_write_timeout: 2
+        tcp_nodelay: true
 
   Predis\ClientInterface: '@Predis\Client'
 
