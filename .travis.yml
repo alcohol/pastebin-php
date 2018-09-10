@@ -59,7 +59,7 @@ after_success:
       rm -rf var/*;
       bin/console --env=prod --no-debug cache:warmup;
       docker build --file docker/services/nginx/Dockerfile --tag alcohol/pastebin-nginx:latest .;
-      docker build --file docker/services/php-fpm/Dockerfile --tag alcohol/pastebin-fpm:latest .;
+      docker build --file docker/services/php-fpm/Dockerfile.dist --tag alcohol/pastebin-fpm:latest .;
       echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin;
       docker push alcohol/pastebin-nginx:latest;
       docker push alcohol/pastebin-fpm:latest;

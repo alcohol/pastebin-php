@@ -1,3 +1,30 @@
+FROM composer:1 AS builder
+
+ENV APP_SECRET ''
+ENV APP_ENV prod
+ENV APP_DEBUG 0
+ENV SENTRY_DSN ''
+
+WORKDIR /srv
+
+COPY ["bin/", "/srv/bin/"]
+COPY ["config/", "/srv/config/"]
+COPY ["public/", "/srv/public/"]
+COPY ["src/", "/srv/src/"]
+COPY ["templates/", "/srv/templates/"]
+COPY ["composer.json", "composer.lock", "/srv/"]
+
+RUN composer install \
+    --no-interaction \
+    --no-scripts \
+    --no-plugins \
+    --no-progress \
+    --no-suggest \
+    --optimize-autoloader \
+    --ignore-platform-reqs \
+    --no-dev \
+ && bin/console cache:warmup
+
 FROM php:7.2-fpm-alpine3.7
 
 RUN apk add --update --no-cache tini \
@@ -13,7 +40,7 @@ RUN apk add --update --no-cache tini \
  && apk add --virtual .phpext-rundeps $runDeps \
  && apk del .build-deps
 
-WORKDIR /srv
+COPY --from=builder /srv /srv/
 
 # adjust permissions
 RUN find /srv -type d -exec chmod 700 {} \+ \
@@ -30,6 +57,7 @@ RUN rm /usr/local/etc/php-fpm.conf.default \
 # add custom php ini files
 COPY docker/services/php-fpm/php.ini /usr/local/etc/php/
 COPY docker/services/php-fpm/php-cli.ini /usr/local/etc/php/
+COPY docker/services/php-fpm/docker.ini /usr/local/etc/php/conf.d/
 
 # add custom php-fpm conf files
 COPY docker/services/php-fpm/php-fpm.conf /usr/local/etc/
