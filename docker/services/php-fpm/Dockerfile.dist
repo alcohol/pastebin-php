@@ -1,9 +1,13 @@
+ARG RELEASE
+
 FROM composer:1 AS builder
 
 ENV APP_SECRET ''
 ENV APP_ENV prod
 ENV APP_DEBUG 0
 ENV SENTRY_DSN ''
+ENV SENTRY_RELEASE ''
+ENV SENTRY_ENVIRONMENT ''
 
 WORKDIR /srv
 
@@ -26,6 +30,8 @@ RUN composer install \
  && bin/console cache:warmup
 
 FROM php:7.2-fpm-alpine3.7
+
+ENV SENTRY_RELEASE ${RELEASE}
 
 RUN apk add --update --no-cache tini \
  && apk add --update --no-cache --virtual .build-deps icu-dev zlib-dev \
