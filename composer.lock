@@ -4503,7 +4503,7 @@
         },
         {
             "name": "symfony/dotenv",
-            "version": "v4.1.5",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dotenv.git",
