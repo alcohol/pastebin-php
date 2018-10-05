@@ -2048,16 +2048,16 @@
         },
         {
             "name": "symfony/security-core",
-            "version": "v4.1.5",
+            "version": "v4.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-core.git",
-                "reference": "2f7494cf07e2bb3f4b8e5a294f3d89da63b62742"
+                "reference": "9c3c94d2dd6f586163bd597b01e4ea68f51e220e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-core/zipball/2f7494cf07e2bb3f4b8e5a294f3d89da63b62742",
-                "reference": "2f7494cf07e2bb3f4b8e5a294f3d89da63b62742",
+                "url": "https://api.github.com/repos/symfony/security-core/zipball/9c3c94d2dd6f586163bd597b01e4ea68f51e220e",
+                "reference": "9c3c94d2dd6f586163bd597b01e4ea68f51e220e",
                 "shasum": ""
             },
             "require": {
@@ -2110,7 +2110,7 @@
             ],
             "description": "Symfony Security Component - Core Library",
             "homepage": "https://symfony.com",
-            "time": "2018-09-02T17:33:37+00:00"
+            "time": "2018-10-02T12:40:59+00:00"
         },
         {
             "name": "symfony/stopwatch",
