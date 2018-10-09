@@ -6,8 +6,3 @@ services:
     autowire: true
     autoconfigure: true
     public: false
-
-  Doctrine\Common\Cache\FilesystemCache:
-    arguments: ['%kernel.cache_dir%/data']
-
-  Doctrine\Common\Cache\Cache: '@Doctrine\Common\Cache\FilesystemCache'
