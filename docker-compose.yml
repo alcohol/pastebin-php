@@ -37,9 +37,37 @@ services:
       - traefik_webgateway
       - default
 
+  redis:
+    image: redis:5.0-rc-alpine
+    container_name: pastebin-redis
+    read_only: true
+    command: "redis-server --appendonly yes"
+    networks:
+      default:
+        aliases:
+          - redis
+    expose:
+      - "6379"
+    tmpfs:
+      - /tmp
+    volumes:
+      - "pastebin-redisdata:/data"
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID
+    sysctls:
+      net.core.somaxconn: 1024
+
 networks:
 
   default:
 
   traefik_webgateway:
     external: true
+
+volumes:
+
+  pastebin-redisdata:
