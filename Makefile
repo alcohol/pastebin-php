@@ -76,3 +76,4 @@ vendor/composer/installed.json: composer.json composer.lock vendor
 		--volume "$(shell pwd)":/workdir \
 		--workdir /workdir \
 		composer install
+	@touch $@
