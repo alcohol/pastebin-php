@@ -41,17 +41,21 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
+.PHONY: fg
 fg: vendor/composer/installed.json
 fg: ## Launch the docker-compose setup (foreground)
 	docker-compose up --remove-orphans --abort-on-container-exit
 
+.PHONY: up
 up: vendor/composer/installed.json
 up: ## Launch the docker-compose setup (background)
 	docker-compose up --remove-orphans --detach
 
+.PHONY: down
 down: ## Terminate the docker-compose setup
 	docker-compose down --remove-orphans
 
+.PHONY: test
 test: APP_ENV ?= test
 test: vendor/composer/installed.json
 test: ## Run phpunit test suite
