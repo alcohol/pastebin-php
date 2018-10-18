@@ -6,7 +6,6 @@ services:
     build:
       context: .
       dockerfile: docker/services/php-fpm/Dockerfile
-    init: true
     container_name: pastebin-fpm
     environment:
       - APP_ENV=dev
