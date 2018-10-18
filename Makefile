@@ -41,30 +41,40 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
+runtime-dependencies := traefik-network vendor/composer/installed.json $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+
+.PHONY: traefik-network
+traefik-network:
+	-docker network create traefik_webgateway
+
 .PHONY: fg
-fg: vendor/composer/installed.json
+fg: $(runtime-dependencies)
 fg: ## Launch the docker-compose setup (foreground)
 	docker-compose up --remove-orphans --abort-on-container-exit
 
 .PHONY: up
-up: vendor/composer/installed.json
+up: $(runtime-dependencies)
 up: ## Launch the docker-compose setup (background)
 	docker-compose up --remove-orphans --detach
 
 .PHONY: down
 down: ## Terminate the docker-compose setup
-	docker-compose down --remove-orphans
+	-docker-compose down --remove-orphans
 
 .PHONY: test
 test: APP_ENV ?= test
-test: vendor/composer/installed.json
+test: $(runtime-dependencies)
 test: ## Run phpunit test suite
-	docker-compose run -u $(shell id -u):$(shell id -g) -e APP_ENV --rm --no-deps --name pastebin-testsuite php \
-		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover coverage.xml
+	docker-compose run -u $(shell id -u):$(shell id -g) -e APP_ENV --rm --no-deps --name pastebin-testsuite php-fpm \
+		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 #
 # PATH BASED TARGETS
 #
+
+docker/services/%/.build: $$(shell find $$(@D) -type f -not -name .build)
+	docker-compose build $*
+	@touch $@
 
 vendor:
 	mkdir vendor

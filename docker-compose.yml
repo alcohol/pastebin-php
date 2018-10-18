@@ -1,11 +1,12 @@
-version: '3.3'
+version: '3.7'
 
 services:
 
-  php:
+  php-fpm:
     build:
       context: .
       dockerfile: docker/services/php-fpm/Dockerfile
+    init: true
     container_name: pastebin-fpm
     environment:
       - APP_ENV=dev
@@ -14,6 +15,8 @@ services:
     working_dir: /srv
     volumes:
       - .:/srv
+    tmpfs:
+      - /srv/var/cache
     networks:
       default:
         aliases:
@@ -31,8 +34,8 @@ services:
       traefik.frontend.rule: "Host:pastebin.localhost"
       traefik.port: 8000
     links:
-      - php
-      - php:fcgi
+      - php-fpm
+      - php-fpm:fcgi
     networks:
       - traefik_webgateway
       - default

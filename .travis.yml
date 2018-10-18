@@ -50,11 +50,11 @@ before_script:
   - bin/console cache:warmup --env=test
 
 script:
-  - phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover coverage.xml
+  - phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
   - composer install --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev --ansi
 
 after_success:
-  - bash <(curl -s https://codecov.io/bash)
+  - bash <(curl -s https://codecov.io/bash) -f clover.xml
   - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
       echo $(git rev-parse --short ${TRAVIS_COMMIT});
       docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .;
