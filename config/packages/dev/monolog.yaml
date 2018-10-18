@@ -2,7 +2,7 @@ monolog:
   handlers:
     main:
       type: whatfailuregroup
-      members: ['file', 'stdout', 'firephp', 'chromephp']
+      members: ['file', 'stdout']
     file:
       type: stream
       path: "%kernel.logs_dir%/%kernel.environment%.log"
