@@ -17,6 +17,8 @@ services:
       - .:/srv
     tmpfs:
       - /srv/var/cache
+    depends_on:
+      - redis
     networks:
       default:
         aliases:
@@ -33,9 +35,8 @@ services:
       traefik.backend: pastebin
       traefik.frontend.rule: "Host:pastebin.localhost"
       traefik.port: 8000
-    links:
+    depends_on:
       - php-fpm
-      - php-fpm:fcgi
     networks:
       - traefik_webgateway
       - default
@@ -46,9 +47,7 @@ services:
     read_only: true
     command: "redis-server --appendonly yes"
     networks:
-      default:
-        aliases:
-          - redis
+      - default
     expose:
       - "6379"
     tmpfs:
