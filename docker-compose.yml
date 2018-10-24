@@ -2,6 +2,44 @@ version: '3.7'
 
 services:
 
+  varnish:
+    build:
+      context: .
+      dockerfile: docker/services/varnish/Dockerfile
+    container_name: pastebin-varnish
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik_webgateway
+      traefik.backend: pastebin-varnish
+      traefik.frontend.rule: "Host:cache.pastebin.localhost"
+      traefik.port: 6081
+    tmpfs:
+      - /var/lib/varnish:exec
+    depends_on:
+      - nginx
+    networks:
+      traefik_webgateway:
+      default:
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/services/nginx/Dockerfile
+    container_name: pastebin-nginx
+    labels:
+      traefik.enable: true
+      traefik.docker.network: traefik_webgateway
+      traefik.backend: pastebin-nginx
+      traefik.frontend.rule: "Host:pastebin.localhost"
+      traefik.port: 8000
+    depends_on:
+      - php-fpm
+    networks:
+      traefik_webgateway:
+      default:
+        aliases:
+          - nginx
+
   php-fpm:
     build:
       context: .
@@ -23,23 +61,6 @@ services:
         aliases:
           - fcgi
 
-  nginx:
-    build:
-      context: .
-      dockerfile: docker/services/nginx/Dockerfile
-    container_name: pastebin-nginx
-    labels:
-      traefik.enable: true
-      traefik.docker.network: traefik_webgateway
-      traefik.backend: pastebin
-      traefik.frontend.rule: "Host:pastebin.localhost"
-      traefik.port: 8000
-    depends_on:
-      - php-fpm
-    networks:
-      - traefik_webgateway
-      - default
-
   redis:
     image: redis:5.0-rc-alpine
     container_name: pastebin-redis
@@ -47,8 +68,6 @@ services:
     command: "redis-server --appendonly yes"
     networks:
       - default
-    expose:
-      - "6379"
     tmpfs:
       - /tmp
     volumes:

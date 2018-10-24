@@ -43,5 +43,7 @@ if ($kernel->isProduction()) {
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
+$response->headers->set('X-Pastebin-Version', $_SERVER['SENTRY_RELEASE'] ?? 'development');
+$response->headers->set('X-Container-Php', gethostname());
 $response->send();
 $kernel->terminate($request, $response);

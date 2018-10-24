@@ -68,6 +68,16 @@ test: ## Run phpunit test suite
 	docker-compose run -u $(shell id -u):$(shell id -g) -e APP_ENV --rm --no-deps --name pastebin-testsuite php-fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
+.PHONY: logs
+logs: $(runtime-dependencies)
+logs: ## Show logs
+	docker-compose logs
+
+.PHONY: tail
+tail: $(runtime-dependencies)
+tail: ## Show logs
+	docker-compose logs -f
+
 #
 # PATH BASED TARGETS
 #
