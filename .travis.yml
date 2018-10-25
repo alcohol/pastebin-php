@@ -57,7 +57,8 @@ after_success:
 
 deploy:
   - provider: script
-    script: |-
+    skip_cleanup: true
+    script: |
       echo $(git rev-parse --short ${TRAVIS_COMMIT});
       docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .;
       docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .;
