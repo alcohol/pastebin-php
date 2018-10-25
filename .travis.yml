@@ -18,7 +18,7 @@ env:
 
 cache:
   directories:
-    - "$HOME/.composer/cache/files"
+    - "$HOME/.composer"
     - "vendor"
 
 matrix:
@@ -55,14 +55,18 @@ script:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f clover.xml
-  - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      echo $(git rev-parse --short ${TRAVIS_COMMIT});
-      docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .;
-      docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .;
-      docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(git rev-parse --short ${TRAVIS_COMMIT}) .;
-      echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin;
-      docker push alcohol/pastebin-varnish:latest;
-      docker push alcohol/pastebin-nginx:latest;
-      docker push alcohol/pastebin-fpm:latest;
-      docker logout;
-    fi
+
+deploy:
+  - provider: script
+    script: |
+      echo $(git rev-parse --short ${TRAVIS_COMMIT})
+      docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .
+      docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .
+      docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(git rev-parse --short ${TRAVIS_COMMIT}) .
+      echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      docker push alcohol/pastebin-varnish:latest
+      docker push alcohol/pastebin-nginx:latest
+      docker push alcohol/pastebin-fpm:latest
+      docker logout
+    on:
+      branch: master
