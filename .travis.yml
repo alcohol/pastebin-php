@@ -1,20 +1,18 @@
-dist: trusty
-
-sudo: required
-
 language: php
+
+dist: trusty
+sudo: required
 
 services:
   - docker
 
 git:
-  depth: 3
+  depth: 10
 
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.22.0
     - DOCKER_COMPOSE_RELEASE="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"
-    - SENTRY_DSN=
 
 cache:
   directories:
@@ -24,6 +22,7 @@ cache:
 matrix:
   include:
     - php: 7.2
+    - php: 7.3
     - php: nightly
   fast_finish: true
   allow_failures:
@@ -58,15 +57,16 @@ after_success:
 
 deploy:
   - provider: script
-    script: |
-      echo $(git rev-parse --short ${TRAVIS_COMMIT})
-      docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .
-      docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .
-      docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(git rev-parse --short ${TRAVIS_COMMIT}) .
-      echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
-      docker push alcohol/pastebin-varnish:latest
-      docker push alcohol/pastebin-nginx:latest
-      docker push alcohol/pastebin-fpm:latest
-      docker logout
+    script: |-
+      echo $(git rev-parse --short ${TRAVIS_COMMIT});
+      docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .;
+      docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .;
+      docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(git rev-parse --short ${TRAVIS_COMMIT}) .;
+      echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin;
+      docker push alcohol/pastebin-varnish:latest;
+      docker push alcohol/pastebin-nginx:latest;
+      docker push alcohol/pastebin-fpm:latest;
+      docker logout;
     on:
       branch: master
+      php: 7.2
