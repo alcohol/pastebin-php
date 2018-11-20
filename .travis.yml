@@ -41,15 +41,8 @@ before_install:
   # disable default memory limit
   - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
 
-install:
-  - composer install --no-interaction --no-progress --prefer-dist --ansi
-
-before_script:
-  - bin/console cache:warmup --env=test
-
 script:
-  - phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
-  - composer install --no-interaction --no-scripts --no-progress --prefer-dist --optimize-autoloader --no-dev --ansi
+  - make test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f clover.xml
