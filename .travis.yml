@@ -14,12 +14,15 @@ cache:
     - "vendor"
 
 stages:
+  - name: upgrade
+  - name: build
+  - name: test
   - name: deploy
     if: branch = master AND type = push
 
 jobs:
   include:
-    - stage: upgrade build-machine
+    - stage: upgrade
       script:
       # upgrade docker
       - docker --version
