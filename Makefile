@@ -5,6 +5,7 @@
 #  - [3] https://www.gnu.org/software/make/manual/html_node/Suffix-Rules.html
 #  - [4] https://www.gnu.org/software/make/manual/html_node/Options-Summary.html
 #  - [5] https://www.gnu.org/software/make/manual/html_node/Special-Variables.html
+#  - [6] https://www.gnu.org/software/make/manual/html_node/Choosing-the-Shell.html
 #
 
 # Ensure (intermediate) targets are deleted when an error occurred executing a recipe, see [1]
@@ -26,6 +27,9 @@ MAKEFLAGS += --warn-undefined-variables
 
 # Show an auto-generated help if no target is provided, see [5]
 .DEFAULT_GOAL := help
+
+# Default shell, see [6]
+SHELL := /bin/bash
 
 help:
 	@echo
@@ -88,7 +92,9 @@ shell: ## spawn a shell inside a php-fpm container
 	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(shell id -u):$(shell id -g) --name pastebin-shell php-fpm \
 		sh
 
-deploy: $(runtime-dependencies)
+deploy:
+	env
+	echo $(TRAVIS_COMMIT)
 	@test -n "$(TRAVIS_COMMIT)" || $(error TRAVIS_COMMIT must be defined)
 	@test -n "$(DOCKERHUB_PASSWORD)" || $(error DOCKERHUB_PASSWORD must be defined)
 	@test -n "$(DOCKERHUB_USERNAME)" || $(error DOCKERHUB_USERNAME must be defined)
