@@ -54,7 +54,6 @@ services:
       - .:/srv
     tmpfs:
       - /tmp
-      - /srv/var/cache
     depends_on:
       - redis
     networks:
