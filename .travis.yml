@@ -34,9 +34,11 @@ before_script:
 script:
   - make test
 
+# only upload code coverage reports for successful builds
 after_success:
   - bash <(curl -s https://codecov.io/bash) -f clover.xml
 
+# does not run for pull requests by default
 deploy:
   provider: script
   skip_cleanup: true
