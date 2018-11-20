@@ -69,6 +69,11 @@ export DOCKER_GID
 traefik-network:
 	-docker network create traefik_webgateway
 
+.PHONY: containers
+containers: $(CONTAINERS)
+containers: ## build all containers
+	@touch $(CONTAINERS)
+
 .PHONY: fg
 fg: $(RUNTIME-DEPENDENCIES)
 fg: ## launch the docker-compose setup (foreground)
@@ -102,6 +107,7 @@ tail: $(RUNTIME-DEPENDENCIES)
 tail: ## tail logs
 	docker-compose logs -f
 
+.PHONY: shell
 shell: export APP_ENV := dev
 shell: export COMPOSER_HOME := /tmp
 shell: $(RUNTIME-DEPENDENCIES)
@@ -109,6 +115,7 @@ shell: ## spawn a shell inside a php-fpm container
 	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name pastebin-shell php-fpm \
 		sh
 
+.PHONY: deploy
 deploy:
 	@test -n "$(RELEASE)" || $(error RELEASE must be defined)
 	@test -n "$(DOCKERHUB_PASSWORD)" || $(error DOCKERHUB_PASSWORD must be defined)

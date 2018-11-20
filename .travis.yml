@@ -1,9 +1,4 @@
-language: php
-
 dist: trusty
-
-services:
-  - docker
 
 git:
   depth: 10
@@ -18,40 +13,37 @@ cache:
     - "$HOME/.composer"
     - "vendor"
 
-matrix:
+stages:
+  - name: deploy
+    if: branch = master AND type = push
+
+jobs:
   include:
-    - php: 7.2
-    - php: 7.3
-    - php: nightly
-  fast_finish: true
-  allow_failures:
-    - php: nightly
+    - stage: upgrade build-machine
+      script:
+      # upgrade docker
+      - docker --version
+      - sudo apt-get update
+      - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+      - docker --version
+      # install a recent docker-compose version
+      - docker-compose --version
+      - sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
+      - docker-compose --version
+    - stage: build
+      script:
+      - make containers
+    - stage: test
+      script:
+      - make test
+    - stage: deploy
+      script:
+      - echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin
+      - docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .
+      - docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .
+      - docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(git rev-parse --short $TRAVIS_COMMIT) .
+      - docker push alcohol/pastebin-varnish:latest
+      - docker push alcohol/pastebin-nginx:latest
+      - docker push alcohol/pastebin-fpm:latest
+      - docker logout
 
-before_install:
-  # upgrade docker
-  - docker --version
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - docker --version
-  # install a recent docker-compose version
-  - docker-compose --version
-  - sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
-  - docker-compose --version
-  # disable xdebug if available
-  - phpenv config-rm xdebug.ini || echo "xdebug not available"
-  # disable default memory limit
-  - echo memory_limit = -1 >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-
-script:
-  - make test
-
-after_success:
-  - bash <(curl -s https://codecov.io/bash) -f clover.xml
-
-deploy:
-  - provider: script
-    skip_cleanup: true
-    script: make deploy
-    on:
-      branch: master
-      php: 7.2
