@@ -20,6 +20,12 @@ services:
     networks:
       traefik_webgateway:
       default:
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+      - CHOWN
 
   nginx:
     build:
@@ -39,12 +45,15 @@ services:
       default:
         aliases:
           - nginx
+    cap_drop:
+      - ALL
 
   php-fpm:
     build:
       context: .
       dockerfile: docker/services/php-fpm/Dockerfile
     container_name: pastebin-fpm
+    user: $DOCKER_UID:$DOCKER_GID
     environment:
       - APP_ENV=dev
       - APP_DEBUG=1
@@ -60,6 +69,12 @@ services:
       default:
         aliases:
           - fcgi
+    cap_drop:
+      - ALL
+    cap_add:
+      - SETUID
+      - SETGID
+      - DAC_OVERRIDE
 
   redis:
     image: redis:5.0-rc-alpine

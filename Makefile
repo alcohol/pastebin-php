@@ -45,20 +45,37 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
-containers = $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
-runtime-dependencies = traefik-network vendor/composer/installed.json $(containers)
+# Target that makes sure containers are built
+CONTAINERS = $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+
+# Runtime dependencies
+RUNTIME-DEPENDENCIES = traefik-network vendor/composer/installed.json $(CONTAINERS)
+
+# Passed from ENV by travis-ci, but if not available use HEAD (currently checked out commit)
+TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
+
+# Take the short hash as release version
+RELEASE = $(shell git rev-parse --short $(TRAVIS_COMMIT))
+
+# Docker permissions
+DOCKER_UID = $(shell id -u)
+DOCKER_GID = $(shell id -g)
+DOCKER_USER = $(DOCKER_UID):$(DOCKER_GID)
+
+export DOCKER_UID
+export DOCKER_GID
 
 .PHONY: traefik-network
 traefik-network:
 	-docker network create traefik_webgateway
 
 .PHONY: fg
-fg: $(runtime-dependencies)
+fg: $(RUNTIME-DEPENDENCIES)
 fg: ## launch the docker-compose setup (foreground)
 	docker-compose up --remove-orphans --abort-on-container-exit
 
 .PHONY: up
-up: $(runtime-dependencies)
+up: $(RUNTIME-DEPENDENCIES)
 up: ## launch the docker-compose setup (background)
 	docker-compose up --remove-orphans --detach
 
@@ -68,35 +85,29 @@ down: ## terminate the docker-compose setup
 
 .PHONY: test
 test: export APP_ENV := test
-test: $(runtime-dependencies)
+test: $(RUNTIME-DEPENDENCIES)
 test: ## run phpunit test suite
-	docker-compose run --rm -e APP_ENV --user $(shell id -u):$(shell id -g) --name pastebin-testsuite php-fpm \
+	docker-compose run --rm -e APP_ENV --user $(DOCKER_USER) --name pastebin-testsuite php-fpm \
 		bin/console cache:warmup
-	docker-compose run --rm -e APP_ENV --user $(shell id -u):$(shell id -g) --name pastebin-testsuite php-fpm \
+	docker-compose run --rm -e APP_ENV --user $(DOCKER_USER) --name pastebin-testsuite php-fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 .PHONY: logs
-logs: $(runtime-dependencies)
+logs: $(RUNTIME-DEPENDENCIES)
 logs: ## show logs
 	docker-compose logs
 
 .PHONY: tail
-tail: $(runtime-dependencies)
+tail: $(RUNTIME-DEPENDENCIES)
 tail: ## tail logs
 	docker-compose logs -f
 
 shell: export APP_ENV := dev
 shell: export COMPOSER_HOME := /tmp
-shell: $(runtime-dependencies)
+shell: $(RUNTIME-DEPENDENCIES)
 shell: ## spawn a shell inside a php-fpm container
-	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(shell id -u):$(shell id -g) --name pastebin-shell php-fpm \
+	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name pastebin-shell php-fpm \
 		sh
-
-# Passed from ENV by travis-ci, but if not available use HEAD (currently checked out commit)
-TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
-
-# Take the short hash as release version
-RELEASE = $(shell git rev-parse --short $(TRAVIS_COMMIT))
 
 deploy:
 	@test -n "$(RELEASE)" || $(error RELEASE must be defined)
@@ -130,9 +141,9 @@ vendor:
 
 vendor/composer/installed.json: export APP_ENV := dev
 vendor/composer/installed.json: export COMPOSER_HOME := /tmp
-vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(containers)
+vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(CONTAINERS)
 	docker-compose run --rm --no-deps -e APP_ENV -e COMPOSER_HOME \
-		--user $(shell id -u):$(shell id -g) \
+		--user $(DOCKER_USER) \
 		--volume /etc/passwd:/etc/passwd:ro \
 		--volume /etc/group:/etc/group:ro \
 		--name pastebin-composer \
