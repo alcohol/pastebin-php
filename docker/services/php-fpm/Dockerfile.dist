@@ -1,4 +1,4 @@
-FROM composer:1 AS builder
+FROM php:7.2-fpm-alpine3.8 AS builder
 
 ENV APP_SECRET ''
 ENV APP_ENV prod
@@ -6,6 +6,8 @@ ENV APP_DEBUG 0
 ENV SENTRY_DSN ''
 ENV SENTRY_RELEASE ''
 ENV SENTRY_ENVIRONMENT ''
+
+COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /srv
 
@@ -27,7 +29,7 @@ RUN composer install \
     --no-dev \
  && bin/console cache:warmup
 
-FROM php:7.2-fpm-alpine3.7
+FROM php:7.2-fpm-alpine3.8
 
 ARG RELEASE
 ENV SENTRY_RELEASE ${RELEASE}

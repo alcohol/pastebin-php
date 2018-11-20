@@ -22,7 +22,7 @@ MAKEFLAGS += --no-builtin-variables
 MAKEFLAGS += --no-print-directory
 
 # Warn about undefined variables -- useful during development of makefiles, see [4]
-MAKEFLAGS += --warn-undefined-variables
+#MAKEFLAGS += --warn-undefined-variables
 
 # Show an auto-generated help if no target is provided, see [5]
 .DEFAULT_GOAL := help
@@ -41,7 +41,8 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
-runtime-dependencies := traefik-network vendor/composer/installed.json $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+containers = $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+runtime-dependencies = traefik-network vendor/composer/installed.json $(containers)
 
 .PHONY: traefik-network
 traefik-network:
@@ -49,34 +50,56 @@ traefik-network:
 
 .PHONY: fg
 fg: $(runtime-dependencies)
-fg: ## Launch the docker-compose setup (foreground)
+fg: ## launch the docker-compose setup (foreground)
 	docker-compose up --remove-orphans --abort-on-container-exit
 
 .PHONY: up
 up: $(runtime-dependencies)
-up: ## Launch the docker-compose setup (background)
+up: ## launch the docker-compose setup (background)
 	docker-compose up --remove-orphans --detach
 
 .PHONY: down
-down: ## Terminate the docker-compose setup
+down: ## terminate the docker-compose setup
 	-docker-compose down --remove-orphans
 
 .PHONY: test
-test: APP_ENV ?= test
+test: export APP_ENV := test
 test: $(runtime-dependencies)
-test: ## Run phpunit test suite
-	docker-compose run -u $(shell id -u):$(shell id -g) -e APP_ENV --rm --no-deps --name pastebin-testsuite php-fpm \
+test: ## run phpunit test suite
+	docker-compose run --rm -e APP_ENV --user $(shell id -u):$(shell id -g) --name pastebin-testsuite php-fpm \
+		bin/console cache:warmup
+	docker-compose run --rm -e APP_ENV --user $(shell id -u):$(shell id -g) --name pastebin-testsuite php-fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 .PHONY: logs
 logs: $(runtime-dependencies)
-logs: ## Show logs
+logs: ## show logs
 	docker-compose logs
 
 .PHONY: tail
 tail: $(runtime-dependencies)
-tail: ## Show logs
+tail: ## tail logs
 	docker-compose logs -f
+
+shell: export APP_ENV := dev
+shell: export COMPOSER_HOME := /tmp
+shell: $(runtime-dependencies)
+shell: ## spawn a shell inside a php-fpm container
+	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(shell id -u):$(shell id -g) --name pastebin-shell php-fpm \
+		sh
+
+deploy: $(runtime-dependencies)
+	test -n "$(TRAVIS_COMMIT)" || $(error TRAVIS_COMMIT must be defined)
+	test -n "$(DOCKERHUB_PASSWORD)" || $(error DOCKERHUB_PASSWORD must be defined)
+	test -n "$(DOCKERHUB_USERNAME)" || $(error DOCKERHUB_USERNAME must be defined)
+	docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .
+	docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .
+	docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(shell git rev-parse --short $(TRAVIS_COMMIT)) .
+	echo $(DOCKERHUB_PASSWORD) | docker login --username $(DOCKERHUB_USERNAME) --password-stdin
+	docker push alcohol/pastebin-varnish:latest
+	docker push alcohol/pastebin-nginx:latest
+	docker push alcohol/pastebin-fpm:latest
+	docker logout
 
 #
 # PATH BASED TARGETS
@@ -89,11 +112,13 @@ docker/services/%/.build: $$(shell find $$(@D) -type f -not -name .build)
 vendor:
 	mkdir vendor
 
-vendor/composer/installed.json: composer.json composer.lock vendor
-	docker run --rm -u $(shell id -u):$(shell id -g) \
+vendor/composer/installed.json: export APP_ENV := dev
+vendor/composer/installed.json: export COMPOSER_HOME := /tmp
+vendor/composer/installed.json: composer.json composer.lock vendor $(containers)
+	docker-compose run --rm --no-deps -e APP_ENV -e COMPOSER_HOME \
+		--user $(shell id -u):$(shell id -g) \
 		--volume /etc/passwd:/etc/passwd:ro \
 		--volume /etc/group:/etc/group:ro \
-		--volume "$(shell pwd)":/workdir \
-		--workdir /workdir \
-		composer install
+		--name pastebin-composer \
+		php-fpm composer install --no-interaction --no-progress --no-suggest --prefer-dist
 	@touch $@

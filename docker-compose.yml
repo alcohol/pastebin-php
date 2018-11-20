@@ -53,6 +53,7 @@ services:
     volumes:
       - .:/srv
     tmpfs:
+      - /tmp
       - /srv/var/cache
     depends_on:
       - redis

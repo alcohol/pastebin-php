@@ -12,7 +12,7 @@ monolog:
       members: ['file', 'stdout']
     file:
       type: stream
-      path: "%kernel.logs_dir%/%kernel.environment%.log"
+      path: '%kernel.logs_dir%/%kernel.environment%.log'
       level: debug
       channels: ['!event']
     stdout:

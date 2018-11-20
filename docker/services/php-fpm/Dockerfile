@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine3.7
+FROM php:7.2-fpm-alpine3.8
 
 RUN apk add --update --no-cache tini bash httpie curl \
  && apk add --update --no-cache --virtual .build-deps icu-dev zlib-dev \
@@ -12,6 +12,8 @@ RUN apk add --update --no-cache tini bash httpie curl \
     )" \
  && apk add --virtual .phpext-rundeps $runDeps \
  && apk del .build-deps
+
+COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /srv
 
@@ -39,9 +41,4 @@ COPY docker/services/php-fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
 RUN find /usr/local/etc -type d -exec chmod 755 {} \+ \
  && find /usr/local/etc -type f -exec chmod 644 {} \+
 
-RUN mkfifo -m 666 /tmp/stdout
-RUN mkfifo -m 666 /tmp/stderr
-
 EXPOSE 9000/tcp
-
-CMD [ "sh", "-c", "exec 3<>/tmp/stdout; exec 4<>/tmp/stderr; cat <&3 >&1 & cat <&4 >&2 & exec php-fpm 1>/tmp/stdout 2>/tmp/stdout" ]
