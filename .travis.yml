@@ -4,6 +4,7 @@ dist: trusty
 
 git:
   depth: 10
+  quiet: true
 
 env:
   global:
