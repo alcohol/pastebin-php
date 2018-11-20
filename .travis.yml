@@ -1,3 +1,5 @@
+language: minimal
+
 dist: trusty
 
 git:
@@ -16,10 +18,12 @@ cache:
 before_install:
   # upgrade docker
   - docker --version
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
   - sudo apt-get update
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - docker --version
-  # install a recent docker-compose version
+  # upgrade docker-compose
   - docker-compose --version
   - sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
   - docker-compose --version
@@ -30,18 +34,12 @@ before_script:
 script:
   - make test
 
-after_script:
+after_success:
   - bash <(curl -s https://codecov.io/bash) -f clover.xml
 
-after_success:
-  - if [ "$TRAVIS_BRANCH" == "master" -a "$TRAVIS_PULL_REQUEST" == "false" ]; then
-      echo $DOCKERHUB_PASSWORD | docker login --username $DOCKERHUB_USERNAME --password-stdin;
-      docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .;
-      docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .;
-      docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(git rev-parse --short $TRAVIS_COMMIT) .;
-      docker push alcohol/pastebin-varnish:latest;
-      docker push alcohol/pastebin-nginx:latest;
-      docker push alcohol/pastebin-fpm:latest;
-      docker logout;
-    fi
-
+deploy:
+  provider: script
+  skip_cleanup: true
+  script: bash .travis/deploy
+  on:
+    branch: master
