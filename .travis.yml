@@ -51,7 +51,7 @@ after_success:
 deploy:
   - provider: script
     skip_cleanup: true
-    script: bash deploy
+    script: make deploy
     on:
       branch: master
       php: 7.2

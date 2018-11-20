@@ -89,13 +89,13 @@ shell: ## spawn a shell inside a php-fpm container
 		sh
 
 deploy: $(runtime-dependencies)
-	test -n "$(TRAVIS_COMMIT)" || $(error TRAVIS_COMMIT must be defined)
-	test -n "$(DOCKERHUB_PASSWORD)" || $(error DOCKERHUB_PASSWORD must be defined)
-	test -n "$(DOCKERHUB_USERNAME)" || $(error DOCKERHUB_USERNAME must be defined)
+	@test -n "$(TRAVIS_COMMIT)" || $(error TRAVIS_COMMIT must be defined)
+	@test -n "$(DOCKERHUB_PASSWORD)" || $(error DOCKERHUB_PASSWORD must be defined)
+	@test -n "$(DOCKERHUB_USERNAME)" || $(error DOCKERHUB_USERNAME must be defined)
 	docker build --file=docker/services/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .
 	docker build --file=docker/services/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .
 	docker build --file=docker/services/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(shell git rev-parse --short $(TRAVIS_COMMIT)) .
-	echo $(DOCKERHUB_PASSWORD) | docker login --username $(DOCKERHUB_USERNAME) --password-stdin
+	@echo $(DOCKERHUB_PASSWORD) | docker login --username $(DOCKERHUB_USERNAME) --password-stdin
 	docker push alcohol/pastebin-varnish:latest
 	docker push alcohol/pastebin-nginx:latest
 	docker push alcohol/pastebin-fpm:latest
