@@ -109,12 +109,18 @@ docker/services/%/.build: $$(shell find $$(@D) -type f -not -name .build)
 	docker-compose build $*
 	@touch $@
 
+var/cache:
+	mkdir -p $@
+
+var/log:
+	mkdir -p $@
+
 vendor:
-	mkdir vendor
+	mkdir -p $@
 
 vendor/composer/installed.json: export APP_ENV := dev
 vendor/composer/installed.json: export COMPOSER_HOME := /tmp
-vendor/composer/installed.json: composer.json composer.lock vendor $(containers)
+vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(containers)
 	docker-compose run --rm --no-deps -e APP_ENV -e COMPOSER_HOME \
 		--user $(shell id -u):$(shell id -g) \
 		--volume /etc/passwd:/etc/passwd:ro \
