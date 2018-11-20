@@ -22,7 +22,7 @@ MAKEFLAGS += --no-builtin-variables
 MAKEFLAGS += --no-print-directory
 
 # Warn about undefined variables -- useful during development of makefiles, see [4]
-#MAKEFLAGS += --warn-undefined-variables
+MAKEFLAGS += --warn-undefined-variables
 
 # Show an auto-generated help if no target is provided, see [5]
 .DEFAULT_GOAL := help
