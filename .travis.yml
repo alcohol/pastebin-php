@@ -10,7 +10,7 @@ git:
 
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=1.22.0
+    - DOCKER_COMPOSE_VERSION=1.23.1
     - DOCKER_COMPOSE_RELEASE="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"
 
 cache:
@@ -34,7 +34,8 @@ before_install:
   - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
   - docker --version
   # install a recent docker-compose version
-  - sudo curl --silent --fail --retry 3 --location --output /usr/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
+  - docker-compose --version
+  - sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
   - docker-compose --version
   # disable xdebug if available
   - phpenv config-rm xdebug.ini || echo "xdebug not available"
