@@ -2048,16 +2048,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v4.1.8",
+            "version": "v4.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "eebc037d45c253af2349c5b25a2d0531a732efdc"
+                "reference": "cda9b423e3457b5915687f8dab5679c1fd03fd80"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/eebc037d45c253af2349c5b25a2d0531a732efdc",
-                "reference": "eebc037d45c253af2349c5b25a2d0531a732efdc",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/cda9b423e3457b5915687f8dab5679c1fd03fd80",
+                "reference": "cda9b423e3457b5915687f8dab5679c1fd03fd80",
                 "shasum": ""
             },
             "require": {
@@ -2121,7 +2121,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2018-11-26T10:24:14+00:00"
+            "time": "2018-12-03T21:38:57+00:00"
         },
         {
             "name": "symfony/security-core",
@@ -2541,16 +2541,16 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v4.1.8",
+            "version": "v4.1.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "049f38d530c971ee8c66cd32dcda5e221fb4b5ea"
+                "reference": "22fff8b1b3a1d7262d425e58f2346ad2bc11d638"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/049f38d530c971ee8c66cd32dcda5e221fb4b5ea",
-                "reference": "049f38d530c971ee8c66cd32dcda5e221fb4b5ea",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/22fff8b1b3a1d7262d425e58f2346ad2bc11d638",
+                "reference": "22fff8b1b3a1d7262d425e58f2346ad2bc11d638",
                 "shasum": ""
             },
             "require": {
@@ -2603,7 +2603,7 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "https://symfony.com",
-            "time": "2018-11-26T10:26:29+00:00"
+            "time": "2018-12-02T13:22:14+00:00"
         },
         {
             "name": "symfony/yaml",
