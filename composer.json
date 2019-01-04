@@ -2,7 +2,7 @@
   "type": "project",
   "license": "MIT",
   "require": {
-    "php": "^7.2",
+    "php": "^7.3",
     "doctrine/cache": "^1.7",
     "predis/predis": "^1.1",
     "sentry/sentry-symfony": "^2.0",
@@ -62,7 +62,7 @@
   },
   "config": {
     "platform": {
-      "php": "7.2.6",
+      "php": "7.3",
       "ext-pcntl": "1.0"
     },
     "preferred-install": {
