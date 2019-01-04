@@ -1,4 +1,4 @@
-FROM php:7.2-fpm-alpine3.8
+FROM php:7.3-fpm-alpine
 
 RUN apk add --update --no-cache tini bash httpie curl \
  && apk add --update --no-cache --virtual .build-deps icu-dev zlib-dev \
