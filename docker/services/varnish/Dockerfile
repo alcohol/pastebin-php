@@ -14,7 +14,7 @@ ENV VARNISH_PORT=6081
 ENV VARNISH_ADMIN_IP=127.0.0.1
 ENV VARNISH_ADMIN_PORT=6082
 
-RUN apk add --update --no-cache libintl varnish=6.0.0-r1 \
+RUN apk add --update --no-cache libintl varnish \
  && rm -rf /etc/varnish \
  && mkdir /etc/varnish
 
