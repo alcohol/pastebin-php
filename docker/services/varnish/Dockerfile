@@ -1,4 +1,4 @@
-FROM alpine:3.8
+FROM alpine:3.9
 
 LABEL traefik.enable=true
 LABEL traefik.docker.network=traefik

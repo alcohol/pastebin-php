@@ -2,31 +2,21 @@
 
 {% block body %}
 
-<div class="container-fluid m-b-2 p-x-0">
-    <div class="topbar w-100 d-block clearfix">
-        <p class="d-inline">
-            <span class="fa fa-fw fa-file-text-o" aria-hidden="true"></span>
-            <a href="{{ path('paste.create') }}">new</a>
-        </p>
-        <p class="d-inline m-l-1">
-            <span class="fa fa-fw fa-code" aria-hidden="true"></span>
-            <a href="{{ path('paste.read.raw', {'id': paste.code}) }}">raw</a>
-        </p>
-    </div>
+<div class="container-fluid mb-4 px-0 text-monospace">
+  <div class="topbar w-100 d-block clearfix">
+    <p class="d-inline ml-3">
+      <span class="far fa-file-alt" aria-hidden="true"></span>
+      <a href="{{ path('paste.create') }}">new</a>
+    </p>
+    <p class="d-inline ml-3">
+      <span class="far fa-file-code" aria-hidden="true"></span>
+      <a href="{{ path('paste.read.raw', {'id': paste.code}) }}">raw</a>
+    </p>
+  </div>
 </div>
 
-<div class="container-fluid">
-
-    <form class="form-inline pull-xs-right" id="hljs-form">
-        <select class="form-control form-control-sm" id="hljs-selector">
-            <option disabled selected>Syntax:</option>
-        </select>
-    </form>
-
-    <pre><code id="code">{{ paste }}</code></pre>
+<div class="container-fluid text-monospace">
+  <pre><code>{{ paste }}</code></pre>
 </div>
-
-<script src="/assets/js/highlight.pack.js"></script>
-<script src="/assets/js/read.js"></script>
 
 {% endblock %}

@@ -9,7 +9,7 @@ services:
     container_name: pastebin-varnish
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik_webgateway
+      traefik.docker.network: traefik
       traefik.backend: pastebin-varnish
       traefik.frontend.rule: "Host:cache.pastebin.localhost"
       traefik.port: 6081
@@ -18,7 +18,7 @@ services:
     depends_on:
       - nginx
     networks:
-      traefik_webgateway:
+      traefik:
       default:
     cap_drop:
       - ALL
@@ -34,14 +34,16 @@ services:
     container_name: pastebin-nginx
     labels:
       traefik.enable: true
-      traefik.docker.network: traefik_webgateway
+      traefik.docker.network: traefik
       traefik.backend: pastebin-nginx
       traefik.frontend.rule: "Host:pastebin.localhost"
       traefik.port: 8000
+    volumes:
+      - ./public:/srv/public
     depends_on:
       - php-fpm
     networks:
-      traefik_webgateway:
+      traefik:
       default:
         aliases:
           - nginx
@@ -100,7 +102,7 @@ networks:
 
   default:
 
-  traefik_webgateway:
+  traefik:
     external: true
 
 volumes:
