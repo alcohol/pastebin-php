@@ -49,7 +49,7 @@ help:
 CONTAINERS = $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
 
 # Runtime dependencies
-RUNTIME-DEPENDENCIES = traefik vendor/composer/installed.json $(CONTAINERS)
+RUNTIME-DEPENDENCIES = $(CONTAINERS) traefik vendor/composer/installed.json
 
 # Passed from ENV by travis-ci, but if not available use HEAD (currently checked out commit)
 TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
@@ -157,7 +157,7 @@ vendor:
 
 vendor/composer/installed.json: export APP_ENV := dev
 vendor/composer/installed.json: export COMPOSER_HOME := /tmp
-vendor/composer/installed.json: composer.json composer.lock vendor $(CONTAINERS)
+vendor/composer/installed.json: composer.json composer.lock vendor
 	docker-compose run --rm --no-deps -e APP_ENV -e COMPOSER_HOME \
 		--user $(DOCKER_USER) \
 		--volume /etc/passwd:/etc/passwd:ro \

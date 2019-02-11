@@ -8,8 +8,6 @@ services:
       dockerfile: docker/services/varnish/Dockerfile
     container_name: pastebin-varnish
     labels:
-      traefik.enable: true
-      traefik.docker.network: traefik
       traefik.backend: pastebin-varnish
       traefik.frontend.rule: "Host:cache.pastebin.localhost"
       traefik.port: 6081
@@ -26,6 +24,7 @@ services:
       - SETUID
       - SETGID
       - CHOWN
+      - DAC_OVERRIDE
 
   nginx:
     build:
@@ -33,8 +32,6 @@ services:
       dockerfile: docker/services/nginx/Dockerfile
     container_name: pastebin-nginx
     labels:
-      traefik.enable: true
-      traefik.docker.network: traefik
       traefik.backend: pastebin-nginx
       traefik.frontend.rule: "Host:pastebin.localhost"
       traefik.port: 8000
@@ -79,7 +76,7 @@ services:
       - DAC_OVERRIDE
 
   redis:
-    image: redis:5.0-rc-alpine
+    image: redis:5.0-alpine
     container_name: pastebin-redis
     read_only: true
     command: "redis-server --appendonly yes"

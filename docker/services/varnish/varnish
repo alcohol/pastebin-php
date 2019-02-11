@@ -4,18 +4,14 @@ set -e
 
 echo "Starting varnish logger"
 (
-  # run varnish logging in the background,
-  varnishncsa -a -w /dev/stdout -t 10 \
-    -F '%h %l %u %t "%r" %s %b "%{Referer}i" "%{User-agent}i" %{Varnish:hitmiss}x %{Varnish:handling}x' 2> /dev/null \
-  ; pkill varnishd # kill varnishd if varnishncsa exits for whatever reason
+  varnishncsa -a -w /dev/stdout ; \
+  pkill varnishd # kill varnishd if varnishncsa exits for whatever reason
 ) &
 
-# run varnishd as the main process
 echo "Starting varnish daemon"
-exec varnishd \
-  -F \
+exec varnishd -F \
   -f ${VARNISH_CONFIG} \
-  -s malloc,${VARNISH_CACHE_SIZE} \
+  -s default,${VARNISH_CACHE_SIZE} \
   -a ${VARNISH_IP}:${VARNISH_PORT} \
   -T ${VARNISH_ADMIN_IP}:${VARNISH_ADMIN_PORT} \
-  ${VARNISHD_PARAMS} > /dev/null 2>&1
+  ${VARNISHD_PARAMS}
