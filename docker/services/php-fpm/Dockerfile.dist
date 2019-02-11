@@ -75,9 +75,4 @@ COPY docker/services/php-fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
 RUN find /usr/local/etc -type d -exec chmod 755 {} \+ \
  && find /usr/local/etc -type f -exec chmod 644 {} \+
 
-RUN mkfifo -m 666 /tmp/stdout
-RUN mkfifo -m 666 /tmp/stder
-
 EXPOSE 9000/tcp
-
-CMD [ "sh", "-c", "exec 3<>/tmp/stdout; exec 4<>/tmp/stderr; cat <&3 >&1 & cat <&4 >&2 & exec php-fpm 1>/tmp/stdout 2>/tmp/stdout" ]
