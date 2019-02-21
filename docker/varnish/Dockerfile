@@ -18,8 +18,8 @@ RUN apk add --update --no-cache libintl varnish \
  && rm -rf /etc/varnish \
  && mkdir /etc/varnish
 
-COPY docker/services/varnish/*.vcl /etc/varnish/
-COPY docker/services/varnish/varnish /
+COPY /docker/varnish/*.vcl /etc/varnish/
+COPY /docker/varnish/varnish /
 
 RUN chmod +x /varnish
 

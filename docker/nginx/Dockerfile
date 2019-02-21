@@ -12,8 +12,8 @@ LABEL traefik.port=8000
 
 WORKDIR /srv
 
-COPY ["docker/services/nginx/nginx.conf", "/etc/nginx/"]
-COPY ["public/", "/srv/public/"]
+COPY /docker/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY /public/ /srv/public/
 
 RUN touch /var/run/nginx.pid \
  && mkdir -p /var/cache/nginx/client_temp \

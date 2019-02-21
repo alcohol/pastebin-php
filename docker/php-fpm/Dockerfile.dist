@@ -11,12 +11,13 @@ COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /srv
 
-COPY ["bin/", "/srv/bin/"]
-COPY ["config/", "/srv/config/"]
-COPY ["public/", "/srv/public/"]
-COPY ["src/", "/srv/src/"]
-COPY ["templates/", "/srv/templates/"]
-COPY ["composer.json", "composer.lock", "/srv/"]
+COPY /bin/ /srv/bin/
+COPY /config/ /srv/config/
+COPY /public/ /srv/public/
+COPY /src/ /srv/src/
+COPY /templates/ /srv/templates/
+COPY /composer.json /srv/
+COPY /composer.lock /srv/
 
 RUN composer install \
     --no-interaction \
@@ -63,13 +64,13 @@ RUN rm /usr/local/etc/php-fpm.conf.default \
  && rm /usr/local/etc/php-fpm.d/zz-docker.conf
 
 # add custom php ini files
-COPY docker/services/php-fpm/php.ini /usr/local/etc/php/
-COPY docker/services/php-fpm/php-cli.ini /usr/local/etc/php/
-COPY docker/services/php-fpm/docker.ini /usr/local/etc/php/conf.d/
+COPY /docker/php-fpm/php.ini /usr/local/etc/php/
+COPY /docker/php-fpm/php-cli.ini /usr/local/etc/php/
+COPY /docker/php-fpm/docker.ini /usr/local/etc/php/conf.d/
 
 # add custom php-fpm conf files
-COPY docker/services/php-fpm/php-fpm.conf /usr/local/etc/
-COPY docker/services/php-fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
+COPY /docker/php-fpm/php-fpm.conf /usr/local/etc/
+COPY /docker/php-fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
 
 # adjust permissions
 RUN find /usr/local/etc -type d -exec chmod 755 {} \+ \

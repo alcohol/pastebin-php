@@ -31,12 +31,12 @@ RUN rm /usr/local/etc/php-fpm.conf.default \
  && rm /usr/local/etc/php-fpm.d/zz-docker.conf
 
 # add custom php ini files
-COPY docker/services/php-fpm/php.ini /usr/local/etc/php/
-COPY docker/services/php-fpm/php-cli.ini /usr/local/etc/php/
+COPY /docker/php-fpm/php.ini /usr/local/etc/php/
+COPY /docker/php-fpm/php-cli.ini /usr/local/etc/php/
 
 # add custom php-fpm conf files
-COPY docker/services/php-fpm/php-fpm.conf /usr/local/etc/
-COPY docker/services/php-fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
+COPY /docker/php-fpm/php-fpm.conf /usr/local/etc/
+COPY /docker/php-fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
 
 # adjust permissions
 RUN find /usr/local/etc -type d -exec chmod 755 {} \+ \
