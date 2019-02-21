@@ -5,7 +5,7 @@ services:
   varnish:
     build:
       context: .
-      dockerfile: docker/services/varnish/Dockerfile
+      dockerfile: docker/varnish/Dockerfile
     container_name: pastebin-varnish
     labels:
       traefik.backend: pastebin-varnish
@@ -29,7 +29,7 @@ services:
   nginx:
     build:
       context: .
-      dockerfile: docker/services/nginx/Dockerfile
+      dockerfile: docker/nginx/Dockerfile
     container_name: pastebin-nginx
     labels:
       traefik.backend: pastebin-nginx
@@ -50,7 +50,7 @@ services:
   php-fpm:
     build:
       context: .
-      dockerfile: docker/services/php-fpm/Dockerfile
+      dockerfile: docker/php-fpm/Dockerfile
     container_name: pastebin-fpm
     user: $DOCKER_UID:$DOCKER_GID
     environment:
@@ -76,7 +76,7 @@ services:
       - DAC_OVERRIDE
 
   redis:
-    image: redis:5.0-alpine
+    image: redis:5-alpine
     container_name: pastebin-redis
     read_only: true
     command: "redis-server --appendonly yes"

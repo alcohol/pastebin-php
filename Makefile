@@ -45,8 +45,10 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
+PROJECT := pastebin
+
 # Target that makes sure containers are built
-CONTAINERS = $(shell find docker/services -name Dockerfile | sed 's/Dockerfile/.build/')
+CONTAINERS = $(shell find docker -name Dockerfile | sed 's/Dockerfile/.build/')
 
 # Runtime dependencies
 RUNTIME-DEPENDENCIES = $(CONTAINERS) traefik vendor/composer/installed.json
@@ -102,54 +104,53 @@ containers: ## build all containers
 .PHONY: fg
 fg: $(RUNTIME-DEPENDENCIES)
 fg: ## launch the docker-compose setup (foreground)
-	docker-compose up --remove-orphans --abort-on-container-exit
+	docker-compose --project-name $(PROJECT) up --remove-orphans
 
 .PHONY: up
 up: $(RUNTIME-DEPENDENCIES)
 up: ## launch the docker-compose setup (background)
-	docker-compose up --remove-orphans --detach
+	docker-compose --project-name $(PROJECT) up --remove-orphans --detach
 
 .PHONY: down
 down: ## terminate the docker-compose setup
-	-docker-compose down --remove-orphans
+	-docker-compose --project-name $(PROJECT) down --remove-orphans
 
 .PHONY: test
 test: export APP_ENV := test
 test: $(RUNTIME-DEPENDENCIES)
 test: ## run phpunit test suite
-	docker-compose run --rm -e APP_ENV --user $(DOCKER_USER) --name pastebin-testsuite php-fpm \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
 		bin/console cache:warmup
-	docker-compose run --rm -e APP_ENV --user $(DOCKER_USER) --name pastebin-testsuite php-fpm \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 .PHONY: logs
 logs: $(RUNTIME-DEPENDENCIES)
 logs: ## show logs
-	docker-compose logs
+	docker-compose --project-name $(PROJECT) logs
 
 .PHONY: tail
 tail: $(RUNTIME-DEPENDENCIES)
 tail: ## tail logs
-	docker-compose logs -f
+	docker-compose --project-name $(PROJECT) logs -f
 
 .PHONY: shell
 shell: export APP_ENV := dev
 shell: export COMPOSER_HOME := /tmp
 shell: $(RUNTIME-DEPENDENCIES)
 shell: ## spawn a shell inside a php-fpm container
-	docker-compose run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name pastebin-shell php-fpm \
-		sh
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name shell php-fpm sh
 
 #
 # PATH BASED TARGETS
 #
 
-docker/services/nginx/Dockerfile: $(shell find public -type f)
-	docker-compose build nginx
+docker/nginx/Dockerfile: $(shell find public -type f)
+	docker-compose --project-name $(PROJECT) build nginx
 	@touch $@
 
-docker/services/%/.build: $$(shell find $$(@D) -type f -not -name .build)
-	docker-compose build $*
+docker/%/.build: $$(shell find $$(@D) -type f -not -name .build)
+	docker-compose --project-name $(PROJECT) build $*
 	@touch $@
 
 vendor:
