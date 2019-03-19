@@ -2,8 +2,6 @@ FROM scratch
 
 COPY --from=nginx:mainline-alpine / /
 
-RUN apk add --no-cache curl
-
 LABEL traefik.enable=true
 LABEL traefik.docker.network=traefik
 LABEL traefik.backend=pastebin

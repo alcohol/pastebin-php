@@ -1,7 +1,6 @@
 FROM php:7.3-fpm-alpine
 
-RUN apk add --update --no-cache tini bash httpie curl \
- && apk add --update --no-cache --virtual .build-deps icu-dev zlib-dev libzip-dev \
+RUN apk add --update --no-cache --virtual .build-deps icu-dev zlib-dev libzip-dev \
  && docker-php-ext-configure zip --with-libzip \
  && docker-php-ext-configure intl \
  && docker-php-ext-install -j$(getconf _NPROCESSORS_ONLN) intl mbstring opcache zip \
