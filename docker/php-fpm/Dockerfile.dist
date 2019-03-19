@@ -46,7 +46,7 @@ RUN apk add --update --no-cache --virtual .build-deps icu-dev zlib-dev libzip-de
     | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
   )" \
  && apk add --virtual .phpext-rundeps $runDeps \
- && apk del .build-deps
+ && apk del --no-network --purge .build-deps
 
 COPY --from=builder /srv /srv/
 
