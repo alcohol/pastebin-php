@@ -762,7 +762,7 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
@@ -1254,7 +1254,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.2.5",
+            "version": "v4.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
