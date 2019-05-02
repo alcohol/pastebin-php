@@ -20,6 +20,7 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 final class ExceptionSubscriber implements EventSubscriberInterface
 {
+    /** @var LoggerInterface */
     private $logger;
 
     public function __construct(LoggerInterface $logger)
@@ -38,7 +39,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function logException(GetResponseForExceptionEvent $event)
+    public function logException(GetResponseForExceptionEvent $event): void
     {
         $exception = $event->getException();
 
@@ -49,7 +50,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         ]]);
     }
 
-    public function handleException(GetResponseForExceptionEvent $event)
+    public function handleException(GetResponseForExceptionEvent $event): void
     {
         if (!$event->isMasterRequest()) {
             return; // @codeCoverageIgnore

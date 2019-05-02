@@ -13,30 +13,19 @@ use Webmozart\Assert\Assert;
 
 final class HashGenerator
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     private $secret;
 
     /**
-     * @param string $secret
-     *
      * @throws \InvalidArgumentException
      */
     public function __construct(string $secret)
     {
-        Assert::stringNotEmpty($secret, 'Argument "$secret" is required and should be a not-empty string.');
+        Assert::stringNotEmpty($secret, 'Argument "$secret" is required and should be a non-empty string.');
 
         $this->secret = $secret;
     }
 
-    /**
-     * Generates a hash for given paste id.
-     *
-     * @param string $paste_id
-     *
-     * @return string
-     */
     public function generateHash(string $paste_id): string
     {
         return hash('sha256', sprintf('%s.%s', $paste_id, $this->secret), false);

@@ -23,6 +23,7 @@ final class HashGeneratorTest extends TestCase
 
     /**
      * @dataProvider invalidSecrets
+     *
      * @param mixed $input
      * @param string $expectedException
      */

@@ -21,7 +21,9 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 final class UpdateController
 {
+    /** @var PasteRepository */
     private $repository;
+    /** @var HashGenerator */
     private $generator;
 
     public function __construct(PasteRepository $repository, HashGenerator $generator)
@@ -42,7 +44,7 @@ final class UpdateController
             throw new NotFoundHttpException($exception->getMessage(), $exception);
         }
 
-        if (false === hash_equals($request->headers->get('X-Paste-Token'), $this->generator->generateHash($id))) {
+        if (false === hash_equals((string) $request->headers->get('X-Paste-Token'), $this->generator->generateHash($id))) {
             throw new InvalidTokenException();
         }
 

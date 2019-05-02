@@ -20,7 +20,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 final class DeleteController
 {
+    /** @var PasteRepository */
     private $repository;
+    /** @var HashGenerator */
     private $generator;
 
     public function __construct(PasteRepository $repository, HashGenerator $generator)

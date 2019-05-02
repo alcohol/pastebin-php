@@ -19,7 +19,9 @@ use Twig\Environment;
 
 final class ReadController
 {
+    /** @var PasteRepository */
     private $repository;
+    /** @var Environment */
     private $engine;
 
     public function __construct(Environment $engine, PasteRepository $repository)

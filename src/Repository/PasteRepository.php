@@ -15,7 +15,9 @@ use Paste\Exception\StorageException;
 
 final class PasteRepository
 {
+    /** @var Cache */
     private $cache;
+    /** @var int */
     private $default_ttl;
 
     public function __construct(Cache $cache, int $default_ttl)

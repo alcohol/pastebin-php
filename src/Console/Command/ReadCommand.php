@@ -19,7 +19,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ReadCommand extends Command
 {
+    /** @var string */
     protected static $defaultName = 'paste:read';
+    /** @var PasteRepository */
     protected $repository;
 
     public function __construct(PasteRepository $repository)
@@ -43,7 +45,8 @@ final class ReadCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $paste = $this->repository->find($input->getArgument('id'));
+        $id = $input->getArgument('id');
+        $paste = $this->repository->find($id);
 
         $output
             ->getFormatter()

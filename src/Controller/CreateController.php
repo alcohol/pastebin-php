@@ -23,8 +23,11 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CreateController
 {
+    /** @var PasteRepository */
     private $repository;
+    /** @var RouterInterface */
     private $router;
+    /** @var HashGenerator */
     private $generator;
 
     public function __construct(

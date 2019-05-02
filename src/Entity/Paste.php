@@ -11,18 +11,21 @@ namespace Paste\Entity;
 
 final class Paste implements \Serializable
 {
+    /** @var string */
     private $code;
+    /** @var string */
     private $body;
 
-    public static function create($body)
+    public static function create(string $body)
     {
         $paste = new self();
         $paste->body = $body;
+        $paste->code = null;
 
         return $paste;
     }
 
-    public function persist($code): self
+    public function persist(string $code): self
     {
         $paste = new self();
         $paste->body = $this->body;
@@ -31,7 +34,7 @@ final class Paste implements \Serializable
         return $paste;
     }
 
-    public function update($body): self
+    public function update(string $body): self
     {
         $paste = new self();
         $paste->code = $this->code;
