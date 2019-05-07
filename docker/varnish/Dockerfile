@@ -3,7 +3,7 @@ FROM alpine:3.9
 LABEL traefik.enable=true
 LABEL traefik.docker.network=traefik
 LABEL traefik.backend=pastebin
-LABEL traefik.frontend.rule=Host:paste.robbast.nl,p.robbast.nl
+LABEL traefik.frontend.rule=Host:paste.robbast.nl
 LABEL traefik.port=6081
 
 ENV VARNISH_CONFIG=/etc/varnish/default.vcl
