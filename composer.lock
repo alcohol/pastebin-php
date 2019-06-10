@@ -2276,7 +2276,7 @@
         },
         {
             "name": "symfony/finder",
-            "version": "v4.3.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/finder.git",
@@ -2374,16 +2374,16 @@
         },
         {
             "name": "symfony/framework-bundle",
-            "version": "v4.3.0",
+            "version": "v4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/framework-bundle.git",
-                "reference": "19714b45c7b5af238e66720017bae6fcf2d5fa01"
+                "reference": "fe407e6840d2b8f34c3fb67111e05c6d65319ef6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/19714b45c7b5af238e66720017bae6fcf2d5fa01",
-                "reference": "19714b45c7b5af238e66720017bae6fcf2d5fa01",
+                "url": "https://api.github.com/repos/symfony/framework-bundle/zipball/fe407e6840d2b8f34c3fb67111e05c6d65319ef6",
+                "reference": "fe407e6840d2b8f34c3fb67111e05c6d65319ef6",
                 "shasum": ""
             },
             "require": {
@@ -2492,7 +2492,7 @@
             ],
             "description": "Symfony FrameworkBundle",
             "homepage": "https://symfony.com",
-            "time": "2019-05-30T03:17:01+00:00"
+            "time": "2019-06-06T08:35:06+00:00"
         },
         {
             "name": "symfony/http-foundation",
