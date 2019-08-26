@@ -158,11 +158,16 @@ vendor:
 
 vendor/composer/installed.json: export APP_ENV := dev
 vendor/composer/installed.json: export COMPOSER_HOME := /tmp
-vendor/composer/installed.json: composer.json composer.lock vendor
-	docker-compose run --rm --no-deps -e APP_ENV -e COMPOSER_HOME \
+vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(CONTAINERS)
+	docker run --rm \
+		--interactive \
+		--env APP_ENV \
+		--env COMPOSER_HOME \
 		--user $(DOCKER_USER) \
 		--volume /etc/passwd:/etc/passwd:ro \
 		--volume /etc/group:/etc/group:ro \
+		--volume $(shell pwd):/app \
+		--workdir /app \
 		--name pastebin-composer \
-		php-fpm composer install --no-interaction --no-progress --no-suggest --prefer-dist
+		composer install --no-interaction --no-progress --no-suggest --prefer-dist
 	@touch $@
