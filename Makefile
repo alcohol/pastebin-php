@@ -51,7 +51,7 @@ PROJECT := pastebin
 CONTAINERS = $(shell find docker -name Dockerfile | sed 's/Dockerfile/.build/')
 
 # Runtime dependencies
-RUNTIME-DEPENDENCIES = $(CONTAINERS) traefik vendor/composer/installed.json
+RUNTIME-DEPENDENCIES = $(CONTAINERS) traefik vendor/composer/installed.json $(CONTAINERS)
 
 # Passed from ENV by travis-ci, but if not available use HEAD (currently checked out commit)
 TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
