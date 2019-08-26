@@ -115,15 +115,6 @@ up: ## launch the docker-compose setup (background)
 down: ## terminate the docker-compose setup
 	-docker-compose --project-name $(PROJECT) down --remove-orphans
 
-.PHONY: test
-test: export APP_ENV := test
-test: $(RUNTIME-DEPENDENCIES)
-test: ## run phpunit test suite
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
-		bin/console cache:warmup
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
-		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
-
 .PHONY: logs
 logs: $(RUNTIME-DEPENDENCIES)
 logs: ## show logs
@@ -140,6 +131,15 @@ shell: export COMPOSER_HOME := /tmp
 shell: $(RUNTIME-DEPENDENCIES)
 shell: ## spawn a shell inside a php-fpm container
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV -e COMPOSER_HOME --user $(DOCKER_USER) --name pastebin-shell php-fpm sh
+
+.PHONY: test
+test: export APP_ENV := test
+test: $(RUNTIME-DEPENDENCIES)
+test: ## run phpunit test suite
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
+		bin/console cache:warmup
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
+		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 #
 # PATH BASED TARGETS
