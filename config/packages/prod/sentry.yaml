@@ -3,6 +3,7 @@ sentry:
   options:
     environment: '%env(SENTRY_ENVIRONMENT)%'
     release: '%env(SENTRY_RELEASE)%'
+    send_default_pii: true
 
 #  skip_capture:  # To skip certain exceptions, specify a list below
 #    - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
