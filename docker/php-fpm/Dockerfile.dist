@@ -62,7 +62,7 @@ RUN set -eux; \
    apk add --virtual .phpext-rundeps $runDeps; \
    apk del .build-deps
 
-WORKDIR /srv
+COPY --from=builder /srv /srv/
 
 RUN set -eux; \
   rm -f \
@@ -84,6 +84,8 @@ RUN set -eux; \
   chown -R www-data:www-data /srv; \
   find /usr/local/etc -type d -exec chmod 755 {} \+; \
   find /usr/local/etc -type f -exec chmod 644 {} \+
+
+WORKDIR /srv
 
 EXPOSE 9000/tcp
 
