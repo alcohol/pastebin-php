@@ -28,9 +28,10 @@ before_install:
   - docker-compose --version
   - sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
   - docker-compose --version
-
-before_script:
   - make containers
+
+install:
+  - make vendor/composer/installed.json
 
 script:
   - make test

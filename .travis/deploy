@@ -6,12 +6,20 @@ test -n "$DOCKERHUB_PASSWORD" || { echo "Missing DOCKERHUB_PASSWORD value" >&2; 
 
 echo "$DOCKERHUB_PASSWORD" | docker login --username "$DOCKERHUB_USERNAME" --password-stdin
 
-docker build --file=docker/varnish/Dockerfile --tag=alcohol/pastebin-varnish:latest .
-docker build --file=docker/nginx/Dockerfile --tag=alcohol/pastebin-nginx:latest .
-docker build --file=docker/php-fpm/Dockerfile.dist --tag=alcohol/pastebin-fpm:latest --build-arg=RELEASE=$(git rev-parse --short "$TRAVIS_COMMIT") .
-
+docker build \
+  --file docker/varnish/Dockerfile \
+  --tag alcohol/pastebin-varnish:latest \
+  .
+docker build \
+  --file docker/nginx/Dockerfile \
+  --tag alcohol/pastebin-nginx:latest \
+  .
+docker build \
+  --file docker/php-fpm/Dockerfile.dist \
+  --tag alcohol/pastebin-fpm:latest \
+  --build-arg RELEASE="$TRAVIS_COMMIT" \
+  .
 docker push alcohol/pastebin-varnish:latest
 docker push alcohol/pastebin-nginx:latest
 docker push alcohol/pastebin-fpm:latest
-
 docker logout
