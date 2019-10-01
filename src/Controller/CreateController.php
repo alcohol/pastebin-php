@@ -17,8 +17,6 @@ use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
 final class CreateController
@@ -49,7 +47,7 @@ final class CreateController
         }
 
         if (empty($body)) {
-            throw new BadRequestHttpException('No input received.');
+            return new Response('No input received.', Response::HTTP_BAD_REQUEST);
         }
 
         $paste = Paste::create($body);
@@ -63,7 +61,7 @@ final class CreateController
             $paste = $this->repository->persist($paste, $ttl);
         // @codeCoverageIgnoreStart
         } catch (StorageException $exception) {
-            throw new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
+            return new Response($exception->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
         }
         // @codeCoverageIgnoreEnd
 

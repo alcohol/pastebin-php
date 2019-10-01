@@ -15,6 +15,9 @@ final class HealthController
 {
     public function __invoke(): Response
     {
-        return new Response();
+        $response = new Response('OK', 200);
+        $response->setPrivate();
+
+        return $response;
     }
 }

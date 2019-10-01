@@ -40,8 +40,8 @@ final class IndexController
         $response
             ->setVary(['Accept', 'Accept-Encoding'])
             ->setEtag(md5($response->getContent()))
-            ->setTtl(3600)
-            ->setClientTtl(300)
+            ->setTtl(300)
+            ->setClientTtl(60)
         ;
 
         if (!$request->isNoCache()) {
