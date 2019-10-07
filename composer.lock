@@ -1586,16 +1586,16 @@
         },
         {
             "name": "sentry/sentry-symfony",
-            "version": "3.1.0",
+            "version": "3.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-symfony.git",
-                "reference": "0a12cde953e60e35cdf2f6ca3a80a8def641ce33"
+                "reference": "62d5c9d280044283d898d262bdae4062d02039bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/0a12cde953e60e35cdf2f6ca3a80a8def641ce33",
-                "reference": "0a12cde953e60e35cdf2f6ca3a80a8def641ce33",
+                "url": "https://api.github.com/repos/getsentry/sentry-symfony/zipball/62d5c9d280044283d898d262bdae4062d02039bc",
+                "reference": "62d5c9d280044283d898d262bdae4062d02039bc",
                 "shasum": ""
             },
             "require": {
@@ -1612,12 +1612,16 @@
             "require-dev": {
                 "friendsofphp/php-cs-fixer": "^2.8",
                 "jangregor/phpstan-prophecy": "^0.3.0",
+                "monolog/monolog": "^1.11||^2.0",
                 "php-http/mock-client": "^1.0",
                 "phpstan/phpstan": "^0.11",
                 "phpstan/phpstan-phpunit": "^0.11",
                 "phpunit/phpunit": "^7.5",
                 "scrutinizer/ocular": "^1.4",
                 "symfony/expression-language": "^2.8||^3.0||^4.0"
+            },
+            "suggest": {
+                "monolog/monolog": "Required to use the Monolog handler"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -1654,7 +1658,7 @@
                 "sentry",
                 "symfony"
             ],
-            "time": "2019-07-02T08:46:15+00:00"
+            "time": "2019-10-04T13:26:24+00:00"
         },
         {
             "name": "symfony/cache",
