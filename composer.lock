@@ -1798,16 +1798,16 @@
         },
         {
             "name": "symfony/config",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/config.git",
-                "reference": "07d49c0f823e0bc367c6d84e35b61419188a5ece"
+                "reference": "0acb26407a9e1a64a275142f0ae5e36436342720"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/config/zipball/07d49c0f823e0bc367c6d84e35b61419188a5ece",
-                "reference": "07d49c0f823e0bc367c6d84e35b61419188a5ece",
+                "url": "https://api.github.com/repos/symfony/config/zipball/0acb26407a9e1a64a275142f0ae5e36436342720",
+                "reference": "0acb26407a9e1a64a275142f0ae5e36436342720",
                 "shasum": ""
             },
             "require": {
@@ -1858,7 +1858,7 @@
             ],
             "description": "Symfony Config Component",
             "homepage": "https://symfony.com",
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-09-19T15:51:53+00:00"
         },
         {
             "name": "symfony/console",
@@ -2290,7 +2290,7 @@
         },
         {
             "name": "symfony/filesystem",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/filesystem.git",
@@ -3270,16 +3270,16 @@
         },
         {
             "name": "symfony/routing",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/routing.git",
-                "reference": "ff1049f6232dc5b6023b1ff1c6de56f82bcd264f"
+                "reference": "3b174ef04fe66696524efad1e5f7a6c663d822ea"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/routing/zipball/ff1049f6232dc5b6023b1ff1c6de56f82bcd264f",
-                "reference": "ff1049f6232dc5b6023b1ff1c6de56f82bcd264f",
+                "url": "https://api.github.com/repos/symfony/routing/zipball/3b174ef04fe66696524efad1e5f7a6c663d822ea",
+                "reference": "3b174ef04fe66696524efad1e5f7a6c663d822ea",
                 "shasum": ""
             },
             "require": {
@@ -3342,7 +3342,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-10-04T20:57:10+00:00"
         },
         {
             "name": "symfony/security-core",
@@ -3583,16 +3583,16 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "cd6c551dc5d62b520d1a973fb4cb2c46bfc00b62"
+                "reference": "499b3f3aedffa44e4e30b476bbd433854afc9bc3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/cd6c551dc5d62b520d1a973fb4cb2c46bfc00b62",
-                "reference": "cd6c551dc5d62b520d1a973fb4cb2c46bfc00b62",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/499b3f3aedffa44e4e30b476bbd433854afc9bc3",
+                "reference": "499b3f3aedffa44e4e30b476bbd433854afc9bc3",
                 "shasum": ""
             },
             "require": {
@@ -3680,20 +3680,20 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-10-02T08:36:26+00:00"
         },
         {
             "name": "symfony/twig-bundle",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bundle.git",
-                "reference": "9528fdd8b9ba3f66c5570c22fb1a547e35abb23d"
+                "reference": "c27738bb0d9b314b96a323aebc5f40a20e2a644b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/9528fdd8b9ba3f66c5570c22fb1a547e35abb23d",
-                "reference": "9528fdd8b9ba3f66c5570c22fb1a547e35abb23d",
+                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/c27738bb0d9b314b96a323aebc5f40a20e2a644b",
+                "reference": "c27738bb0d9b314b96a323aebc5f40a20e2a644b",
                 "shasum": ""
             },
             "require": {
@@ -3757,20 +3757,20 @@
             ],
             "description": "Symfony TwigBundle",
             "homepage": "https://symfony.com",
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-10-02T08:36:26+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "641043e0f3e615990a0f29479f9c117e8a6698c6"
+                "reference": "bde8957fc415fdc6964f33916a3755737744ff05"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/641043e0f3e615990a0f29479f9c117e8a6698c6",
-                "reference": "641043e0f3e615990a0f29479f9c117e8a6698c6",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/bde8957fc415fdc6964f33916a3755737744ff05",
+                "reference": "bde8957fc415fdc6964f33916a3755737744ff05",
                 "shasum": ""
             },
             "require": {
@@ -3833,7 +3833,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-10-04T19:48:13+00:00"
         },
         {
             "name": "symfony/var-exporter",
@@ -3897,16 +3897,16 @@
         },
         {
             "name": "symfony/web-profiler-bundle",
-            "version": "v4.3.4",
+            "version": "v4.3.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/web-profiler-bundle.git",
-                "reference": "387c36fd133c08bb0d78d8de17c1121681b37a09"
+                "reference": "b52bb32e6182d924303dbeb9c584396819fef118"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/387c36fd133c08bb0d78d8de17c1121681b37a09",
-                "reference": "387c36fd133c08bb0d78d8de17c1121681b37a09",
+                "url": "https://api.github.com/repos/symfony/web-profiler-bundle/zipball/b52bb32e6182d924303dbeb9c584396819fef118",
+                "reference": "b52bb32e6182d924303dbeb9c584396819fef118",
                 "shasum": ""
             },
             "require": {
@@ -3959,7 +3959,7 @@
             ],
             "description": "Symfony WebProfilerBundle",
             "homepage": "https://symfony.com",
-            "time": "2019-08-26T08:26:39+00:00"
+            "time": "2019-10-02T08:36:26+00:00"
         },
         {
             "name": "symfony/yaml",
@@ -4022,16 +4022,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.11.3",
+            "version": "v2.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "699ed2342557c88789a15402de5eb834dedd6792"
+                "reference": "c7a85fd08348ca04b4d8f234f49583d9910906aa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/699ed2342557c88789a15402de5eb834dedd6792",
-                "reference": "699ed2342557c88789a15402de5eb834dedd6792",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/c7a85fd08348ca04b4d8f234f49583d9910906aa",
+                "reference": "c7a85fd08348ca04b4d8f234f49583d9910906aa",
                 "shasum": ""
             },
             "require": {
@@ -4041,13 +4041,13 @@
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "^2.7",
-                "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0"
+                "symfony/debug": "^3.4|^4.2",
+                "symfony/phpunit-bridge": "^4.4@dev|^5.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.11-dev"
+                    "dev-master": "2.12-dev"
                 }
             },
             "autoload": {
@@ -4070,14 +4070,14 @@
                     "role": "Lead Developer"
                 },
                 {
-                    "name": "Armin Ronacher",
-                    "email": "armin.ronacher@active-4.com",
-                    "role": "Project Founder"
-                },
-                {
                     "name": "Twig Team",
                     "homepage": "https://twig.symfony.com/contributors",
                     "role": "Contributors"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
                 }
             ],
             "description": "Twig, the flexible, fast, and secure template language for PHP",
@@ -4085,7 +4085,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2019-06-18T15:37:11+00:00"
+            "time": "2019-10-05T16:42:38+00:00"
         },
         {
             "name": "webmozart/assert",
