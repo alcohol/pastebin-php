@@ -1504,16 +1504,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "2.2.1",
+            "version": "2.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "5896f9f0a00a7525797764ba42091dfbde22a746"
+                "reference": "217c9e550eb3e06bbe48a4da4031223e1aab76f0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/5896f9f0a00a7525797764ba42091dfbde22a746",
-                "reference": "5896f9f0a00a7525797764ba42091dfbde22a746",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/217c9e550eb3e06bbe48a4da4031223e1aab76f0",
+                "reference": "217c9e550eb3e06bbe48a4da4031223e1aab76f0",
                 "shasum": ""
             },
             "require": {
@@ -1582,7 +1582,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2019-09-23T11:52:12+00:00"
+            "time": "2019-10-10T08:16:00+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
@@ -4139,16 +4139,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.4",
+            "version": "2.1.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "a16378c4db99be661afc76805242281603d20a7c"
+                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/a16378c4db99be661afc76805242281603d20a7c",
-                "reference": "a16378c4db99be661afc76805242281603d20a7c",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
+                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
                 "shasum": ""
             },
             "require": {
@@ -4202,7 +4202,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-10-08T20:08:44+00:00"
+            "time": "2019-10-10T17:38:20+00:00"
         }
     ],
     "packages-dev": [
