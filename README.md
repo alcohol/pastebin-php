@@ -1,14 +1,9 @@
-# alcohol/paste.robbast.nl
+# alcohol/pastebin-php
 
-My personal pastebin application. Initially created as a minimalistic approach to setting up a Symfony application. Over
-time it has evolved and grown, with each new Symfony release.
+A live deployment can be found at: [php.pastie.eu](https://php.pastie.eu)
 
-Inspired by [sprunge.us](http://sprunge.us).
-
-A live deployment can be found at: [paste.robbast.nl](https://paste.robbast.nl)
-
-[![Build Status](https://travis-ci.org/alcohol/paste.robbast.nl.svg?branch=master)](https://travis-ci.org/alcohol/paste.robbast.nl)
-[![codecov](https://codecov.io/gh/alcohol/paste.robbast.nl/branch/master/graph/badge.svg)](https://codecov.io/gh/alcohol/paste.robbast.nl)
+[![Build Status](https://travis-ci.org/alcohol/pastebin-php.svg?branch=master)](https://travis-ci.org/alcohol/pastebin-php)
+[![codecov](https://codecov.io/gh/alcohol/pastebin-php/branch/master/graph/badge.svg)](https://codecov.io/gh/alcohol/pastebin-php)
 
 ## Dependencies (external)
 
@@ -56,4 +51,4 @@ Feel free to submit a pull request or create an issue.
 
 ## License
 
-alcohol/paste.robbast.nl is licensed under the MIT license.
+alcohol/pastebin-php is licensed under the MIT license.
