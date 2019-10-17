@@ -66,6 +66,7 @@ DOCKER_USER = $(DOCKER_UID):$(DOCKER_GID)
 
 export DOCKER_UID
 export DOCKER_GID
+export RELEASE
 
 .PHONY: traefik-network
 traefik-network:
