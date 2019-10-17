@@ -2,106 +2,83 @@ version: '3.7'
 
 services:
 
-  varnish:
-    build:
-      context: .
-      dockerfile: docker/varnish/Dockerfile
-    container_name: pastebin-varnish
-    labels:
-      traefik.backend: pastebin-varnish
-      traefik.frontend.rule: "Host:cache.pastebin.localhost"
-      traefik.port: 6081
-    tmpfs:
-      - /var/lib/varnish:exec
-    depends_on:
-      - nginx
-    networks:
-      traefik:
-      default:
-    cap_drop:
-      - ALL
-    cap_add:
-      - SETUID
-      - SETGID
-      - CHOWN
-      - DAC_OVERRIDE
-
   nginx:
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
-    container_name: pastebin-nginx
+    container_name: phpbin-nginx
     labels:
-      traefik.backend: pastebin-nginx
-      traefik.frontend.rule: "Host:pastebin.localhost"
-      traefik.port: 8000
+    - traefik.enable=true
+    - traefik.http.routers.phpbin.rule=Host(`phpbin.localhost`)
     volumes:
-      - ./public:/srv/public
+    - ./public:/srv/public
+    expose:
+    - 8000
     depends_on:
-      - php-fpm
+    - fpm
     networks:
       traefik:
-      default:
+      phpbin:
         aliases:
-          - nginx
+        - nginx
     cap_drop:
-      - ALL
+    - ALL
 
-  php-fpm:
+  fpm:
     build:
       context: .
-      dockerfile: docker/php-fpm/Dockerfile
-    container_name: pastebin-fpm
+      dockerfile: docker/fpm/Dockerfile
+    container_name: phpbin-fpm
     user: $DOCKER_UID:$DOCKER_GID
     environment:
-      - APP_ENV=dev
-      - APP_DEBUG=1
-      - APP_SECRET=not-so-secret
+    - APP_ENV=dev
+    - APP_DEBUG=1
+    - APP_SECRET=not-so-secret
     working_dir: /srv
     volumes:
-      - .:/srv
+    - .:/srv
     tmpfs:
-      - /tmp
+    - /tmp
     depends_on:
-      - redis
+    - redis
     networks:
-      default:
+      phpbin:
         aliases:
           - fcgi
     cap_drop:
-      - ALL
+    - ALL
     cap_add:
-      - SETUID
-      - SETGID
-      - DAC_OVERRIDE
+    - SETUID
+    - SETGID
+    - DAC_OVERRIDE
 
   redis:
     image: redis:5-alpine
-    container_name: pastebin-redis
+    container_name: phpbin-redis
     read_only: true
     command: "redis-server --appendonly yes"
     networks:
-      - default
+    - phpbin
     tmpfs:
-      - /tmp
+    - /tmp
     volumes:
-      - "pastebin-redisdata:/data"
+    - "phpbin-redis:/data"
     cap_drop:
-      - ALL
+    - ALL
     cap_add:
-      - CHOWN
-      - SETGID
-      - SETUID
+    - CHOWN
+    - SETGID
+    - SETUID
     sysctls:
       net.core.somaxconn: 1024
 
 networks:
 
-  default:
+  phpbin:
 
   traefik:
     external: true
 
 volumes:
 
-  pastebin-redisdata:
+  phpbin-redis:

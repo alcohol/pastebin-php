@@ -8,42 +8,34 @@ git:
 
 env:
   global:
-    - DOCKER_COMPOSE_VERSION=1.24.1
-    - DOCKER_COMPOSE_RELEASE="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"
+  - DOCKER_COMPOSE_VERSION=1.24.1
+  - DOCKER_COMPOSE_RELEASE="https://github.com/docker/compose/releases/download/$DOCKER_COMPOSE_VERSION/docker-compose-$(uname -s)-$(uname -m)"
 
 cache:
   directories:
-    - "$HOME/.composer"
-    - "vendor"
+  - "$HOME/.composer"
+  - "vendor"
 
 before_install:
-  # upgrade docker
-  - docker --version
-  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-  - sudo apt-get update
-  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
-  - docker --version
-  # upgrade docker-compose
-  - docker-compose --version
-  - sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
-  - docker-compose --version
-  - make containers
+# upgrade docker
+- docker --version
+- curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+- sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+- sudo apt-get update
+- sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+- docker --version
+# upgrade docker-compose
+- docker-compose --version
+- sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
+- docker-compose --version
+- make containers
 
 install:
-  - make vendor/composer/installed.json
+- make vendor/composer/installed.json
 
 script:
-  - make test
+- make test
 
 # only upload code coverage reports for successful builds
 after_success:
-  - bash <(curl -s https://codecov.io/bash) -f clover.xml
-
-# does not run for pull requests by default
-deploy:
-  provider: script
-  skip_cleanup: true
-  script: bash .travis/deploy
-  on:
-    branch: master
+- bash <(curl -s https://codecov.io/bash) -f clover.xml

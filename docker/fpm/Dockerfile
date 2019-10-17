@@ -1,40 +1,4 @@
-FROM php:7.3-fpm-alpine AS builder
-
-ENV APP_SECRET ''
-ENV APP_ENV prod
-ENV APP_DEBUG 0
-ENV SENTRY_DSN ''
-ENV SENTRY_RELEASE ''
-ENV SENTRY_ENVIRONMENT ''
-
-COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
-
-WORKDIR /srv
-
-COPY /bin/ /srv/bin/
-COPY /config/ /srv/config/
-COPY /public/ /srv/public/
-COPY /src/ /srv/src/
-COPY /templates/ /srv/templates/
-COPY /composer.json /srv/
-COPY /composer.lock /srv/
-
-RUN set -eux; \
-  composer install \
-    --no-interaction \
-    --no-scripts \
-    --no-plugins \
-    --no-progress \
-    --no-suggest \
-    --optimize-autoloader \
-    --ignore-platform-reqs \
-    --no-dev; \
-  bin/console cache:warmup
-
 FROM php:7.3-fpm-alpine
-
-ARG RELEASE
-ENV SENTRY_RELEASE ${RELEASE}
 
 RUN set -eux; \
   apk add --no-cache --upgrade \
@@ -62,7 +26,7 @@ RUN set -eux; \
    apk add --virtual .phpext-rundeps $runDeps; \
    apk del .build-deps
 
-COPY --from=builder /srv /srv/
+WORKDIR /srv
 
 RUN set -eux; \
   rm -f \
@@ -72,11 +36,10 @@ RUN set -eux; \
     /usr/local/etc/php-fpm.d/www.conf.default \
     /usr/local/etc/php-fpm.d/zz-docker.conf
 
-COPY /docker/php-fpm/php.ini /usr/local/etc/php/
-COPY /docker/php-fpm/php-cli.ini /usr/local/etc/php/
-COPY /docker/php-fpm/docker.ini /usr/local/etc/php/conf.d/
-COPY /docker/php-fpm/php-fpm.conf /usr/local/etc/
-COPY /docker/php-fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
+COPY /docker/fpm/php.ini /usr/local/etc/php/
+COPY /docker/fpm/php-cli.ini /usr/local/etc/php/
+COPY /docker/fpm/php-fpm.conf /usr/local/etc/
+COPY /docker/fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
 
 RUN set -eux; \
   find /srv -type d -exec chmod 700 {} \+; \
@@ -84,8 +47,6 @@ RUN set -eux; \
   chown -R www-data:www-data /srv; \
   find /usr/local/etc -type d -exec chmod 755 {} \+; \
   find /usr/local/etc -type f -exec chmod 644 {} \+
-
-WORKDIR /srv
 
 EXPOSE 9000/tcp
 

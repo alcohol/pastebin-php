@@ -45,7 +45,7 @@ help:
 #  https://www.gnu.org/software/make/manual/html_node/Automatic-Variables.html
 #
 
-PROJECT := pastebin
+PROJECT := phpbin
 
 # Target that makes sure containers are built
 CONTAINERS = $(shell find docker -name Dockerfile | sed 's/Dockerfile/.build/')
@@ -80,11 +80,19 @@ traefik: traefik-network
 		--network traefik \
 		--volume /var/run/docker.sock:/var/run/docker.sock \
 		--publish 80:80 \
+		--expose 80 \
 		--expose 8080 \
-		--label traefik.port=8080 \
 		--label traefik.enable=true \
+		--label 'traefik.http.routers.api.rule=Host(`traefik.localhost`)' \
+		--label traefik.http.routers.api.service=api@internal \
 		--detach \
-		traefik --api --accesslog --docker --docker.domain=localhost --docker.exposedbydefault=false
+		traefik:2.0 \
+			--entrypoints.web.address=:80 \
+			--api \
+			--accesslog \
+			--providers.docker=true \
+			--providers.docker.network=traefik \
+			--providers.docker.exposedbydefault=false
 
 .PHONY: traefik-cleanup
 traefik-cleanup: ## clean up traefik
@@ -157,12 +165,10 @@ vendor:
 	mkdir -p $@
 
 vendor/composer/installed.json: export APP_ENV := dev
-vendor/composer/installed.json: export COMPOSER_HOME := /tmp
 vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(CONTAINERS)
 	docker run --rm \
 		--interactive \
 		--env APP_ENV \
-		--env COMPOSER_HOME \
 		--user $(DOCKER_USER) \
 		--volume /etc/passwd:/etc/passwd:ro \
 		--volume /etc/group:/etc/group:ro \
