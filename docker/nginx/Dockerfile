@@ -2,12 +2,6 @@ FROM scratch
 
 COPY --from=nginx:mainline-alpine / /
 
-LABEL traefik.enable=true
-LABEL traefik.docker.network=traefik
-LABEL traefik.backend=pastebin
-LABEL traefik.frontend.rule=Host:paste.robbast.nl
-LABEL traefik.port=8000
-
 WORKDIR /srv
 
 COPY /docker/nginx/nginx.conf /etc/nginx/nginx.conf
