@@ -144,9 +144,9 @@ shell: ## spawn a shell inside a php-fpm container
 test: export APP_ENV := test
 test: $(RUNTIME-DEPENDENCIES)
 test: ## run phpunit test suite
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite fpm \
 		bin/console cache:warmup
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite php-fpm \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 #
