@@ -36,8 +36,7 @@ if ($kernel->isProduction()) {
     ], Request::HEADER_X_FORWARDED_ALL);
 
     Request::setTrustedHosts([
-        '^p.robbast.nl$',
-        '^paste.robbast.nl$',
+        '^php.pastie.eu$',
     ]);
 }
 
