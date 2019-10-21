@@ -14,7 +14,7 @@ RUN set -eux; \
   find /srv -type d -exec chmod 700 {} \+; \
   find /srv -type f -exec chmod 600 {} \+
 
-STOPSIGNAL SIGQUIT
+STOPSIGNAL SIGTERM
 
 EXPOSE 8000/tcp
 
