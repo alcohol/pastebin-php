@@ -57,7 +57,7 @@ RUNTIME-DEPENDENCIES = $(CONTAINERS) traefik vendor/composer/installed.json $(CO
 TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
 
 # Take the short hash as release version
-RELEASE = $(shell git rev-parse --short $(TRAVIS_COMMIT))
+RELEASE = $(TRAVIS_COMMIT)
 
 # Docker permissions
 DOCKER_UID = $(shell id -u)
