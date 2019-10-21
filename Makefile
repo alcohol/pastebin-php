@@ -83,6 +83,8 @@ traefik: traefik-network
 		--publish 80:80 \
 		--expose 80 \
 		--expose 8080 \
+		--health-cmd 'nc -z localhost 80' \
+		--health-interval 5s \
 		--label traefik.enable=true \
 		--label 'traefik.http.routers.api.rule=Host(`traefik.localhost`)' \
 		--label traefik.http.routers.api.service=api@internal \

@@ -23,6 +23,9 @@ services:
         - nginx
     cap_drop:
     - ALL
+    healthcheck:
+      test: nc -z localhost 8000
+      interval: 5s
 
   fpm:
     build:
@@ -51,6 +54,9 @@ services:
     - SETUID
     - SETGID
     - DAC_OVERRIDE
+    healthcheck:
+      test: nc -z localhost 9000
+      interval: 5s
 
   redis:
     image: redis:5-alpine
@@ -71,6 +77,9 @@ services:
     - SETUID
     sysctls:
       net.core.somaxconn: 1024
+    healthcheck:
+      test: nc -z localhost 6379
+      interval: 5s
 
 networks:
 
