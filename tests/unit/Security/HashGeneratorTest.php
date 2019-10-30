@@ -13,11 +13,10 @@ use PHPUnit\Framework\TestCase;
 
 final class HashGeneratorTest extends TestCase
 {
-    /**
-     * @expectedException \TypeError
-     */
     public function test_it_requires_a_secret_to_instantiate(): void
     {
+        $this->expectException(\TypeError::class);
+
         new HashGenerator();
     }
 

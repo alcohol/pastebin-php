@@ -35,7 +35,7 @@ class ReadControllerTest extends IntegrationTest
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/html']);
 
         $this->assertTrue($client->getResponse()->isOk());
-        $this->assertContains('Lorem ipsum', $client->getResponse()->getContent());
+        $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
