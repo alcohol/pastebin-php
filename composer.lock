@@ -1504,16 +1504,16 @@
         },
         {
             "name": "sentry/sentry",
-            "version": "2.2.3",
+            "version": "2.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/getsentry/sentry-php.git",
-                "reference": "71abca33b75f6bafb8b3829a620ff9ea5e5c1d9b"
+                "reference": "a74999536b9119257cb1a4b1aa038e4a08439f67"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/71abca33b75f6bafb8b3829a620ff9ea5e5c1d9b",
-                "reference": "71abca33b75f6bafb8b3829a620ff9ea5e5c1d9b",
+                "url": "https://api.github.com/repos/getsentry/sentry-php/zipball/a74999536b9119257cb1a4b1aa038e4a08439f67",
+                "reference": "a74999536b9119257cb1a4b1aa038e4a08439f67",
                 "shasum": ""
             },
             "require": {
@@ -1546,6 +1546,9 @@
                 "phpunit/phpunit": "^7.5",
                 "symfony/phpunit-bridge": "^4.3",
                 "vimeo/psalm": "^3.4"
+            },
+            "suggest": {
+                "monolog/monolog": "Allow sending log messages to Sentry by using the included Monolog handler."
             },
             "type": "library",
             "extra": {
@@ -1582,7 +1585,7 @@
                 "logging",
                 "sentry"
             ],
-            "time": "2019-10-31T11:08:21+00:00"
+            "time": "2019-11-04T10:30:51+00:00"
         },
         {
             "name": "sentry/sentry-symfony",
@@ -4139,16 +4142,16 @@
         },
         {
             "name": "zendframework/zend-diactoros",
-            "version": "2.1.5",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zendframework/zend-diactoros.git",
-                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c"
+                "reference": "66eded992a75bfe75a829005a2884aae5ca86daa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
-                "reference": "6dcf9e760a6b476f3e9d80abbc9ce9c4aa921f9c",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/66eded992a75bfe75a829005a2884aae5ca86daa",
+                "reference": "66eded992a75bfe75a829005a2884aae5ca86daa",
                 "shasum": ""
             },
             "require": {
@@ -4202,7 +4205,7 @@
                 "psr",
                 "psr-7"
             ],
-            "time": "2019-10-10T17:38:20+00:00"
+            "time": "2019-11-12T17:26:16+00:00"
         }
     ],
     "packages-dev": [
