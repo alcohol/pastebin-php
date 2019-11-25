@@ -13,18 +13,21 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
+ *
+ * @internal
+ * @coversNothing
  */
-class ReadControllerTest extends IntegrationTest
+final class ReadControllerTest extends IntegrationTest
 {
-    public function test_it_should_return_a_404_if_a_paste_does_not_exist(): void
+    public function testItShouldReturnA404IfAPasteDoesNotExist(): void
     {
         $client = static::createClient();
         $client->request('GET', '/dummy', [], [], ['HTTP_Accept' => 'text/plain']);
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        static::assertSame(404, $client->getResponse()->getStatusCode());
     }
 
-    public function test_it_should_return_a_200_with_correct_body_if_paste_exists(): void
+    public function testItShouldReturnA200WithCorrectBodyIfPasteExists(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -34,12 +37,12 @@ class ReadControllerTest extends IntegrationTest
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/html']);
 
-        $this->assertTrue($client->getResponse()->isOk());
-        $this->assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
+        static::assertTrue($client->getResponse()->isOk());
+        static::assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
-        $this->assertTrue($client->getResponse()->isOk());
-        $this->assertEquals('Lorem ipsum', $client->getResponse()->getContent());
+        static::assertTrue($client->getResponse()->isOk());
+        static::assertSame('Lorem ipsum', $client->getResponse()->getContent());
     }
 }

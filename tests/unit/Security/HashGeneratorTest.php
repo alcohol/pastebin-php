@@ -11,9 +11,13 @@ namespace Paste\Security;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 final class HashGeneratorTest extends TestCase
 {
-    public function test_it_requires_a_secret_to_instantiate(): void
+    public function testItRequiresASecretToInstantiate(): void
     {
         $this->expectException(\TypeError::class);
 
@@ -24,18 +28,14 @@ final class HashGeneratorTest extends TestCase
      * @dataProvider invalidSecrets
      *
      * @param mixed $input
-     * @param string $expectedException
      */
-    public function test_it_explodes_when_secret_given_is_of_type($input, string $expectedException): void
+    public function testItExplodesWhenSecretGivenIsOfType($input, string $expectedException): void
     {
         $this->expectException($expectedException);
 
         new HashGenerator($input);
     }
 
-    /**
-     * @return array
-     */
     public function invalidSecrets(): array
     {
         return [
@@ -48,37 +48,37 @@ final class HashGeneratorTest extends TestCase
         ];
     }
 
-    public function test_it_instantiates_when_given_a_valid_secret(): void
+    public function testItInstantiatesWhenGivenAValidSecret(): void
     {
         $generator = new HashGenerator('secret');
 
-        $this->assertInstanceOf(HashGenerator::class, $generator);
+        static::assertInstanceOf(HashGenerator::class, $generator);
     }
 
-    public function test_it_produces_the_same_hash_when_given_the_same_input(): void
+    public function testItProducesTheSameHashWhenGivenTheSameInput(): void
     {
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
 
         for ($i = 0; $i < 5; ++$i) {
-            $this->assertSame($generator->generateHash($input), $generator->generateHash($input));
+            static::assertSame($generator->generateHash($input), $generator->generateHash($input));
         }
     }
 
-    public function test_it_produces_a_different_has_when_given_different_inputs(): void
+    public function testItProducesADifferentHasWhenGivenDifferentInputs(): void
     {
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
 
-        $this->assertNotSame($generator->generateHash($input), $generator->generateHash(strrev($input)));
+        static::assertNotSame($generator->generateHash($input), $generator->generateHash(strrev($input)));
     }
 
-    public function test_it_produces_a_different_hash_when_instantiated_with_a_different_secret_but_given_identical_input(): void
+    public function testItProducesADifferentHashWhenInstantiatedWithADifferentSecretButGivenIdenticalInput(): void
     {
         $input = 'hash-me';
         $generator1 = new HashGenerator('secret-foo');
         $generator2 = new HashGenerator('secret-bar');
 
-        $this->assertNotSame($generator1->generateHash($input), $generator2->generateHash($input));
+        static::assertNotSame($generator1->generateHash($input), $generator2->generateHash($input));
     }
 }

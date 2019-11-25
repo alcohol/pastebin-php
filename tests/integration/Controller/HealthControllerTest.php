@@ -13,22 +13,25 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
+ *
+ * @internal
+ * @coversNothing
  */
-class HealthControllerTest extends IntegrationTest
+final class HealthControllerTest extends IntegrationTest
 {
-    public function test_it_should_return_a_200_response_for_HEAD_requests(): void
+    public function testItShouldReturnA200ResponseForHEADRequests(): void
     {
         $client = static::createClient();
         $client->request('HEAD', '/health');
 
-        $this->assertTrue($client->getResponse()->isOk());
+        static::assertTrue($client->getResponse()->isOk());
     }
 
-    public function test_it_should_return_a_200_response_for_GET_requests(): void
+    public function testItShouldReturnA200ResponseForGETRequests(): void
     {
         $client = static::createClient();
         $client->request('GET', '/health');
 
-        $this->assertTrue($client->getResponse()->isOk());
+        static::assertTrue($client->getResponse()->isOk());
     }
 }

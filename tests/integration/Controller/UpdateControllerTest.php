@@ -13,10 +13,13 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
+ *
+ * @internal
+ * @coversNothing
  */
-class UpdateControllerTest extends IntegrationTest
+final class UpdateControllerTest extends IntegrationTest
 {
-    public function test_it_should_return_a_400_if_paste_exists_but_authentication_header_is_missing(): void
+    public function testItShouldReturnA400IfPasteExistsButAuthenticationHeaderIsMissing(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -24,10 +27,10 @@ class UpdateControllerTest extends IntegrationTest
         [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
         $client->request('PUT', $location, [], [], [], 'Ipsum lorem');
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        static::assertSame(400, $client->getResponse()->getStatusCode());
     }
 
-    public function test_it_should_return_a_404_if_paste_exists_but_authentication_header_is_invalid(): void
+    public function testItShouldReturnA404IfPasteExistsButAuthenticationHeaderIsInvalid(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -35,18 +38,18 @@ class UpdateControllerTest extends IntegrationTest
         [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
         $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token'], 'Ipsum lorem');
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        static::assertSame(404, $client->getResponse()->getStatusCode());
     }
 
-    public function test_it_should_return_a_404_if_paste_does_not_exist_but_authentication_header_is_given(): void
+    public function testItShouldReturnA404IfPasteDoesNotExistButAuthenticationHeaderIsGiven(): void
     {
         $client = static::createClient();
         $client->request('PUT', '/dummy', [], [], ['HTTP_X-Paste-Token' => 'dummy-token'], 'Ipsum lorem');
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        static::assertSame(404, $client->getResponse()->getStatusCode());
     }
 
-    public function test_it_should_return_a_204_if_paste_exists_and_valid_authentication_header_is_given(): void
+    public function testItShouldReturnA204IfPasteExistsAndValidAuthenticationHeaderIsGiven(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -54,10 +57,10 @@ class UpdateControllerTest extends IntegrationTest
         [$location, $token] = $this->extractLocationAndToken($client->getResponse());
         $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => $token], 'Ipsum lorem');
 
-        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        static::assertSame(204, $client->getResponse()->getStatusCode());
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 
-        $this->assertEquals('Ipsum lorem', $client->getResponse()->getContent());
+        static::assertSame('Ipsum lorem', $client->getResponse()->getContent());
     }
 }

@@ -15,17 +15,18 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
-    /** @var string */
-    private const CONFIG_EXTENSIONS = '.{php,xml,yaml,yml}';
     /** @var array */
     public const ENVIRONMENTS = ['test', 'dev', 'prod'];
+
+    /** @var string */
+    private const CONFIG_EXTENSIONS = '.{php,xml,yaml,yml}';
 
     /**
      * @throws RuntimeException
      */
     public function __construct(string $environment, bool $debug)
     {
-        if (!in_array($environment, self::ENVIRONMENTS, true)) {
+        if (!\in_array($environment, self::ENVIRONMENTS, true)) {
             throw new RuntimeException(sprintf(
                 'Unsupported environment "%s", expected one of: %s',
                 $environment,

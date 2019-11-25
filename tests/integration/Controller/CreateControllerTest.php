@@ -13,36 +13,39 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
+ *
+ * @internal
+ * @coversNothing
  */
-class CreateControllerTest extends IntegrationTest
+final class CreateControllerTest extends IntegrationTest
 {
-    public function test_posting_without_a_body_should_return_a_400(): void
+    public function testPostingWithoutABodyShouldReturnA400(): void
     {
         $client = static::createClient();
         $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], '');
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        static::assertSame(400, $client->getResponse()->getStatusCode());
 
         $client->request('POST', '/', ['paste' => '']);
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        static::assertSame(400, $client->getResponse()->getStatusCode());
     }
 
-    public function test_posting_a_paste_should_return_the_expected_response_headers(): void
+    public function testPostingAPasteShouldReturnTheExpectedResponseHeaders(): void
     {
         $client = static::createClient();
         $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], 'Lorem ipsum');
 
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
-        $this->assertTrue($client->getResponse()->headers->has('Location'));
-        $this->assertTrue($client->getResponse()->headers->has('X-Paste-Id'));
-        $this->assertTrue($client->getResponse()->headers->has('X-Paste-Token'));
+        static::assertSame(201, $client->getResponse()->getStatusCode());
+        static::assertTrue($client->getResponse()->headers->has('Location'));
+        static::assertTrue($client->getResponse()->headers->has('X-Paste-Id'));
+        static::assertTrue($client->getResponse()->headers->has('X-Paste-Token'));
 
         $client->request('POST', '/', ['paste' => 'Lorem ipsum', 'redirect' => 'redirect']);
 
-        $this->assertEquals(303, $client->getResponse()->getStatusCode());
-        $this->assertTrue($client->getResponse()->headers->has('Location'));
-        $this->assertTrue($client->getResponse()->headers->has('X-Paste-Id'));
-        $this->assertTrue($client->getResponse()->headers->has('X-Paste-Token'));
+        static::assertSame(303, $client->getResponse()->getStatusCode());
+        static::assertTrue($client->getResponse()->headers->has('Location'));
+        static::assertTrue($client->getResponse()->headers->has('X-Paste-Id'));
+        static::assertTrue($client->getResponse()->headers->has('X-Paste-Token'));
     }
 }

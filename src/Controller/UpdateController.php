@@ -19,8 +19,10 @@ final class UpdateController
 {
     /** @var PasteRepository */
     private $repository;
+
     /** @var HashGenerator */
     private $generator;
+
     /** @var string */
     private $tokenHeader;
 
@@ -65,7 +67,7 @@ final class UpdateController
 
         try {
             $this->repository->persist($paste, $ttl);
-        // @codeCoverageIgnoreStart
+            // @codeCoverageIgnoreStart
         } catch (StorageException $exception) {
             return new Response(
                 $exception->getMessage(),

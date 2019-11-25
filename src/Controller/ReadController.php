@@ -20,6 +20,7 @@ final class ReadController
 {
     /** @var PasteRepository */
     private $repository;
+
     /** @var Environment */
     private $engine;
 
@@ -46,7 +47,7 @@ final class ReadController
             $body = $this->engine->render('read.html.twig', ['paste' => $paste]);
             $headers = ['Content-Type' => 'text/html'];
         } else {
-            $body = $paste;
+            $body = $paste->getBody();
             $headers = ['Content-Type' => 'text/plain'];
         }
 

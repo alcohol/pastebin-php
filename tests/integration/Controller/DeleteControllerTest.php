@@ -13,10 +13,13 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
+ *
+ * @internal
+ * @coversNothing
  */
-class DeleteControllerTest extends IntegrationTest
+final class DeleteControllerTest extends IntegrationTest
 {
-    public function test_it_should_return_a_400_if_paste_exists_but_authentication_header_is_missing(): void
+    public function testItShouldReturnA400IfPasteExistsButAuthenticationHeaderIsMissing(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -24,10 +27,10 @@ class DeleteControllerTest extends IntegrationTest
         [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location);
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        static::assertSame(400, $client->getResponse()->getStatusCode());
     }
 
-    public function test_it_should_return_a_404_if_paste_exists_but_authentication_header_is_invalid(): void
+    public function testItShouldReturnA404IfPasteExistsButAuthenticationHeaderIsInvalid(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -35,18 +38,18 @@ class DeleteControllerTest extends IntegrationTest
         [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        static::assertSame(404, $client->getResponse()->getStatusCode());
     }
 
-    public function test_it_should_return_a_404_if_paste_does_not_exist_but_authentication_header_is_given(): void
+    public function testItShouldReturnA404IfPasteDoesNotExistButAuthenticationHeaderIsGiven(): void
     {
         $client = static::createClient();
         $client->request('DELETE', '/dummy', [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
 
-        $this->assertEquals(404, $client->getResponse()->getStatusCode());
+        static::assertSame(404, $client->getResponse()->getStatusCode());
     }
 
-    public function test_it_should_return_a_204_if_paste_exists_and_valid_authentication_header_is_given(): void
+    public function testItShouldReturnA204IfPasteExistsAndValidAuthenticationHeaderIsGiven(): void
     {
         $client = static::createClient();
         $client->disableReboot();
@@ -54,6 +57,6 @@ class DeleteControllerTest extends IntegrationTest
         [$location, $token] = $this->extractLocationAndToken($client->getResponse());
         $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => $token]);
 
-        $this->assertEquals(204, $client->getResponse()->getStatusCode());
+        static::assertSame(204, $client->getResponse()->getStatusCode());
     }
 }

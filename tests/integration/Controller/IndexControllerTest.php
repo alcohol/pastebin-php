@@ -13,18 +13,21 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
+ *
+ * @internal
+ * @coversNothing
  */
-class IndexControllerTest extends IntegrationTest
+final class IndexControllerTest extends IntegrationTest
 {
-    public function test_it_should_return_a_200_response(): void
+    public function testItShouldReturnA200Response(): void
     {
         $client = static::createClient();
         $client->request('GET', '/', [], [], ['HTTP_Accept' => 'text/html']);
 
-        $this->assertTrue($client->getResponse()->isOk());
+        static::assertTrue($client->getResponse()->isOk());
 
         $client->request('GET', '/', [], [], ['HTTP_Accept' => 'text/plain']);
 
-        $this->assertTrue($client->getResponse()->isOk());
+        static::assertTrue($client->getResponse()->isOk());
     }
 }

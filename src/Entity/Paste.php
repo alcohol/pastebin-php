@@ -16,6 +16,11 @@ final class Paste implements \Serializable
     /** @var string */
     private $body;
 
+    public function __toString(): string
+    {
+        return (string) $this->body;
+    }
+
     public static function create(string $body)
     {
         $paste = new self();
@@ -49,11 +54,6 @@ final class Paste implements \Serializable
     }
 
     public function getBody(): string
-    {
-        return (string) $this->body;
-    }
-
-    public function __toString(): string
     {
         return (string) $this->body;
     }

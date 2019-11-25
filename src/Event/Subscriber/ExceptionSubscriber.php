@@ -61,7 +61,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
 
         if ($exception instanceof ConnectionException) {
-            // @codeCoverageIgnoreStart
+            /** @codeCoverageIgnoreStart */
             $exception = new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
             $event->setException($exception);
             // @codeCoverageIgnoreEnd

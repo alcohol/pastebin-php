@@ -23,8 +23,10 @@ final class CreateController
 {
     /** @var PasteRepository */
     private $repository;
+
     /** @var RouterInterface */
     private $router;
+
     /** @var HashGenerator */
     private $generator;
 
@@ -59,12 +61,11 @@ final class CreateController
 
         try {
             $paste = $this->repository->persist($paste, $ttl);
-        // @codeCoverageIgnoreStart
+            // @codeCoverageIgnoreStart
         } catch (StorageException $exception) {
             return new Response($exception->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
         }
-        // @codeCoverageIgnoreEnd
-
+        /** @codeCoverageIgnoreEnd */
         $location = $this
             ->router
             ->generate('paste.read', ['id' => $paste->getCode()], RouterInterface::ABSOLUTE_URL)
