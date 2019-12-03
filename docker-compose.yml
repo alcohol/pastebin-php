@@ -6,7 +6,9 @@ services:
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
+    image: phpbin-nginx
     container_name: phpbin-nginx
+    restart: unless-stopped
     labels:
     - traefik.enable=true
     - traefik.http.routers.phpbin.rule=Host(`phpbin.localhost`)
@@ -31,7 +33,10 @@ services:
     build:
       context: .
       dockerfile: docker/fpm/Dockerfile
+      target: base
+    image: phpbin-fpm:base
     container_name: phpbin-fpm
+    restart: unless-stopped
     user: $DOCKER_UID:$DOCKER_GID
     environment:
     - APP_ENV=dev
@@ -47,7 +52,44 @@ services:
     networks:
       phpbin:
         aliases:
-          - fcgi
+        - fcgi
+    cap_drop:
+    - ALL
+    cap_add:
+    - SETUID
+    - SETGID
+    - DAC_OVERRIDE
+    healthcheck:
+      test: nc -z localhost 9000
+      interval: 5s
+
+  composer:
+    build:
+      context: .
+      dockerfile: docker/fpm/Dockerfile
+      target: composer
+    image: phpbin-fpm:composer
+    container_name: phpbin-composer
+    init: true
+    command:
+    - 'true'
+    user: $DOCKER_UID:$DOCKER_GID
+    environment:
+    - APP_ENV=dev
+    - APP_DEBUG=1
+    - APP_SECRET=not-so-secret
+    working_dir: /srv
+    volumes:
+    - .:/srv
+    tmpfs:
+    - /tmp
+    - /.composer
+    depends_on:
+    - redis
+    networks:
+      phpbin:
+        aliases:
+        - fcgi
     cap_drop:
     - ALL
     cap_add:
@@ -61,7 +103,7 @@ services:
   redis:
     image: redis:5-alpine
     container_name: phpbin-redis
-    read_only: true
+    restart: unless-stopped
     command: "redis-server --appendonly yes"
     networks:
     - phpbin

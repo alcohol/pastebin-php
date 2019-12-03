@@ -47,33 +47,28 @@ help:
 
 PROJECT := phpbin
 
-# Target that makes sure containers are built
-CONTAINERS = $(shell find docker -name Dockerfile | sed 's/Dockerfile/.build/')
+# Environment variable(s) for Symfony
+export APP_ENV ?= dev
+export RELEASE ?= $(shell git rev-parse HEAD)
 
-# Runtime dependencies
-RUNTIME-DEPENDENCIES = $(CONTAINERS) traefik vendor/composer/installed.json $(CONTAINERS)
-
-# Passed from ENV by travis-ci, but if not available use HEAD (currently checked out commit)
-TRAVIS_COMMIT ?= $(shell git rev-parse HEAD)
-
-# Take the short hash as release version
-RELEASE = $(TRAVIS_COMMIT)
+# Environment variable(s) for Docker Compose
+export COMPOSE_FILE ?= docker-compose.yml
+export COMPOSE_PROJECT_NAME ?= phpbin
 
 # Docker permissions
-DOCKER_UID = $(shell id -u)
-DOCKER_GID = $(shell id -g)
-DOCKER_USER = $(DOCKER_UID):$(DOCKER_GID)
+export DOCKER_UID ?= $(shell id -u)
+export DOCKER_GID ?= $(shell id -g)
+export DOCKER_USER ?= $(DOCKER_UID):$(DOCKER_GID)
 
-export DOCKER_UID
-export DOCKER_GID
-export RELEASE
+#
+# Traefik
+#
 
 .PHONY: traefik-network
 traefik-network:
 	@docker network ls | grep traefik &>/dev/null || docker network create traefik &>/dev/null
 
 .PHONY: traefik
-traefik: ## run traefik
 traefik: traefik-network
 	@docker inspect -f {{.State.Running}} traefik &>/dev/null || docker run \
 		--restart unless-stopped \
@@ -98,7 +93,7 @@ traefik: traefik-network
 			--providers.docker.exposedbydefault=false
 
 .PHONY: traefik-cleanup
-traefik-cleanup: ## clean up traefik
+traefik-cleanup:
 	@docker stop traefik &>/dev/null
 	@docker rm traefik &>/dev/null
 	@-docker network rm traefik &>/dev/null
@@ -107,18 +102,17 @@ traefik-cleanup: ## clean up traefik
 traefik-restart: ## restart traefik
 traefik-restart: traefik-cleanup traefik
 
-.PHONY: containers
-containers: $(CONTAINERS)
-containers: ## build all containers
-	@touch $(CONTAINERS)
+.PHONY: build
+build: ## build containers
+	docker-compose --project-name $(PROJECT) build
 
 .PHONY: fg
-fg: $(RUNTIME-DEPENDENCIES)
+fg: traefik
 fg: ## launch the docker-compose setup (foreground)
 	docker-compose --project-name $(PROJECT) up --remove-orphans
 
 .PHONY: up
-up: $(RUNTIME-DEPENDENCIES)
+up: traefik
 up: ## launch the docker-compose setup (background)
 	docker-compose --project-name $(PROJECT) up --remove-orphans --detach
 
@@ -127,24 +121,28 @@ down: ## terminate the docker-compose setup
 	-docker-compose --project-name $(PROJECT) down --remove-orphans
 
 .PHONY: logs
-logs: $(RUNTIME-DEPENDENCIES)
 logs: ## show logs
 	docker-compose --project-name $(PROJECT) logs
 
 .PHONY: tail
-tail: $(RUNTIME-DEPENDENCIES)
 tail: ## tail logs
 	docker-compose --project-name $(PROJECT) logs -f
 
 .PHONY: shell
-shell: export APP_ENV := dev
-shell: $(RUNTIME-DEPENDENCIES)
 shell: ## spawn a shell inside a php-fpm container
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name pastebin-shell fpm sh
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer sh
+
+.PHONY: install
+install: ## install dependencies (composer)
+install: vendor/composer/installed.json
+
+.PHONY: update
+update: ## update dependencies (composer)
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+		composer update --no-interaction --no-progress --no-suggest --prefer-dist
 
 .PHONY: test
 test: export APP_ENV := test
-test: $(RUNTIME-DEPENDENCIES)
 test: ## run phpunit test suite
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite fpm \
 		bin/console cache:warmup
@@ -163,19 +161,7 @@ docker/%/.build: $$(shell find $$(@D) -type f -not -name .build)
 	docker-compose --project-name $(PROJECT) build $*
 	@touch $@
 
-vendor:
-	mkdir -p $@
-
-vendor/composer/installed.json: export APP_ENV := dev
-vendor/composer/installed.json: composer.json composer.lock vendor var/cache var/log $(CONTAINERS)
-	docker run --rm \
-		--interactive \
-		--env APP_ENV \
-		--user $(DOCKER_USER) \
-		--volume /etc/passwd:/etc/passwd:ro \
-		--volume /etc/group:/etc/group:ro \
-		--volume $(shell pwd):/app \
-		--workdir /app \
-		--name pastebin-composer \
+vendor/composer/installed.json: composer.json composer.lock var/cache var/log $(CONTAINERS)
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name pastebin-composer composer \
 		composer install --no-interaction --no-progress --no-suggest --prefer-dist
 	@touch $@
