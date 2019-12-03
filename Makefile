@@ -95,8 +95,12 @@ traefik-cleanup:
 	@-docker network rm traefik &>/dev/null
 
 .PHONY: traefik-restart
-traefik-restart: ## restart traefik
 traefik-restart: traefik-cleanup traefik
+traefik-restart: ## restart traefik
+
+#
+# Docker-Compose Services & Containers
+#
 
 .PHONY: build
 build: ## build containers
@@ -128,9 +132,13 @@ tail: ## tail logs
 shell: ## spawn a shell inside a php-fpm container
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer sh
 
+#
+# Application related targets
+#
+
 .PHONY: install
-install: ## install dependencies (composer)
 install: composer.lock
+install: ## install dependencies (composer)
 
 .PHONY: update
 update: ## update dependencies (composer)
