@@ -3769,16 +3769,16 @@
         },
         {
             "name": "symfony/twig-bundle",
-            "version": "v4.4.0",
+            "version": "v4.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bundle.git",
-                "reference": "9a4a8ddbb36598ed0b1f4cc80be867456409bc01"
+                "reference": "98000ca747da189f460ae3f7b22b7c51fa884189"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/9a4a8ddbb36598ed0b1f4cc80be867456409bc01",
-                "reference": "9a4a8ddbb36598ed0b1f4cc80be867456409bc01",
+                "url": "https://api.github.com/repos/symfony/twig-bundle/zipball/98000ca747da189f460ae3f7b22b7c51fa884189",
+                "reference": "98000ca747da189f460ae3f7b22b7c51fa884189",
                 "shasum": ""
             },
             "require": {
@@ -3840,7 +3840,7 @@
             ],
             "description": "Symfony TwigBundle",
             "homepage": "https://symfony.com",
-            "time": "2019-11-12T13:42:17+00:00"
+            "time": "2019-11-30T10:12:23+00:00"
         },
         {
             "name": "symfony/var-dumper",
