@@ -51,10 +51,6 @@ PROJECT := phpbin
 export APP_ENV ?= dev
 export RELEASE ?= $(shell git rev-parse HEAD)
 
-# Environment variable(s) for Docker Compose
-export COMPOSE_FILE ?= docker-compose.yml
-export COMPOSE_PROJECT_NAME ?= phpbin
-
 # Docker permissions
 export DOCKER_UID ?= $(shell id -u)
 export DOCKER_GID ?= $(shell id -g)
