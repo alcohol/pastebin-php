@@ -13,9 +13,6 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
- *
- * @internal
- * @coversNothing
  */
 final class UpdateControllerTest extends IntegrationTest
 {

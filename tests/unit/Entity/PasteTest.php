@@ -5,8 +5,7 @@ namespace Paste\Entity;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @internal
- * @coversNothing
+ * @group unit
  */
 final class PasteTest extends TestCase
 {

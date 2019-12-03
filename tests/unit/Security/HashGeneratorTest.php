@@ -12,8 +12,7 @@ namespace Paste\Security;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @internal
- * @coversNothing
+ * @group unit
  */
 final class HashGeneratorTest extends TestCase
 {
