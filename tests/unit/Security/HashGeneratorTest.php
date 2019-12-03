@@ -13,6 +13,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group unit
+ *
+ * @internal
  */
 final class HashGeneratorTest extends TestCase
 {

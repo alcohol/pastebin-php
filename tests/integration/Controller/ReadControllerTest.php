@@ -13,6 +13,8 @@ use Paste\IntegrationTest;
 
 /**
  * @group integration
+ *
+ * @internal
  */
 final class ReadControllerTest extends IntegrationTest
 {

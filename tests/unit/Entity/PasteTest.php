@@ -6,6 +6,8 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * @group unit
+ *
+ * @internal
  */
 final class PasteTest extends TestCase
 {
