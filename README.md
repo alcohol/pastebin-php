@@ -1,6 +1,6 @@
 # alcohol/pastebin-php
 
-[![Build Status](https://travis-ci.com/alcohol/pastebin-php.svg?branch=master)](hhttps://travis-ci.com/alcohol/pastebin-php)
+[![Build Status](https://travis-ci.com/alcohol/pastebin-php.svg?branch=master)](https://travis-ci.com/alcohol/pastebin-php)
 [![codecov](https://codecov.io/gh/alcohol/pastebin-php/branch/master/graph/badge.svg)](https://codecov.io/gh/alcohol/pastebin-php)
 
 
