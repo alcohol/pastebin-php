@@ -1,9 +1,8 @@
 # alcohol/pastebin-php
 
-A live deployment can be found at: [php.pastie.eu](https://php.pastie.eu)
-
-[![Build Status](https://travis-ci.org/alcohol/pastebin-php.svg?branch=master)](https://travis-ci.org/alcohol/pastebin-php)
+[![Build Status](https://travis-ci.com/alcohol/pastebin-php.svg?branch=master)](hhttps://travis-ci.com/alcohol/pastebin-php)
 [![codecov](https://codecov.io/gh/alcohol/pastebin-php/branch/master/graph/badge.svg)](https://codecov.io/gh/alcohol/pastebin-php)
+
 
 ## Dependencies (external)
 
