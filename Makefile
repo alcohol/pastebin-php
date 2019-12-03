@@ -130,7 +130,7 @@ shell: ## spawn a shell inside a php-fpm container
 
 .PHONY: install
 install: ## install dependencies (composer)
-install: vendor/composer/installed.json
+install: composer.lock
 
 .PHONY: update
 update: ## update dependencies (composer)
@@ -149,15 +149,12 @@ test: ## run phpunit test suite
 # PATH BASED TARGETS
 #
 
-docker/nginx/Dockerfile: $(shell find public -type f)
-	docker-compose --project-name $(PROJECT) build nginx
-	@touch $@
-
-docker/%/.build: $$(shell find $$(@D) -type f -not -name .build)
-	docker-compose --project-name $(PROJECT) build $*
-	@touch $@
-
-vendor/composer/installed.json: composer.json composer.lock var/cache var/log $(CONTAINERS)
+composer.lock: composer.json
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
 		composer install --no-interaction --no-progress --no-suggest --prefer-dist
+	@touch $@
+
+vendor/composer/installed.json: composer.lock
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+		composer update --no-interaction --no-progress --no-suggest --prefer-dist
 	@touch $@
