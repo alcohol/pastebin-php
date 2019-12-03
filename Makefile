@@ -144,9 +144,9 @@ update: ## update dependencies (composer)
 .PHONY: test
 test: export APP_ENV := test
 test: ## run phpunit test suite
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite fpm \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
 		bin/console cache:warmup
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name testsuite fpm \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 #
@@ -162,6 +162,6 @@ docker/%/.build: $$(shell find $$(@D) -type f -not -name .build)
 	@touch $@
 
 vendor/composer/installed.json: composer.json composer.lock var/cache var/log $(CONTAINERS)
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --name pastebin-composer composer \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
 		composer install --no-interaction --no-progress --no-suggest --prefer-dist
 	@touch $@
