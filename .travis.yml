@@ -24,10 +24,13 @@ before_install:
 - sudo apt-get update
 - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
 - docker --version
+# create traefik network
+- docker network create traefik
 # upgrade docker-compose
 - docker-compose --version
 - sudo curl --silent --fail --retry 3 --location --output /usr/local/bin/docker-compose --url $DOCKER_COMPOSE_RELEASE
 - docker-compose --version
+# build/compile containers
 - make build
 
 install:
