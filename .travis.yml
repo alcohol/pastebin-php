@@ -1,6 +1,6 @@
 language: minimal
 
-dist: trusty
+dist: bionic
 
 git:
   depth: 10
@@ -41,4 +41,4 @@ script:
 
 # only upload code coverage reports for successful builds
 after_success:
-- bash <(curl -s https://codecov.io/bash) -f clover.xml
+- bash <(curl -s https://codecov.io/bash)
