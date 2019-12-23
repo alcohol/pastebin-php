@@ -104,7 +104,7 @@ traefik-restart: ## restart traefik
 
 .PHONY: build
 build: ## build containers
-	docker-compose --project-name $(PROJECT) build --parallel
+	docker-compose --project-name $(PROJECT) build --parallel --pull
 
 .PHONY: fg
 fg: traefik
