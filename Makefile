@@ -80,7 +80,7 @@ traefik: traefik-network
 		--label 'traefik.http.routers.api.rule=Host(`traefik.localhost`)' \
 		--label traefik.http.routers.api.service=api@internal \
 		--detach \
-		traefik:2.0 \
+		traefik:2.1 \
 			--entrypoints.web.address=:80 \
 			--api \
 			--accesslog \
@@ -104,7 +104,7 @@ traefik-restart: ## restart traefik
 
 .PHONY: build
 build: ## build containers
-	docker-compose --project-name $(PROJECT) build
+	docker-compose --project-name $(PROJECT) build --parallel
 
 .PHONY: fg
 fg: traefik
@@ -126,7 +126,7 @@ logs: ## show logs
 
 .PHONY: tail
 tail: ## tail logs
-	docker-compose --project-name $(PROJECT) logs -f
+	docker-compose --project-name $(PROJECT) logs --follow
 
 .PHONY: shell
 shell: ## spawn a shell inside a php-fpm container

@@ -1,7 +1,6 @@
 <?php declare(strict_types=1);
 
 use Paste\Kernel;
-use Symfony\Component\Debug\Debug;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -18,13 +17,6 @@ if (false === getenv('APP_ENV')) {
 
 $env = getenv('APP_ENV') ?? 'dev';
 $debug = (bool) (getenv('APP_DEBUG') ?? ('prod' !== $env));
-
-if ($debug) {
-    umask(0000);
-
-    Debug::enable();
-}
-
 $kernel = new Kernel($env, $debug);
 
 if ($kernel->isProduction()) {
