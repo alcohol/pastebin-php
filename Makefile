@@ -136,8 +136,9 @@ shell: ## spawn a shell inside a php-fpm container
 #
 
 .PHONY: install
-install: composer.lock
 install: ## install dependencies (composer)
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+		composer install --no-interaction --no-progress --no-suggest --prefer-dist
 
 .PHONY: update
 update: ## update dependencies (composer)
@@ -151,17 +152,3 @@ test: ## run phpunit test suite
 		bin/console cache:warmup
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
-
-#
-# PATH BASED TARGETS
-#
-
-composer.lock: composer.json
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
-		composer install --no-interaction --no-progress --no-suggest --prefer-dist
-	@touch $@
-
-vendor/composer/installed.json: composer.lock
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
-		composer update --no-interaction --no-progress --no-suggest --prefer-dist
-	@touch $@
