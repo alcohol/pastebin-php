@@ -49,9 +49,8 @@ PROJECT := phpbin
 
 # Environment variable(s) for Symfony
 export APP_ENV ?= dev
-export RELEASE ?= $(shell git rev-parse HEAD)
 
-# Docker permissions
+# Docker permissions (for Linux)
 export DOCKER_UID ?= $(shell id -u)
 export DOCKER_GID ?= $(shell id -g)
 export DOCKER_USER ?= $(DOCKER_UID):$(DOCKER_GID)

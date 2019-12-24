@@ -84,12 +84,6 @@ services:
     tmpfs:
     - /tmp
     - /.composer
-    depends_on:
-    - redis
-    networks:
-      phpbin:
-        aliases:
-        - fcgi
     cap_drop:
     - ALL
     cap_add:
