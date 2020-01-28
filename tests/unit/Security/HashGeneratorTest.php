@@ -51,9 +51,9 @@ final class HashGeneratorTest extends TestCase
 
     public function testItInstantiatesWhenGivenAValidSecret(): void
     {
-        $generator = new HashGenerator('secret');
+        $this->expectNotToPerformAssertions();
 
-        static::assertInstanceOf(HashGenerator::class, $generator);
+        new HashGenerator('secret');
     }
 
     public function testItProducesTheSameHashWhenGivenTheSameInput(): void
@@ -61,9 +61,7 @@ final class HashGeneratorTest extends TestCase
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
 
-        for ($i = 0; $i < 5; ++$i) {
-            static::assertSame($generator->generateHash($input), $generator->generateHash($input));
-        }
+        static::assertTrue($generator->generateHash($input) === $generator->generateHash($input));
     }
 
     public function testItProducesADifferentHasWhenGivenDifferentInputs(): void
@@ -71,7 +69,7 @@ final class HashGeneratorTest extends TestCase
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
 
-        static::assertNotSame($generator->generateHash($input), $generator->generateHash(strrev($input)));
+        static::assertNotTrue($generator->generateHash($input) === $generator->generateHash(strrev($input)));
     }
 
     public function testItProducesADifferentHashWhenInstantiatedWithADifferentSecretButGivenIdenticalInput(): void
@@ -80,6 +78,6 @@ final class HashGeneratorTest extends TestCase
         $generator1 = new HashGenerator('secret-foo');
         $generator2 = new HashGenerator('secret-bar');
 
-        static::assertNotSame($generator1->generateHash($input), $generator2->generateHash($input));
+        static::assertNotTrue($generator1->generateHash($input) === $generator2->generateHash($input));
     }
 }

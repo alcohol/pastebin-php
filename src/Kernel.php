@@ -47,7 +47,7 @@ class Kernel extends BaseKernel
         return $this->getProjectDir() . '/var/log';
     }
 
-    public function registerBundles(): Traversable
+    public function registerBundles(): iterable
     {
         $contents = require $this->getProjectDir() . '/config/bundles.php';
 

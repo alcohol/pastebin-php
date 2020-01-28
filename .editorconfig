@@ -16,5 +16,5 @@ indent_size = 2
 indent_style = tab
 indent_size = 2
 
-[*.{conf,conf.dist,yml,yaml,json}]
+[*.{conf,conf.dist,yml,yaml,json,neon}]
 indent_size = 2

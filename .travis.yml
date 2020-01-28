@@ -37,7 +37,8 @@ install:
 - make install
 
 script:
-- make test
+- make phpunit
+- make phpstan
 
 # only upload code coverage reports for successful builds
 after_success:

@@ -11,21 +11,18 @@ namespace Paste\Entity;
 
 final class Paste implements \Serializable
 {
-    /** @var string */
-    private $code;
-    /** @var string */
-    private $body;
+    private ?string $code = null;
+    private string $body;
 
     public function __toString(): string
     {
-        return (string) $this->body;
+        return $this->body;
     }
 
     public static function create(string $body)
     {
         $paste = new self();
         $paste->body = $body;
-        $paste->code = null;
 
         return $paste;
     }
@@ -55,7 +52,7 @@ final class Paste implements \Serializable
 
     public function getBody(): string
     {
-        return (string) $this->body;
+        return $this->body;
     }
 
     public function serialize(): string

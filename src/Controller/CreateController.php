@@ -48,7 +48,7 @@ final class CreateController
             $body = $request->getContent();
         }
 
-        if (empty($body)) {
+        if (0 === mb_strlen($body)) {
             return new Response('No input received.', Response::HTTP_BAD_REQUEST);
         }
 

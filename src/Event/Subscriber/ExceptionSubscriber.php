@@ -13,22 +13,21 @@ use Predis\Connection\ConnectionException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
+use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
+/** @codeCoverageIgnore */
 final class ExceptionSubscriber implements EventSubscriberInterface
 {
-    /** @var LoggerInterface */
-    private $logger;
+    private LoggerInterface $logger;
 
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
-    /** @codeCoverageIgnore */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -39,9 +38,9 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function logException(GetResponseForExceptionEvent $event): void
+    public function logException(ExceptionEvent $event): void
     {
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         $this->logger->error($exception->getMessage(), ['exception' => [
             'message' => $exception->getMessage(),
@@ -50,21 +49,19 @@ final class ExceptionSubscriber implements EventSubscriberInterface
         ]]);
     }
 
-    public function handleException(GetResponseForExceptionEvent $event): void
+    public function handleException(ExceptionEvent $event): void
     {
         if (!$event->isMasterRequest()) {
-            return; // @codeCoverageIgnore
+            return;
         }
 
-        $exception = $event->getException();
+        $exception = $event->getThrowable();
 
         $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
 
         if ($exception instanceof ConnectionException) {
-            /** @codeCoverageIgnoreStart */
             $exception = new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
-            $event->setException($exception);
-            // @codeCoverageIgnoreEnd
+            $event->setThrowable($exception);
         }
 
         if ($exception instanceof HttpExceptionInterface) {

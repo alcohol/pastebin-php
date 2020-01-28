@@ -34,7 +34,6 @@ final class PasteTest extends TestCase
 
         $paste = $paste->persist($code);
 
-        static::assertInstanceOf(Paste::class, $paste);
         static::assertSame($code, $paste->getCode());
 
         return $paste;
@@ -49,7 +48,6 @@ final class PasteTest extends TestCase
 
         $updated = $paste->update($body);
 
-        static::assertInstanceOf(Paste::class, $updated);
         static::assertSame($body, $updated->getBody());
         static::assertSame($paste->getCode(), $updated->getCode());
     }

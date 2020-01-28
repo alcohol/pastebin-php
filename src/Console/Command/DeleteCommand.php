@@ -18,10 +18,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class DeleteCommand extends Command
 {
-    /** @var string */
+    /** @var ?string */
     protected static $defaultName = 'paste:delete';
-    /** @var PasteRepository */
-    protected $repository;
+    protected PasteRepository $repository;
 
     public function __construct(PasteRepository $repository)
     {
