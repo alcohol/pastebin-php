@@ -128,11 +128,11 @@ http {
   # Defines a timeout for reading client request body. The timeout is set only for a period between two successive
   # read operations, not for the transmission of the whole request body. If a client does not transmit anything within
   # this time, the 408 (Request Time-out) error is returned to the client.
-  client_body_timeout 2s;
+  client_body_timeout ${CLIENT_BODY_TIMEOUT};
 
   # Defines a timeout for reading client request header. If a client does not transmit the entire header within
   # this time, the 408 (Request Time-out) error is returned to the client.
-  client_header_timeout 2s;
+  client_header_timeout ${CLIENT_HEADER_TIMEOUT};
 
   # The first parameter sets a timeout during which a keep-alive client connection will stay open on the server side.
   # The zero value disables keep-alive client connections. The optional second parameter sets a value in the
@@ -140,15 +140,15 @@ http {
   #
   # The “Keep-Alive: timeout=time” header field is recognized by Mozilla and Konqueror. MSIE closes keep-alive
   # connections by itself in about 60 seconds.
-  keepalive_timeout 30s;
+  keepalive_timeout ${KEEPALIVE_TIMEOUT};
 
   # Sets a timeout for transmitting a response to the client. The timeout is set only between two successive write
   # operations, not for the transmission of the whole response. If the client does not receive anything within this
   # time, the connection is closed.
-  send_timeout 2s;
+  send_timeout ${SEND_TIMEOUT};
 
   # Sets a timeout for name resolution.
-  resolver_timeout 1s;
+  resolver_timeout ${RESOLVER_TIMEOUT};
 
   # Additional configuration files.
   include /etc/nginx/conf.d/*.conf;

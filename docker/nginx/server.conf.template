@@ -1,0 +1,56 @@
+# vim: set ts=2 sw=2 ft=nginx :
+
+upstream backend {
+  server fcgi:9000;
+}
+
+server {
+  listen 8000 default_server;
+  server_name _;
+
+  root /srv/public;
+
+  add_header X-Container-Nginx $hostname always;
+
+  location / {
+    try_files $uri /index.php$is_args$args;
+  }
+
+  location ~ ^/index\.php(/|$) {
+    fastcgi_pass backend;
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+
+    include fastcgi_params;
+
+    fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    fastcgi_param DOCUMENT_ROOT $realpath_root;
+
+    # Defines a timeout for establishing a connection with a FastCGI server. It should be noted that this
+    # timeout cannot usually exceed 75 seconds.
+    #   Default: 60s
+    fastcgi_connect_timeout ${FASTCGI_CONNECT_TIMEOUT};
+
+    # Sets a timeout for transmitting a request to the FastCGI server. The timeout is set only between two
+    # successive write operations, not for the transmission of the whole request. If the FastCGI server does
+    # not receive anything within this time, the connection is closed.
+    #   Default: 60s
+    fastcgi_send_timeout ${FASTCGI_SEND_TIMEOUT};
+
+    # Defines a timeout for reading a response from the FastCGI server. The timeout is set only between two
+    # successive read operations, not for the transmission of the whole response. If the FastCGI server does
+    # not transmit anything within this time, the connection is closed.
+    #   Default: 60s
+    fastcgi_read_timeout ${FASTCGI_READ_TIMEOUT};
+
+    # Determines whether FastCGI server responses with codes greater than or equal to 300 should be passed
+    # to a client or be intercepted and redirected to nginx for processing with the error_page directive.
+    #   Default: off
+    fastcgi_intercept_errors off;
+
+    internal;
+  }
+
+  location ~ \.php$ {
+    return 404;
+  }
+}
