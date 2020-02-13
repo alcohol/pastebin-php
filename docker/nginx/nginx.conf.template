@@ -71,6 +71,7 @@ http {
     '"body_bytes_sent":"$body_bytes_sent",'
     '"request_time":"$request_time",'
     '"request_length":"$request_length",'
+    '"http_host":"$http_host",'
     '"http_referrer":"$http_referer",'
     '"http_user_agent":"$http_user_agent"'
   '}';
