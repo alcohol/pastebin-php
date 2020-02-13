@@ -9,24 +9,25 @@ services:
     image: phpbin-nginx
     container_name: phpbin-nginx
     restart: unless-stopped
-    labels:
-    - traefik.enable=true
-    - traefik.http.routers.phpbin.rule=Host(`phpbin.localhost`)
     volumes:
     - ./public:/srv/public
     expose:
-    - 8000
+    - 80
     depends_on:
     - fpm
     networks:
-      traefik:
-      phpbin:
+      default:
         aliases:
         - nginx
     cap_drop:
     - ALL
+    cap_add:
+    - SETUID
+    - SETGID
+    - CHOWN
+    - NET_BIND_SERVICE
     healthcheck:
-      test: nc -z localhost 8000
+      test: nc -z localhost 80
       interval: 5s
 
   fpm:
@@ -50,15 +51,11 @@ services:
     depends_on:
     - redis
     networks:
-      phpbin:
+      default:
         aliases:
         - fcgi
     cap_drop:
     - ALL
-    cap_add:
-    - SETUID
-    - SETGID
-    - DAC_OVERRIDE
     healthcheck:
       test: nc -z localhost 9000
       interval: 5s
@@ -86,10 +83,6 @@ services:
     - /.composer
     cap_drop:
     - ALL
-    cap_add:
-    - SETUID
-    - SETGID
-    - DAC_OVERRIDE
     healthcheck:
       test: nc -z localhost 9000
       interval: 5s
@@ -100,7 +93,7 @@ services:
     restart: unless-stopped
     command: "redis-server --appendonly yes"
     networks:
-    - phpbin
+      default:
     tmpfs:
     - /tmp
     volumes:
@@ -108,9 +101,8 @@ services:
     cap_drop:
     - ALL
     cap_add:
-    - CHOWN
-    - SETGID
     - SETUID
+    - SETGID
     sysctls:
       net.core.somaxconn: 1024
     healthcheck:
@@ -119,10 +111,7 @@ services:
 
 networks:
 
-  phpbin:
-
-  traefik:
-    external: true
+  default:
 
 volumes:
 

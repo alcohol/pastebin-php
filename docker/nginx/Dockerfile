@@ -12,28 +12,27 @@ ENV FASTCGI_CONNECT_TIMEOUT 1s
 ENV FASTCGI_READ_TIMEOUT 4s
 ENV FASTCGI_SEND_TIMEOUT 2s
 
-WORKDIR /srv
-
-COPY /docker/nginx/nginx.conf.template /etc/nginx/
-COPY /docker/nginx/server.conf.template /etc/nginx/conf.d/
-COPY /public/ /srv/public/
-
 RUN set -eux ; \
   apk add --no-cache \
     bash \
     coreutils ; \
-  rm -v /etc/nginx/nginx.conf /etc/nginx/conf.d/* ;
-  touch /var/run/nginx.pid ; \
-  mkdir -vp /var/cache/nginx/client_temp ; \
-  chown -vR nginx /srv /var/cache/nginx /var/run/nginx.pid ; \
-  find /srv -type d -exec chmod 700 {} \+ ; \
-  find /srv -type f -exec chmod 600 {} \+
+  rm -v /etc/nginx/nginx.conf /etc/nginx/conf.d/*
+
+COPY /docker/nginx/nginx.conf.template /etc/nginx/
+COPY /docker/nginx/server.conf.template /etc/nginx/conf.d/
+
+WORKDIR /srv
+
+COPY /public/ /srv/public/
+
+RUN set -eux ; \
+  chown -vR root:nginx /srv ; \
+  find /srv -type d -exec chmod 750 {} \+ ; \
+  find /srv -type f -exec chmod 660 {} \+
 
 STOPSIGNAL SIGTERM
 
-EXPOSE 8000/tcp
-
-USER nginx
+EXPOSE 80/tcp
 
 CMD /bin/sh -c " \
   envsubst '\$FASTCGI_CONNECT_TIMEOUT \$FASTCGI_READ_TIMEOUT \$FASTCGI_SEND_TIMEOUT' \

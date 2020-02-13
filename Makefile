@@ -56,76 +56,32 @@ export DOCKER_GID ?= $(shell id -g)
 export DOCKER_USER ?= $(DOCKER_UID):$(DOCKER_GID)
 
 #
-# Traefik
-#
-
-.PHONY: traefik-network
-traefik-network:
-	@docker network ls | grep traefik &>/dev/null || docker network create traefik &>/dev/null
-
-.PHONY: traefik
-traefik: traefik-network
-	@docker inspect -f {{.State.Running}} traefik &>/dev/null || docker run \
-		--restart unless-stopped \
-		--name traefik \
-		--network traefik \
-		--volume /var/run/docker.sock:/var/run/docker.sock \
-		--publish 80:80 \
-		--expose 80 \
-		--expose 8080 \
-		--health-cmd 'nc -z localhost 80' \
-		--health-interval 5s \
-		--label traefik.enable=true \
-		--label 'traefik.http.routers.api.rule=Host(`traefik.localhost`)' \
-		--label traefik.http.routers.api.service=api@internal \
-		--detach \
-		traefik:2.1 \
-			--entrypoints.web.address=:80 \
-			--api \
-			--accesslog \
-			--providers.docker=true \
-			--providers.docker.network=traefik \
-			--providers.docker.exposedbydefault=false
-
-.PHONY: traefik-cleanup
-traefik-cleanup:
-	@docker stop traefik &>/dev/null
-	@docker rm traefik &>/dev/null
-	@-docker network rm traefik &>/dev/null
-
-.PHONY: traefik-restart
-traefik-restart: traefik-cleanup traefik
-traefik-restart: ## restart traefik
-
-#
 # Docker-Compose Services & Containers
 #
 
 .PHONY: build
 build: ## build containers
-	docker-compose --project-name $(PROJECT) build --parallel --pull
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) build --parallel --pull
 
 .PHONY: fg
-fg: traefik
 fg: ## launch the docker-compose setup (foreground)
-	docker-compose --project-name $(PROJECT) up --remove-orphans
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) up --remove-orphans
 
 .PHONY: up
-up: traefik
 up: ## launch the docker-compose setup (background)
-	docker-compose --project-name $(PROJECT) up --remove-orphans --detach
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) up --remove-orphans --detach
 
 .PHONY: down
 down: ## terminate the docker-compose setup
-	-docker-compose --project-name $(PROJECT) down --remove-orphans
+	-docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) down --remove-orphans
 
 .PHONY: logs
 logs: ## show logs
-	docker-compose --project-name $(PROJECT) logs
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) logs
 
 .PHONY: tail
 tail: ## tail logs
-	docker-compose --project-name $(PROJECT) logs --follow
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) logs --follow
 
 .PHONY: shell
 shell: ## spawn a shell inside a php-fpm container
