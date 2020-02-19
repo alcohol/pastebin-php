@@ -1,0 +1,33 @@
+name: Continuous Integration
+
+on: ['push']
+
+jobs:
+
+  build-test:
+
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Setup vendor cache
+      uses: actions/cache@v1
+      with:
+        path: vendor
+        key: vendor-${{ hashFiles('composer.lock') }}
+
+    - name: Install dependencies
+      run: make install
+
+    - name: PHPStan
+      run: make phpstan
+
+    - name: PHPUnit
+      run: make phpunit
+
+    - name: Upload Codecoverage
+      run: bash <(curl -s https://codecov.io/bash)
