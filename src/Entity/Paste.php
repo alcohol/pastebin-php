@@ -19,7 +19,7 @@ final class Paste implements \Serializable
         return $this->body;
     }
 
-    public static function create(string $body)
+    public static function create(string $body): self
     {
         $paste = new self();
         $paste->body = $body;
@@ -60,6 +60,7 @@ final class Paste implements \Serializable
         return serialize([$this->code, $this->body]);
     }
 
+    /** @param string $serialized */
     public function unserialize($serialized): void
     {
         list($this->code, $this->body) = unserialize($serialized);

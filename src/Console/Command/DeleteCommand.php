@@ -33,7 +33,7 @@ final class DeleteCommand extends Command
     {
         $this
             ->setDescription('Deletes a paste.')
-            ->addArgument('id', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Identifier of paste to read.', [])
+            ->addArgument('id', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Identifier of paste to delete.', [])
         ;
     }
 

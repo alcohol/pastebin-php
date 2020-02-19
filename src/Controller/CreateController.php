@@ -21,14 +21,9 @@ use Symfony\Component\Routing\RouterInterface;
 
 final class CreateController
 {
-    /** @var PasteRepository */
-    private $repository;
-
-    /** @var RouterInterface */
-    private $router;
-
-    /** @var HashGenerator */
-    private $generator;
+    private PasteRepository $repository;
+    private RouterInterface $router;
+    private HashGenerator $generator;
 
     public function __construct(
         RouterInterface $router,
@@ -48,7 +43,7 @@ final class CreateController
             $body = $request->getContent();
         }
 
-        if (0 === mb_strlen($body)) {
+        if ('' === $body) {
             return new Response('No input received.', Response::HTTP_BAD_REQUEST);
         }
 
@@ -61,11 +56,10 @@ final class CreateController
 
         try {
             $paste = $this->repository->persist($paste, $ttl);
-            // @codeCoverageIgnoreStart
         } catch (StorageException $exception) {
             return new Response($exception->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
         }
-        /** @codeCoverageIgnoreEnd */
+
         $location = $this
             ->router
             ->generate('paste.read', ['id' => $paste->getCode()], RouterInterface::ABSOLUTE_URL)

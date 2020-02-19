@@ -21,8 +21,7 @@ final class ReadCommand extends Command
 {
     /** @var string */
     protected static $defaultName = 'paste:read';
-    /** @var PasteRepository */
-    protected $repository;
+    protected PasteRepository $repository;
 
     public function __construct(PasteRepository $repository)
     {

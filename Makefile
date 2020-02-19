@@ -111,6 +111,7 @@ phpunit: ## run phpunit test suite
 
 .PHONY: phpstan
 phpstan: export APP_ENV := dev
+phpstan: LEVEL ?= 6
 phpstan: ## run phpunit test suite
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
-		php vendor/bin/phpstan --level=4 analyse bin config public src tests
+		php vendor/bin/phpstan --level=$(LEVEL) analyse bin config public src tests

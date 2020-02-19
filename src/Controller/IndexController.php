@@ -13,11 +13,13 @@ use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
 final class IndexController
 {
-    /** @var Environment */
-    private $engine;
+    private Environment $engine;
 
     public function __construct(Environment $engine)
     {
@@ -28,12 +30,19 @@ final class IndexController
     {
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));
 
-        if ($accept->has('text/html')) {
-            $body = $this->engine->render('index.html.twig');
-            $headers = ['Content-Type' => 'text/html'];
-        } else {
-            $body = $this->engine->render('index.text.twig');
-            $headers = ['Content-Type' => 'text/plain'];
+        try {
+            if ($accept->has('text/html')) {
+                $body = $this->engine->render('index.html.twig');
+                $headers = ['Content-Type' => 'text/html'];
+            } else {
+                $body = $this->engine->render('index.text.twig');
+                $headers = ['Content-Type' => 'text/plain'];
+            }
+        } catch (LoaderError|SyntaxError|RuntimeError $error) {
+            return new Response(
+                'Internal Server Error',
+                Response::HTTP_INTERNAL_SERVER_ERROR
+            );
         }
 
         $response = new Response($body, 200, $headers);

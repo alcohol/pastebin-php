@@ -17,16 +17,11 @@ use Symfony\Component\HttpFoundation\Response;
 
 final class DeleteController
 {
-    /** @var PasteRepository */
-    private $repository;
+    private PasteRepository $repository;
+    private HashGenerator $generator;
+    private string $tokenHeader;
 
-    /** @var HashGenerator */
-    private $generator;
-
-    /** @var string */
-    private $tokenHeader;
-
-    public function __construct(PasteRepository $repository, HashGenerator $generator, $tokenHeader = 'X-Paste-Token')
+    public function __construct(PasteRepository $repository, HashGenerator $generator, string $tokenHeader = 'X-Paste-Token')
     {
         $this->repository = $repository;
         $this->generator = $generator;
@@ -60,7 +55,6 @@ final class DeleteController
 
         try {
             $this->repository->delete($paste);
-            // @codeCoverageIgnoreStart
         } catch (StorageException $exception) {
             return new Response(
                 $exception->getMessage(),
@@ -68,7 +62,6 @@ final class DeleteController
                 ['Retry-After' => 300]
             );
         }
-        // @codeCoverageIgnoreEnd
 
         return new Response('', 204);
     }

@@ -16,7 +16,6 @@ final class PasteTest extends TestCase
         $body = 'foo';
         $paste = Paste::create($body);
 
-        static::assertInstanceOf(Paste::class, $paste);
         static::assertSame($body, $paste->getBody());
         static::assertSame($body, (string) $paste);
 

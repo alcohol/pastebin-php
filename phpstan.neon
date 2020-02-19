@@ -7,8 +7,9 @@ includes:
 
 parameters:
 
-  reportUnmatchedIgnoredErrors: true
+  checkMissingIterableValueType: false
   inferPrivatePropertyTypeFromConstructor: true
+  reportUnmatchedIgnoredErrors: true
 
   excludes_analyse:
     - config/bootstrap.php

@@ -18,11 +18,8 @@ use Twig\Environment;
 
 final class ReadController
 {
-    /** @var PasteRepository */
-    private $repository;
-
-    /** @var Environment */
-    private $engine;
+    private PasteRepository $repository;
+    private Environment $engine;
 
     public function __construct(Environment $engine, PasteRepository $repository)
     {
