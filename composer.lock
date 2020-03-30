@@ -759,16 +759,16 @@
         },
         {
             "name": "symfony/error-handler",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/error-handler.git",
-                "reference": "24a938d9913f42d006ee1ca0164ea1f29c1067ec"
+                "reference": "56afd2a05865dfc894f0ec30209d09e868b45ef5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/error-handler/zipball/24a938d9913f42d006ee1ca0164ea1f29c1067ec",
-                "reference": "24a938d9913f42d006ee1ca0164ea1f29c1067ec",
+                "url": "https://api.github.com/repos/symfony/error-handler/zipball/56afd2a05865dfc894f0ec30209d09e868b45ef5",
+                "reference": "56afd2a05865dfc894f0ec30209d09e868b45ef5",
                 "shasum": ""
             },
             "require": {
@@ -810,7 +810,7 @@
             ],
             "description": "Symfony ErrorHandler Component",
             "homepage": "https://symfony.com",
-            "time": "2020-02-29T10:07:09+00:00"
+            "time": "2020-03-23T12:42:46+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2222,16 +2222,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "3a37aeb1132d1035536d3d6aa9cb06c2ff9355e9"
+                "reference": "254110c423a49c45fa611414f114cfa9844eed87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/3a37aeb1132d1035536d3d6aa9cb06c2ff9355e9",
-                "reference": "3a37aeb1132d1035536d3d6aa9cb06c2ff9355e9",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/254110c423a49c45fa611414f114cfa9844eed87",
+                "reference": "254110c423a49c45fa611414f114cfa9844eed87",
                 "shasum": ""
             },
             "require": {
@@ -2293,7 +2293,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2020-02-26T22:30:10+00:00"
+            "time": "2020-03-18T07:16:55+00:00"
         },
         {
             "name": "symfony/var-exporter",
