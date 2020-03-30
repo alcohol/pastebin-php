@@ -2046,16 +2046,16 @@
         },
         {
             "name": "symfony/twig-bridge",
-            "version": "v5.0.5",
+            "version": "v5.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bridge.git",
-                "reference": "737eeafbd04bf057c9495327c5d2669be7b79ba9"
+                "reference": "ff52910c74e66e6266f47af3ba472df8e33882c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/737eeafbd04bf057c9495327c5d2669be7b79ba9",
-                "reference": "737eeafbd04bf057c9495327c5d2669be7b79ba9",
+                "url": "https://api.github.com/repos/symfony/twig-bridge/zipball/ff52910c74e66e6266f47af3ba472df8e33882c4",
+                "reference": "ff52910c74e66e6266f47af3ba472df8e33882c4",
                 "shasum": ""
             },
             "require": {
@@ -2143,7 +2143,7 @@
             ],
             "description": "Symfony Twig Bridge",
             "homepage": "https://symfony.com",
-            "time": "2020-02-24T15:05:31+00:00"
+            "time": "2020-03-18T08:00:37+00:00"
         },
         {
             "name": "symfony/twig-bundle",
