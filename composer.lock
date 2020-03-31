@@ -4793,16 +4793,16 @@
         },
         {
             "name": "symfony/process",
-            "version": "v5.0.6",
+            "version": "v5.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
-                "reference": "67abad0d1f1340424418f94cedadc367599ecb61"
+                "reference": "c5ca4a0fc16a0c888067d43fbcfe1f8a53d8e70e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/process/zipball/67abad0d1f1340424418f94cedadc367599ecb61",
-                "reference": "67abad0d1f1340424418f94cedadc367599ecb61",
+                "url": "https://api.github.com/repos/symfony/process/zipball/c5ca4a0fc16a0c888067d43fbcfe1f8a53d8e70e",
+                "reference": "c5ca4a0fc16a0c888067d43fbcfe1f8a53d8e70e",
                 "shasum": ""
             },
             "require": {
@@ -4838,7 +4838,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2020-03-23T12:42:46+00:00"
+            "time": "2020-03-27T16:56:45+00:00"
         },
         {
             "name": "symfony/profiler-pack",
