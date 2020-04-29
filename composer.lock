@@ -2148,7 +2148,7 @@
         },
         {
             "name": "symfony/twig-bundle",
-            "version": "v5.0.7",
+            "version": "v5.0.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/twig-bundle.git",
