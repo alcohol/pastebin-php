@@ -4099,16 +4099,16 @@
         },
         {
             "name": "sebastian/code-unit",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/code-unit.git",
-                "reference": "ac958085bc19fcd1d36425c781ef4cbb5b06e2a5"
+                "reference": "d650ef9b1fece15ed4d6eaed6e6b469b7b81183a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/ac958085bc19fcd1d36425c781ef4cbb5b06e2a5",
-                "reference": "ac958085bc19fcd1d36425c781ef4cbb5b06e2a5",
+                "url": "https://api.github.com/repos/sebastianbergmann/code-unit/zipball/d650ef9b1fece15ed4d6eaed6e6b469b7b81183a",
+                "reference": "d650ef9b1fece15ed4d6eaed6e6b469b7b81183a",
                 "shasum": ""
             },
             "require": {
@@ -4141,7 +4141,7 @@
             ],
             "description": "Collection of value objects that represent the PHP code units",
             "homepage": "https://github.com/sebastianbergmann/code-unit",
-            "time": "2020-04-30T05:58:10+00:00"
+            "time": "2020-06-15T13:11:26+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",
