@@ -4,9 +4,9 @@ on: ['push']
 
 jobs:
 
-  build-test:
+  phpstan:
 
-    name: Build & Test
+    name: PHPStan
     runs-on: ubuntu-latest
 
     steps:
@@ -14,17 +14,38 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Setup vendor cache
-      uses: actions/cache@v1
+    - uses: actions/cache@v2
+      id: vendor-cache
       with:
         path: vendor
         key: vendor-${{ hashFiles('composer.lock') }}
 
     - name: Install dependencies
+      if: steps.vendor-cache.outputs.cache-hit != 'true'
       run: make install
 
     - name: PHPStan
       run: make phpstan
+
+  phpunit:
+
+    name: PHPUnit
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - uses: actions/cache@v2
+      id: vendor-cache
+      with:
+        path: vendor
+        key: vendor-${{ hashFiles('composer.lock') }}
+
+    - name: Install dependencies
+      if: steps.vendor-cache.outputs.cache-hit != 'true'
+      run: make install
 
     - name: PHPUnit
       run: make phpunit
