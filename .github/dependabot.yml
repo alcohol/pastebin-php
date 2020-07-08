@@ -9,3 +9,25 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    reviewers:
+      - alcohol
+    assignees:
+      - alcohol
+
+  - package-ecosystem: "docker"
+    directory: "/docker/fpm"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - alcohol
+    assignees:
+      - alcohol
+
+  - package-ecosystem: "docker"
+    directory: "/docker/nginx"
+    schedule:
+      interval: "daily"
+    reviewers:
+      - alcohol
+    assignees:
+      - alcohol
