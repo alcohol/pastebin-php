@@ -21,7 +21,7 @@ final class CreateControllerTest extends IntegrationTest
     public function testPostingWithoutABodyShouldReturnA400(): void
     {
         $client = static::createClient();
-        $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], '');
+        $client->request('POST', '/', [], [], ['HTTP_ACCEPT' => 'text/plain'], '');
 
         static::assertSame(400, $client->getResponse()->getStatusCode());
 
@@ -33,14 +33,14 @@ final class CreateControllerTest extends IntegrationTest
     public function testPostingAPasteShouldReturnTheExpectedResponseHeaders(): void
     {
         $client = static::createClient();
-        $client->request('POST', '/', [], [], ['HTTP_Accept' => 'text/plain'], 'Lorem ipsum');
+        $client->request('POST', '/', [], [], ['HTTP_ACCEPT' => 'text/plain'], 'Lorem ipsum');
 
         static::assertSame(201, $client->getResponse()->getStatusCode());
         static::assertTrue($client->getResponse()->headers->has('Location'));
         static::assertTrue($client->getResponse()->headers->has('X-Paste-Id'));
         static::assertTrue($client->getResponse()->headers->has('X-Paste-Token'));
 
-        $client->request('POST', '/', ['paste' => 'Lorem ipsum', 'redirect' => 'redirect']);
+        $client->request('POST', '/', ['paste' => 'Lorem ipsum', 'redirect' => 'redirect'], [], ['HTTP_ACCEPT' => 'text/html']);
 
         static::assertSame(303, $client->getResponse()->getStatusCode());
         static::assertTrue($client->getResponse()->headers->has('Location'));

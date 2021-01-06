@@ -1,32 +1,20 @@
-FROM php:7.4-fpm-alpine AS base
+FROM php:8.0-fpm-alpine AS base
 
-# install extensions
+# install non php packages
 RUN set -eux; \
   apk add --no-cache --upgrade \
     bash \
-    curl; \
-  apk add --no-cache --virtual .build-deps \
-    coreutils \
-    icu-dev \
-    zlib-dev \
-    libzip-dev \
-    oniguruma-dev; \
-  docker-php-ext-configure zip; \
-  docker-php-ext-configure intl; \
-  docker-php-ext-install -j$(nproc) \
+    curl
+
+# install non-default extensions
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN set -eux; \
+  chmod +x /usr/local/bin/install-php-extensions; \
+  install-php-extensions \
     intl \
     pcntl \
-    mbstring \
     opcache \
-    zip; \
-  runDeps="$( \
-    scanelf --needed --nobanner --format '%n#p' --recursive /usr/local/lib/php/extensions \
-      | tr ',' '\n' \
-      | sort -u \
-      | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-    )"; \
-   apk add --no-cache $runDeps; \
-   apk del --no-network .build-deps
+    zip
 
 # remove default configuration files
 RUN set -eux; \

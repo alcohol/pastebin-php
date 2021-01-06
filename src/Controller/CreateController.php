@@ -71,7 +71,7 @@ final class CreateController
             'X-Paste-Token' => $this->generator->generateHash($paste->getCode()),
         ];
 
-        $accept = AcceptHeader::fromString($request->headers->get('Accept'));
+        $accept = AcceptHeader::fromString($request->headers->get('accept'));
 
         if ($accept->has('text/html')) {
             return new RedirectResponse($location, 303, $headers);
