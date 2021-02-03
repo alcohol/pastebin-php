@@ -1,96 +1,43 @@
-<?php declare(strict_types=1);
+<?php
 
 namespace Paste;
 
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
-use Symfony\Component\Config\Loader\LoaderInterface;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
-use Symfony\Component\Routing\RouteCollectionBuilder;
-use Traversable;
+use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
-/** @codeCoverageIgnore */
 class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
-
-    /** @var array */
-    public const ENVIRONMENTS = ['test', 'dev', 'prod'];
-
-    /** @var string */
-    private const CONFIG_EXTENSIONS = '.{php,xml,yaml,yml}';
-
-    /**
-     * @throws RuntimeException
-     */
-    public function __construct(string $environment, bool $debug)
-    {
-        if (!\in_array($environment, self::ENVIRONMENTS, true)) {
-            throw new RuntimeException(sprintf(
-                'Unsupported environment "%s", expected one of: %s',
-                $environment,
-                implode(', ', self::ENVIRONMENTS)
-            ));
-        }
-
-        parent::__construct($environment, $debug);
-    }
-
-    public function getCacheDir(): string
-    {
-        return $this->getProjectDir() . '/var/cache/' . $this->getEnvironment();
-    }
-
-    public function getLogDir(): string
-    {
-        return $this->getProjectDir() . '/var/log';
-    }
-
-    public function registerBundles(): iterable
-    {
-        $contents = require $this->getProjectDir() . '/config/bundles.php';
-
-        foreach ($contents as $class => $envs) {
-            if (isset($envs['all']) || isset($envs[$this->getEnvironment()])) {
-                yield new $class();
-            }
-        }
-    }
-
-    public function isDevelopment(): bool
-    {
-        return 'dev' === $this->getEnvironment();
-    }
-
-    public function isTesting(): bool
-    {
-        return 'test' === $this->getEnvironment();
-    }
 
     public function isProduction(): bool
     {
         return 'prod' === $this->getEnvironment();
     }
 
-    protected function configureContainer(ContainerBuilder $container, LoaderInterface $loader): void
+    protected function configureContainer(ContainerConfigurator $container): void
     {
-        $container->setParameter('container.dumper.inline_class_loader', true);
+        $container->import('../config/{packages}/*.yaml');
+        $container->import('../config/{packages}/'.$this->environment.'/*.yaml');
 
-        $confDir = $this->getProjectDir() . '/config';
-
-        $loader->load($confDir . '/{packages}/*' . self::CONFIG_EXTENSIONS, 'glob');
-        $loader->load($confDir . '/{packages}/' . $this->getEnvironment() . '/**/*' . self::CONFIG_EXTENSIONS, 'glob');
-        $loader->load($confDir . '/{services}' . self::CONFIG_EXTENSIONS, 'glob');
-        $loader->load($confDir . '/{services}_' . $this->getEnvironment() . self::CONFIG_EXTENSIONS, 'glob');
+        if (is_file(\dirname(__DIR__).'/config/services.yaml')) {
+            $container->import('../config/services.yaml');
+            $container->import('../config/{services}_'.$this->environment.'.yaml');
+        } elseif (is_file($path = \dirname(__DIR__).'/config/services.php')) {
+            (require $path)($container->withPath($path), $this);
+        }
     }
 
-    protected function configureRoutes(RouteCollectionBuilder $routes): void
+    protected function configureRoutes(RoutingConfigurator $routes): void
     {
-        $confDir = $this->getProjectDir() . '/config';
+        $routes->import('../config/{routes}/'.$this->environment.'/*.yaml');
+        $routes->import('../config/{routes}/*.yaml');
 
-        $routes->import($confDir . '/{routes}/*' . self::CONFIG_EXTENSIONS, '/', 'glob');
-        $routes->import($confDir . '/{routes}/' . $this->getEnvironment() . '/**/*' . self::CONFIG_EXTENSIONS, '/', 'glob');
-        $routes->import($confDir . '/{routes}' . self::CONFIG_EXTENSIONS, '/', 'glob');
+        if (is_file(\dirname(__DIR__).'/config/routes.yaml')) {
+            $routes->import('../config/routes.yaml');
+        } elseif (is_file($path = \dirname(__DIR__).'/config/routes.php')) {
+            (require $path)($routes->withPath($path), $this);
+        }
     }
 }

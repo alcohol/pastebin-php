@@ -4,15 +4,18 @@ use Paste\Kernel;
 use Symfony\Component\ErrorHandler\Debug;
 use Symfony\Component\HttpFoundation\Request;
 
-require __DIR__ . '/../vendor/autoload.php';
+require dirname(__DIR__) . '/vendor/autoload.php';
 
-$env = getenv('APP_ENV') ?? 'dev';
-$debug = (bool) (getenv('APP_DEBUG') ?? ('prod' !== $env));
-$kernel = new Kernel($env, $debug);
+$_SERVER += $_ENV;
+$_SERVER['APP_ENV'] = $_ENV['APP_ENV'] = ($_SERVER['APP_ENV'] ?? $_ENV['APP_ENV'] ?? null) ?: 'dev';
+$_SERVER['APP_DEBUG'] = $_SERVER['APP_DEBUG'] ?? $_ENV['APP_DEBUG'] ?? 'prod' !== $_SERVER['APP_ENV'];
+$_SERVER['APP_DEBUG'] = $_ENV['APP_DEBUG'] = (int) $_SERVER['APP_DEBUG'] || filter_var($_SERVER['APP_DEBUG'], FILTER_VALIDATE_BOOLEAN) ? '1' : '0';
 
-if ($debug && class_exists(Debug::class)) {
+if ($_SERVER['APP_DEBUG']) {
     Debug::enable();
 }
+
+$kernel = new Kernel($_SERVER['APP_ENV'], (bool) $_SERVER['APP_DEBUG']);
 
 if ($kernel->isProduction()) {
     Request::setTrustedProxies([
@@ -29,7 +32,5 @@ if ($kernel->isProduction()) {
 
 $request = Request::createFromGlobals();
 $response = $kernel->handle($request);
-$response->headers->set('X-Pastebin-Version', $_SERVER['SENTRY_RELEASE'] ?? 'development');
-$response->headers->set('X-Container-Php', gethostname());
 $response->send();
 $kernel->terminate($request, $response);

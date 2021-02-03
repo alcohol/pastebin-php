@@ -19,7 +19,7 @@ $finder
     ])
 ;
 
-$config
+return $config
     ->setRules([
         '@PHP73Migration' => true,
         '@PHPUnit75Migration:risky' => true,
@@ -39,5 +39,3 @@ $config
     ->setRiskyAllowed(true)
     ->setFinder($finder)
 ;
-
-return $config;
