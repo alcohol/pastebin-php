@@ -4,6 +4,10 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
+    paste.ttl: 2592000
+    redis.scheme: 'tcp'
+    redis.host: 'redis'
+    redis.port: 6379
 
 services:
     # default configuration for services in *this* file
