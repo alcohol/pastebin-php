@@ -11,6 +11,31 @@ class Kernel extends BaseKernel
 {
     use MicroKernelTrait;
 
+    public const ENVIRONMENTS = ['test', 'dev', 'prod'];
+
+    public function __construct(string $environment, bool $debug)
+    {
+        if (!\in_array($environment, self::ENVIRONMENTS, true)) {
+            throw new RuntimeException(sprintf(
+                'Unsupported environment "%s", expected one of: %s',
+                $environment,
+                implode(', ', self::ENVIRONMENTS)
+            ));
+        }
+
+        parent::__construct($environment, $debug);
+    }
+
+    public function isDevelopment(): bool
+    {
+        return 'dev' === $this->getEnvironment();
+    }
+
+    public function isTesting(): bool
+    {
+        return 'test' === $this->getEnvironment();
+    }
+
     public function isProduction(): bool
     {
         return 'prod' === $this->getEnvironment();
