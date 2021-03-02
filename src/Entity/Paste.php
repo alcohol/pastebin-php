@@ -63,6 +63,6 @@ final class Paste implements \Serializable
     /** @param string $serialized */
     public function unserialize($serialized): void
     {
-        list($this->code, $this->body) = unserialize($serialized, false);
+        list($this->code, $this->body) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }
