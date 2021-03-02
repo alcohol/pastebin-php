@@ -57,7 +57,11 @@ final class CreateController
         try {
             $paste = $this->repository->persist($paste, $ttl);
         } catch (StorageException $exception) {
-            return new Response($exception->getMessage(), Response::HTTP_SERVICE_UNAVAILABLE);
+            return new Response(
+                $exception->getMessage(),
+                Response::HTTP_SERVICE_UNAVAILABLE,
+                ['Retry-After' => 300]
+            );
         }
 
         $location = $this
