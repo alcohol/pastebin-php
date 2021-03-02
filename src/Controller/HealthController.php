@@ -26,9 +26,7 @@ final class HealthController
 
     public function __invoke(): Response
     {
-        if (!$this->redis->ping()) {
-            throw new ServiceUnavailableHttpException(300, 'Storage unavailable.');
-        }
+        $this->redis->ping();
 
         $response = new Response('OK', 200);
         $response->setPrivate();

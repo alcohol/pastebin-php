@@ -35,6 +35,7 @@ jobs:
     - if: steps.vendor-cache.outputs.cache-hit != 'true'
       run: make install
     - run: make phpunit
+    - run: make phpstan
     - run: bash <(curl -s https://codecov.io/bash)
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
