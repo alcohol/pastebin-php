@@ -1,23 +1,24 @@
 FROM php:8.0-fpm-alpine AS base
 
 # install non php packages
-RUN set -eux; \
+RUN set -eux ; \
   apk add --no-cache --upgrade \
     bash \
     curl
 
 # install non-default extensions
 ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
-RUN set -eux; \
-  chmod +x /usr/local/bin/install-php-extensions; \
+RUN set -eux ; \
+  chmod +x /usr/local/bin/install-php-extensions ; \
   install-php-extensions \
     intl \
-    pcntl \
     opcache \
+    pcntl \
+    redis \
     zip
 
 # remove default configuration files
-RUN set -eux; \
+RUN set -eux ; \
   rm -f \
     /usr/local/etc/php-fpm.conf.default \
     /usr/local/etc/php-fpm.d/docker.conf \
@@ -32,11 +33,11 @@ COPY /docker/fpm/php-fpm.conf /usr/local/etc/
 COPY /docker/fpm/php-fpm-pool.conf /usr/local/etc/php-fpm.d/
 
 # set permissions on files/directories
-RUN set -eux; \
-  find /srv -type d -exec chmod 700 {} \+; \
-  find /srv -type f -exec chmod 400 {} \+; \
-  chown -R www-data:www-data /srv; \
-  find /usr/local/etc -type d -exec chmod 755 {} \+; \
+RUN set -eux ; \
+  find /srv -type d -exec chmod 700 {} \+ ; \
+  find /srv -type f -exec chmod 400 {} \+ ; \
+  chown -R www-data:www-data /srv ; \
+  find /usr/local/etc -type d -exec chmod 755 {} \+ ; \
   find /usr/local/etc -type f -exec chmod 644 {} \+
 
 WORKDIR /srv
@@ -47,11 +48,11 @@ STOPSIGNAL SIGQUIT
 
 FROM base AS composer
 
-RUN set -eux; \
+RUN set -eux ; \
   apk add --no-cache --upgrade \
     openssh-client
 
-COPY --from=composer:1 /usr/bin/composer /usr/bin/composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 FROM base AS production
 

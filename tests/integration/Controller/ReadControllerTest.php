@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -32,12 +34,12 @@ final class ReadControllerTest extends IntegrationTest
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
 
-        [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
+        [$location, /* $token */ ] = $this->extractLocationAndToken($client->getResponse());
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/html']);
 
         static::assertTrue($client->getResponse()->isOk());
-        static::assertStringContainsString('Lorem ipsum', $client->getResponse()->getContent());
+        static::assertStringContainsString('Lorem ipsum', (string) $client->getResponse()->getContent());
 
         $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
 

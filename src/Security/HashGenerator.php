@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -26,8 +28,8 @@ final class HashGenerator
         $this->secret = $secret;
     }
 
-    public function generateHash(string $paste_id): string
+    public function generateHash(string $pasteId): string
     {
-        return hash('sha256', sprintf('%s.%s', $paste_id, $this->secret), false);
+        return hash('sha256', sprintf('%s.%s', $pasteId, $this->secret), false);
     }
 }

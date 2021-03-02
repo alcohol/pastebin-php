@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -9,8 +11,6 @@
 
 namespace Paste\Exception;
 
-use Paste\Exception;
-
-final class StorageException extends \RuntimeException implements Exception
+final class StorageException extends \RuntimeException
 {
 }

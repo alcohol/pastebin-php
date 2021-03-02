@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 $header = <<<'EOF'
     (c) Rob Bast <rob.bast@gmail.com>
@@ -12,7 +14,7 @@ $config = new PhpCsFixer\Config('paste.robbast.nl');
 
 $finder
     ->in(__DIR__)
-    ->exclude(['var', 'docker', 'vendor'])
+    ->exclude(['docker', 'var', 'vendor'])
     ->append([
         'bin/console',
         '.php_cs.dist',
@@ -21,21 +23,11 @@ $finder
 
 return $config
     ->setRules([
-        '@PHP73Migration' => true,
-        '@PHPUnit75Migration:risky' => true,
-        '@PhpCsFixer' => true,
-        '@PhpCsFixer:risky' => true,
-        'array_syntax' => ['syntax' => 'short'],
-        'blank_line_after_opening_tag' => false,
-        'concat_space' => ['spacing' => 'one'],
-        'method_argument_space' => ['ensure_fully_multiline' => true],
-        'no_useless_else' => true,
-        'ordered_imports' => ['sortAlgorithm' => 'alpha'],
-        'phpdoc_align' => false,
-        'phpdoc_order' => true,
-        'phpdoc_summary' => false,
-        'php_unit_test_class_requires_covers' => false,
+        '@PSR1' => true,
+        '@PSR2' => true,
+        '@DoctrineAnnotation' => true,
+        '@Symfony' => true,
+        '@Symfony:risky' => true,
     ])
     ->setRiskyAllowed(true)
-    ->setFinder($finder)
-;
+    ->setFinder($finder);

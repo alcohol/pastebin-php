@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -10,11 +12,24 @@
 namespace Paste\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 final class HealthController
 {
+    private \Redis $redis;
+
+    public function __construct(\Redis $redis)
+    {
+
+        $this->redis = $redis;
+    }
+
     public function __invoke(): Response
     {
+        if (!$this->redis->ping()) {
+            throw new ServiceUnavailableHttpException(300, 'Storage unavailable.');
+        }
+
         $response = new Response('OK', 200);
         $response->setPrivate();
 

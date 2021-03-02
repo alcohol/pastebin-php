@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -9,47 +11,40 @@
 
 namespace Paste\Repository;
 
-use Doctrine\Common\Cache\Cache;
 use Paste\Entity\Paste;
+use Paste\Exception\NotFoundException;
 use Paste\Exception\StorageException;
 
 final class PasteRepository
 {
-    /** @var Cache */
-    private $cache;
-    /** @var int */
-    private $default_ttl;
+    private \Redis $storage;
+    private int $defaultTtl;
 
-    public function __construct(Cache $cache, int $default_ttl)
+    public function __construct(\Redis $storage, int $defaultTtl)
     {
-        $this->cache = $cache;
-        $this->default_ttl = $default_ttl;
+        $this->storage = $storage;
+        $this->defaultTtl = $defaultTtl;
     }
 
     /**
-     * @throws \Paste\Exception\StorageException
+     * @throws \Paste\Exception\NotFoundException
      */
     public function find(string $code): Paste
     {
-        $paste = $this->cache->fetch($code);
+        $paste = $this->storage->get($code);
 
         if (false === $paste) {
-            throw new StorageException('Cannot fetch from cache.');
+            throw new NotFoundException();
         }
 
         return unserialize($paste);
     }
 
-    /**
-     * @throws \Paste\Exception\StorageException
-     */
-    public function delete(Paste $paste): bool
+    public function delete(Paste $paste): void
     {
-        if (!$this->cache->delete($paste->getCode())) {
-            throw new StorageException('Cannot delete from cache.'); // @codeCoverageIgnore
+        if (null !== $paste->getCode()) {
+            $this->storage->unlink($paste->getCode());
         }
-
-        return true;
     }
 
     /**
@@ -57,26 +52,26 @@ final class PasteRepository
      */
     public function persist(Paste $paste, ?int $ttl = null): Paste
     {
-        if (null === $ttl) {
-            $ttl = $this->default_ttl;
-        }
-
         if (null === $paste->getCode()) {
             $retries = 10;
 
             do {
                 if (0 === $retries--) {
-                    throw new StorageException('Failed to generate a unique code.'); // @codeCoverageIgnore
+                    throw new StorageException('Failed to generate a unique nonexistent code within a reasonable amount of attempts.'); // @codeCoverageIgnore
                 }
 
                 $bytes = random_bytes(4);
                 $code = bin2hex($bytes);
-            } while ($this->cache->contains($code));
+            } while ($this->storage->exists($code));
 
             $paste = $paste->persist($code);
         }
 
-        if (!$this->cache->save($paste->getCode(), serialize($paste), $ttl)) {
+        if (null === $ttl) {
+            $ttl = $this->defaultTtl;
+        }
+
+        if (!$this->storage->set($paste->getCode(), serialize($paste), $ttl)) {
             throw new StorageException('Cannot persist to cache.'); // @codeCoverageIgnore
         }
 

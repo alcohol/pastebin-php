@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -7,8 +9,8 @@
  * the LICENSE file that was distributed with this source code.
  */
 
-namespace Paste;
+namespace Paste\Exception;
 
-interface Exception
+final class NotFoundException extends \RuntimeException
 {
 }

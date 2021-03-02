@@ -102,16 +102,21 @@ update: ## update dependencies (composer)
 		composer update --no-interaction --no-progress --no-suggest --prefer-dist
 
 .PHONY: phpunit
+phpcsfixer: ## run php-cs-fixer
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
+		php vendor/bin/php-cs-fixer fix --allow-risky=yes
+
+.PHONY: phpunit
 phpunit: export APP_ENV := test
 phpunit: ## run phpunit test suite
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
 		bin/console cache:warmup
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
+	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) fpm \
 		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 .PHONY: phpstan
 phpstan: export APP_ENV := dev
-phpstan: LEVEL ?= 6
+phpstan: LEVEL ?= 8
 phpstan: ## run phpunit test suite
 	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
 		php vendor/bin/phpstan --level=$(LEVEL) analyse bin config public src tests

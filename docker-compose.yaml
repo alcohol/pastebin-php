@@ -88,7 +88,7 @@ services:
       interval: 5s
 
   redis:
-    image: redis:5-alpine
+    image: redis:6-alpine
     container_name: phpbin-redis
     restart: unless-stopped
     command: "redis-server --appendonly yes"
@@ -97,7 +97,7 @@ services:
     tmpfs:
     - /tmp
     volumes:
-    - "phpbin-redis:/data"
+    - redis:/data
     cap_drop:
     - ALL
     cap_add:
@@ -115,4 +115,4 @@ networks:
 
 volumes:
 
-  phpbin-redis:
+  redis:

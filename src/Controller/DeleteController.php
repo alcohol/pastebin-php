@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -9,11 +11,15 @@
 
 namespace Paste\Controller;
 
+use Paste\Exception\NotFoundException;
 use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
 use Paste\Security\HashGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 final class DeleteController
 {
@@ -31,36 +37,23 @@ final class DeleteController
     public function __invoke(Request $request, string $id): Response
     {
         if (false === $request->headers->has($this->tokenHeader)) {
-            return new Response(
-                sprintf('Bad request, missing expected header "%s".', $this->tokenHeader),
-                Response::HTTP_BAD_REQUEST
-            );
+            throw new BadRequestHttpException(sprintf('Bad request, missing expected header "%s".', $this->tokenHeader));
         }
 
         try {
             $paste = $this->repository->find($id);
-        } catch (StorageException $exception) {
-            return new Response(
-                sprintf('Paste "%s" not found.', $id),
-                Response::HTTP_NOT_FOUND
-            );
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException(sprintf('Paste "%s" not found.', $id), $exception);
         }
 
         if (false === hash_equals((string) $request->headers->get($this->tokenHeader), $this->generator->generateHash($id))) {
-            return new Response(
-                sprintf('Paste "%s" not found.', $id),
-                Response::HTTP_NOT_FOUND
-            );
+            throw new NotFoundHttpException(sprintf('Paste "%s" not found.', $id));
         }
 
         try {
             $this->repository->delete($paste);
         } catch (StorageException $exception) {
-            return new Response(
-                $exception->getMessage(),
-                Response::HTTP_SERVICE_UNAVAILABLE,
-                ['Retry-After' => 300]
-            );
+            throw new ServiceUnavailableHttpException(300, 'Storage unavailable.', $exception);
         }
 
         return new Response('', Response::HTTP_NO_CONTENT);

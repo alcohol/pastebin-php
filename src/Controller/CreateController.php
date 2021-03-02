@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -17,6 +19,8 @@ use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
 final class CreateController
@@ -44,7 +48,7 @@ final class CreateController
         }
 
         if ('' === $body) {
-            return new Response('No input received.', Response::HTTP_BAD_REQUEST);
+            throw new BadRequestHttpException('No input received.');
         }
 
         $paste = Paste::create($body);
@@ -57,11 +61,7 @@ final class CreateController
         try {
             $paste = $this->repository->persist($paste, $ttl);
         } catch (StorageException $exception) {
-            return new Response(
-                $exception->getMessage(),
-                Response::HTTP_SERVICE_UNAVAILABLE,
-                ['Retry-After' => 300]
-            );
+            throw new ServiceUnavailableHttpException(300, 'Storage unavailable.', $exception);
         }
 
         $location = $this

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -43,7 +45,7 @@ final class DeleteCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $identifiers = $input->getArgument('id');
+        $identifiers = (array) $input->getArgument('id');
 
         foreach ($identifiers as $id) {
             $paste = $this->repository->find($id);

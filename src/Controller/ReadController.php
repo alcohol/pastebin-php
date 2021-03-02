@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -9,11 +11,12 @@
 
 namespace Paste\Controller;
 
-use Paste\Exception\StorageException;
+use Paste\Exception\NotFoundException;
 use Paste\Repository\PasteRepository;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Twig\Environment;
 
 final class ReadController
@@ -31,11 +34,8 @@ final class ReadController
     {
         try {
             $paste = $this->repository->find($id);
-        } catch (StorageException $exception) {
-            return new Response(
-                sprintf('Paste "%s" not found.', $id),
-                Response::HTTP_NOT_FOUND
-            );
+        } catch (NotFoundException $exception) {
+            throw new NotFoundHttpException(sprintf('Paste "%s" not found.', $id), $exception);
         }
 
         $accept = AcceptHeader::fromString($request->headers->get('Accept'));

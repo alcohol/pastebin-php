@@ -1,8 +1,0 @@
-parameters:
-  paste.ttl: 3600
-
-services:
-  _defaults:
-    autowire: true
-    autoconfigure: true
-    public: false

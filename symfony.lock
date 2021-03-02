@@ -17,9 +17,6 @@
             "config/routes/annotations.yaml"
         ]
     },
-    "doctrine/cache": {
-        "version": "1.10.2"
-    },
     "doctrine/instantiator": {
         "version": "1.4.0"
     },
@@ -111,9 +108,6 @@
             "phpunit.xml.dist",
             "tests/bootstrap.php"
         ]
-    },
-    "predis/predis": {
-        "version": "v1.1.6"
     },
     "psr/cache": {
         "version": "1.0.1"

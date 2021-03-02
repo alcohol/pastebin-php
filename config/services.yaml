@@ -4,16 +4,18 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    paste.ttl: 2592000
-    redis.scheme: 'tcp'
-    redis.host: 'redis'
+    redis.scheme: tcp
+    redis.host: redis
     redis.port: 6379
+    redis.prefix: pastebin
+    redis.ttl: 2592000
 
 services:
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -31,25 +33,26 @@ services:
         resource: '../src/Controller/'
         tags: ['controller.service_arguments']
 
-    Predis\Client:
+    Redis:
+        class: Redis
+        calls:
+            - method: connect
+              arguments:
+                  - '%redis.host%'
+                  - '%redis.port%'
+            - method: setOption
+              arguments:
+                  - !php/const Redis::OPT_SERIALIZER
+                  - !php/const Redis::SERIALIZER_PHP
+            - method: setOption
+              arguments:
+                  - !php/const Redis::OPT_PREFIX
+                  - '%redis.prefix%'
+
+    Paste\Repository\PasteRepository:
         arguments:
-            - scheme: '%redis.scheme%'
-              host: '%redis.host%'
-              port: '%redis.port%'
-              timeout: 1
-              read_write_timeout: 2
-              tcp_nodelay: true
-
-    Predis\ClientInterface: '@Predis\Client'
-
-    Doctrine\Common\Cache\PredisCache: ~
-
-    Doctrine\Common\Cache\Cache: '@Doctrine\Common\Cache\PredisCache'
+            $defaultTtl: '%redis.ttl%'
 
     Paste\Security\HashGenerator:
         arguments:
             $secret: '%kernel.secret%'
-
-    Paste\Repository\PasteRepository:
-        arguments:
-            $default_ttl: '%paste.ttl%'

@@ -3,8 +3,6 @@
   "license": "MIT",
   "require": {
     "php": "^8.0",
-    "doctrine/cache": "^1.10",
-    "predis/predis": "^1.1",
     "symfony/console": "^5.2",
     "symfony/flex": "^1.11",
     "symfony/framework-bundle": "^5.2",

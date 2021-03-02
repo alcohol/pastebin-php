@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -23,7 +25,7 @@ final class UpdateControllerTest extends IntegrationTest
         $client = static::createClient();
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
-        [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
+        [$location, /* $token */ ] = $this->extractLocationAndToken($client->getResponse());
         $client->request('PUT', $location, [], [], [], 'Ipsum lorem');
 
         static::assertSame(400, $client->getResponse()->getStatusCode());
@@ -34,7 +36,7 @@ final class UpdateControllerTest extends IntegrationTest
         $client = static::createClient();
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
-        [$location, /* $token */] = $this->extractLocationAndToken($client->getResponse());
+        [$location, /* $token */ ] = $this->extractLocationAndToken($client->getResponse());
         $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token'], 'Ipsum lorem');
 
         static::assertSame(404, $client->getResponse()->getStatusCode());

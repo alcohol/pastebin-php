@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -9,7 +11,6 @@
 
 namespace Paste\Event\Subscriber;
 
-use Predis\Connection\ConnectionException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +60,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
 
         $response = new Response($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
 
-        if ($exception instanceof ConnectionException) {
+        if ($exception instanceof \RedisException) {
             $exception = new ServiceUnavailableHttpException(300, $exception->getMessage(), $exception);
             $event->setThrowable($exception);
         }

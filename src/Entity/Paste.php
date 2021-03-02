@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /*
  * (c) Rob Bast <rob.bast@gmail.com>
@@ -63,6 +65,6 @@ final class Paste implements \Serializable
     /** @param string $serialized */
     public function unserialize($serialized): void
     {
-        list($this->code, $this->body) = unserialize($serialized, ['allowed_classes' => false]);
+        [$this->code, $this->body] = unserialize($serialized, ['allowed_classes' => false]);
     }
 }
