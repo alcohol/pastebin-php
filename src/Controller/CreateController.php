@@ -77,6 +77,10 @@ final class CreateController
             return new RedirectResponse($location, 303, $headers);
         }
 
-        return new Response(sprintf("%s\n", $location), 201, $headers + ['Content-Type' => 'text/plain']);
+        return new Response(
+            sprintf("%s\n", $location),
+            Response::HTTP_CREATED,
+            $headers + ['Content-Type' => 'text/plain']
+        );
     }
 }

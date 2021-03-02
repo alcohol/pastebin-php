@@ -48,7 +48,7 @@ final class ReadController
             $headers = ['Content-Type' => 'text/plain'];
         }
 
-        $response = new Response($body, 200, $headers);
+        $response = new Response($body, Response::HTTP_OK, $headers);
         $response
             ->setVary(['Accept', 'Accept-Encoding'])
             ->setEtag(md5($response->getContent()))
