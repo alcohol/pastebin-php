@@ -61,62 +61,103 @@ export DOCKER_USER ?= $(DOCKER_UID):$(DOCKER_GID)
 
 .PHONY: build
 build: ## build containers
-	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) build --parallel --pull
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) \
+	  build --pull
 
 .PHONY: fg
 fg: ## launch the docker-compose setup (foreground)
-	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) up --remove-orphans
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) \
+	  up --remove-orphans
 
 .PHONY: up
 up: ## launch the docker-compose setup (background)
-	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) up --remove-orphans --detach
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) \
+	  up --remove-orphans --detach
 
 .PHONY: down
 down: ## terminate the docker-compose setup
-	-docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) down --remove-orphans
+	-docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) \
+	  down --remove-orphans
 
 .PHONY: logs
 logs: ## show logs
-	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) logs
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) \
+	  logs
 
 .PHONY: tail
 tail: ## tail logs
-	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) logs --follow
+	docker-compose --file docker-compose.yaml --file docker-compose.traefik.yaml --project-name $(PROJECT) \
+	  logs --follow
 
 .PHONY: shell
-shell: ## spawn a shell inside a php-fpm container
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer sh
+shell: ## spawn a shell inside a new php-fpm container
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+	    sh
+
+.PHONY: enter
+enter: ## spawn a shell inside a running php-fpm container
+	docker-compose --project-name $(PROJECT) \
+	  exec -e APP_ENV --user $(DOCKER_USER) fpm \
+	    sh
+
 
 #
 # Application related targets
 #
 
 .PHONY: install
+install: composer.json
 install: ## install dependencies (composer)
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
-		composer install --no-interaction --no-progress --no-suggest --prefer-dist
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+	    composer install --no-interaction --no-progress --prefer-dist
 
 .PHONY: update
+update: composer.lock
 update: ## update dependencies (composer)
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
-		composer update --no-interaction --no-progress --no-suggest --prefer-dist
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+	    composer update --no-interaction --no-progress --prefer-dist
 
 .PHONY: phpunit
+phpcsfixer: vendor/bin/php-cs-fixer
 phpcsfixer: ## run php-cs-fixer
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
-		php vendor/bin/php-cs-fixer fix --allow-risky=yes
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
+	    vendor/bin/php-cs-fixer fix --allow-risky=yes
 
 .PHONY: phpunit
+phpunit: vendor/bin/phpunit
 phpunit: export APP_ENV := test
 phpunit: ## run phpunit test suite
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
-		bin/console cache:warmup
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) fpm \
-		phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
+	    bin/console cache:warmup
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) fpm \
+	    phpdbg -qrr vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
 .PHONY: phpstan
+phpstan: vendor/bin/phpstan
 phpstan: export APP_ENV := dev
 phpstan: LEVEL ?= 6
 phpstan: ## run phpunit test suite
-	docker-compose --project-name $(PROJECT) run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
-		php vendor/bin/phpstan --level=$(LEVEL) analyse bin config public src tests
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
+	    vendor/bin/phpstan --level=$(LEVEL) analyse bin config public src tests
+
+
+#
+# Path targets
+#
+
+composer.lock: composer.json
+	make update
+
+vendor: composer.lock
+	make install
+
+vendor/bin/php-cs-fixer: vendor
+vendor/bin/phpstan: vendor
+vendor/bin/phpunit: vendor

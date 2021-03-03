@@ -12,7 +12,6 @@ declare(strict_types=1);
 namespace Paste\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 
 final class HealthController
 {
@@ -20,7 +19,6 @@ final class HealthController
 
     public function __construct(\Redis $redis)
     {
-
         $this->redis = $redis;
     }
 
