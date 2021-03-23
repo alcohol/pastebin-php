@@ -33,9 +33,9 @@ SHELL := /bin/bash
 
 help:
 	@echo
-	@printf "%-20s %s\n" Target Description
-	@echo
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
+	@printf " %10s | %s\n" Target Description
+	@echo " ----------------------------"
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf " \033[36m%10s\033[0m | %s\n", $$1, $$2}'
 	@echo
 
 #
@@ -101,7 +101,6 @@ enter: ## spawn a shell inside a running php-fpm container
 	  exec -e APP_ENV --user $(DOCKER_USER) fpm \
 	    sh
 
-
 #
 # Application related targets
 #
@@ -146,7 +145,6 @@ phpstan: ## run phpunit test suite
 	docker-compose --project-name $(PROJECT) \
 	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
 	    vendor/bin/phpstan --level=$(LEVEL) analyse bin config public src tests
-
 
 #
 # Path targets
