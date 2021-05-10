@@ -50,9 +50,10 @@ FROM base AS composer
 
 RUN set -eux ; \
   apk add --no-cache --upgrade \
+    git \
     openssh-client
 
-COPY --from=composer /usr/bin/composer /usr/bin/composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 FROM base AS production
 
