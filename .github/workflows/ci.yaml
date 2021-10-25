@@ -28,7 +28,7 @@ jobs:
           coverage: none
           tools: composer, cs2pr, phpstan
       - run: composer install
-      - run: phpstan --format=checkstyle | cs2pr
+      - run: phpstan --error-format=checkstyle | cs2pr
 
   yamllint:
     runs-on: ubuntu-latest
