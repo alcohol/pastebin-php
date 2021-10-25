@@ -28,6 +28,21 @@ return $config
         '@DoctrineAnnotation' => true,
         '@Symfony' => true,
         '@Symfony:risky' => true,
+        // additionally
+        'array_syntax' => ['syntax' => 'short'],
+        'declare_strict_types' => true,
+        'concat_space' => false,
+        'header_comment' => ['header' => $header],
+        'no_unused_imports' => false,
+        'no_useless_else' => true,
+        'no_useless_return' => true,
+        'ordered_imports' => true,
+        'phpdoc_align' => false,
+        'phpdoc_order' => true,
+        'phpdoc_summary' => false,
+        'simplified_null_return' => false,
+        'ternary_to_null_coalescing' => true,
     ])
     ->setRiskyAllowed(true)
-    ->setFinder($finder);
+    ->setFinder($finder)
+;

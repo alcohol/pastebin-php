@@ -1,40 +1,42 @@
+---
 name: Continuous Integration
 
-on: ['push']
+on: [push, pull_request]
 
 jobs:
 
+  php-cs-fixer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: none
+          tools: php-cs-fixer:3
+      - run: "php-cs-fixer fix --allow-risky=yes --diff --dry-run"
+
   phpstan:
-
-    name: PHPStan
     runs-on: ubuntu-latest
-
+    name: phpstan
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v2
-      id: vendor-cache
-      with:
-        path: vendor
-        key: vendor-${{ hashFiles('composer.lock') }}
-    - if: steps.vendor-cache.outputs.cache-hit != 'true'
-      run: make install
-    - run: make phpstan
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: none
+          tools: phpstan
+      - run: "phpstan"
 
-  phpunit:
-
-    name: PHPUnit
+  yamllint:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/cache@v2
-      id: vendor-cache
-      with:
-        path: vendor
-        key: vendor-${{ hashFiles('composer.lock') }}
-    - if: steps.vendor-cache.outputs.cache-hit != 'true'
-      run: make install
-    - run: make phpunit
-    - run: bash <(curl -s https://codecov.io/bash)
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: ibiqlik/action-yamllint@v3
+        with:
+          format: github
+          config_data: |
+            extends: default
+            rules:
+              truthy:
+                check-keys: false
