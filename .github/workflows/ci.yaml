@@ -13,9 +13,9 @@ jobs:
         with:
           php-version: '8.0'
           coverage: none
-          tools: composer, php-cs-fixer:3
+          tools: composer, cs2pr, php-cs-fixer:3
       - run: composer install
-      - run: php-cs-fixer fix --allow-risky=yes --diff --dry-run
+      - run: php-cs-fixer fix --allow-risky=yes --diff --dry-run --format=checkstyle | cs2pr
 
   phpstan:
     runs-on: ubuntu-latest
@@ -26,9 +26,9 @@ jobs:
         with:
           php-version: '8.0'
           coverage: none
-          tools: composer, phpstan
+          tools: composer, cs2pr, phpstan
       - run: composer install
-      - run: phpstan
+      - run: phpstan --format=checkstyle | cs2pr
 
   yamllint:
     runs-on: ubuntu-latest
