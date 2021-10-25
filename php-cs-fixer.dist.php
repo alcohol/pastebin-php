@@ -9,17 +9,16 @@ $header = <<<'EOF'
     the LICENSE file that was distributed with this source code.
     EOF;
 
-$finder = new PhpCsFixer\Finder();
-$config = new PhpCsFixer\Config('paste.robbast.nl');
-
-$finder
-    ->in(__DIR__)
+$finder = PhpCsFixer\Finder::create()
     ->exclude(['docker', 'var', 'vendor'])
     ->append([
         'bin/console',
-        '.php_cs.dist',
+        '.php-cs-fixer.dist.php',
     ])
+    ->in(__DIR__)
 ;
+
+$config = new PhpCsFixer\Config('paste.robbast.nl');
 
 return $config
     ->setRules([
