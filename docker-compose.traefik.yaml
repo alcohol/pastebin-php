@@ -1,3 +1,4 @@
+---
 version: '3.7'
 
 services:
@@ -7,34 +8,34 @@ services:
     container_name: phpbin-traefik
     restart: unless-stopped
     volumes:
-    - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/docker.sock:/var/run/docker.sock
     ports:
-    - 80:80
+      - 80:80
     networks:
-    - default
-    - traefik
+      - default
+      - traefik
     expose:
-    - 80
-    - 8080
+      - 80
+      - 8080
     labels:
-    - traefik.enable=true
-    - traefik.http.routers.api.rule=Host(`traefik.localhost`)
-    - traefik.http.routers.api.service=api@internal
+      - traefik.enable=true
+      - traefik.http.routers.api.rule=Host(`traefik.localhost`)
+      - traefik.http.routers.api.service=api@internal
     command:
-    - --entrypoints.web.address=:80
-    - --api
-    - --accesslog
-    - --providers.docker=true
-    - --providers.docker.network=phpbin_traefik
-    - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --api
+      - --accesslog
+      - --providers.docker=true
+      - --providers.docker.network=phpbin_traefik
+      - --providers.docker.exposedbydefault=false
     healthcheck:
       test: nc -z localhost 80
       interval: 5s
 
   nginx:
     labels:
-    - traefik.enable=true
-    - traefik.http.routers.phpbin.rule=Host(`phpbin.localhost`)
+      - traefik.enable=true
+      - traefik.http.routers.phpbin.rule=Host(`phpbin.localhost`)
     networks:
       traefik:
 
