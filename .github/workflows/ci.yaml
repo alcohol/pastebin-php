@@ -40,5 +40,8 @@ jobs:
           config_data: |
             extends: default
             rules:
+              line-length:
+                max: 120
+                allow-non-breakable-words: true
               truthy:
                 check-keys: false
