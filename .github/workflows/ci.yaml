@@ -13,8 +13,9 @@ jobs:
         with:
           php-version: '8.0'
           coverage: none
-          tools: php-cs-fixer:3
-      - run: "php-cs-fixer fix --allow-risky=yes --diff --dry-run"
+          tools: composer, php-cs-fixer:3
+      - run: composer install
+      - run: php-cs-fixer fix --allow-risky=yes --diff --dry-run
 
   phpstan:
     runs-on: ubuntu-latest
@@ -25,8 +26,9 @@ jobs:
         with:
           php-version: '8.0'
           coverage: none
-          tools: phpstan
-      - run: "phpstan"
+          tools: composer, phpstan
+      - run: composer install
+      - run: phpstan
 
   yamllint:
     runs-on: ubuntu-latest
