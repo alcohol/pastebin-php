@@ -1,3 +1,4 @@
+---
 version: '3.7'
 
 services:
@@ -10,22 +11,22 @@ services:
     container_name: phpbin-nginx
     restart: unless-stopped
     volumes:
-    - ./public:/srv/public
+      - ./public:/srv/public
     expose:
-    - 80
+      - 80
     depends_on:
-    - fpm
+      - fpm
     networks:
       default:
         aliases:
-        - nginx
+          - nginx
     cap_drop:
-    - ALL
+      - ALL
     cap_add:
-    - SETUID
-    - SETGID
-    - CHOWN
-    - NET_BIND_SERVICE
+      - SETUID
+      - SETGID
+      - CHOWN
+      - NET_BIND_SERVICE
     healthcheck:
       test: nc -z localhost 80
       interval: 5s
@@ -40,22 +41,22 @@ services:
     restart: unless-stopped
     user: $DOCKER_UID:$DOCKER_GID
     environment:
-    - APP_ENV=dev
-    - APP_DEBUG=1
-    - APP_SECRET=not-so-secret
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - APP_SECRET=not-so-secret
     working_dir: /srv
     volumes:
-    - .:/srv
+      - .:/srv
     tmpfs:
-    - /tmp
+      - /tmp
     depends_on:
-    - redis
+      - redis
     networks:
       default:
         aliases:
-        - fcgi
+          - fcgi
     cap_drop:
-    - ALL
+      - ALL
     healthcheck:
       test: nc -z localhost 9000
       interval: 5s
@@ -69,20 +70,20 @@ services:
     container_name: phpbin-composer
     init: true
     command:
-    - 'true'
+      - 'true'
     user: $DOCKER_UID:$DOCKER_GID
     environment:
-    - APP_ENV=dev
-    - APP_DEBUG=1
-    - APP_SECRET=not-so-secret
+      - APP_ENV=dev
+      - APP_DEBUG=1
+      - APP_SECRET=not-so-secret
     working_dir: /srv
     volumes:
-    - .:/srv
+      - .:/srv
     tmpfs:
-    - /tmp
-    - /.composer
+      - /tmp
+      - /.composer
     cap_drop:
-    - ALL
+      - ALL
     healthcheck:
       test: nc -z localhost 9000
       interval: 5s
@@ -95,14 +96,14 @@ services:
     networks:
       default:
     tmpfs:
-    - /tmp
+      - /tmp
     volumes:
-    - redis:/data
+      - redis:/data
     cap_drop:
-    - ALL
+      - ALL
     cap_add:
-    - SETUID
-    - SETGID
+      - SETUID
+      - SETGID
     sysctls:
       net.core.somaxconn: 1024
     healthcheck:
