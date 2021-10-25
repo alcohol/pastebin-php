@@ -5,12 +5,12 @@ paste.index:
 
 paste.create:
   path: /
-  methods: [PUT,POST]
+  methods: [PUT, POST]
   controller: Paste\Controller\CreateController
 
 paste.health:
   path: /health
-  methods: [HEAD,GET]
+  methods: [HEAD, GET]
   controller: Paste\Controller\HealthController
 
 paste.read.raw:
