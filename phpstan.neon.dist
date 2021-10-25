@@ -11,6 +11,10 @@ parameters:
   inferPrivatePropertyTypeFromConstructor: true
   reportUnmatchedIgnoredErrors: true
 
+  paths:
+    - src
+    - tests
+
   ignoreErrors:
     - message: '{^Class Paste\\Security\\HashGenerator constructor invoked with 0 parameters, 1 required.$}'
       path: tests/unit/Security/HashGeneratorTest.php
