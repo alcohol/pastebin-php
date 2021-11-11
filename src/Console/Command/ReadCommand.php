@@ -21,7 +21,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class ReadCommand extends Command
 {
-    /** @var string */
     protected static $defaultName = 'paste:read';
     protected PasteRepository $repository;
 
