@@ -13,7 +13,7 @@ jobs:
         with:
           php-version: '8.0'
           coverage: none
-          tools: composer, cs2pr, php-cs-fixer:3
+          tools: composer, cs2pr, php-cs-fixer
       - run: composer install
       - run: php-cs-fixer fix --allow-risky=yes --diff --dry-run --format=checkstyle | cs2pr
 
@@ -37,21 +37,3 @@ jobs:
       - uses: ibiqlik/action-yamllint@v3
         with:
           format: github
-          config_data: |
-            extends: default
-            rules:
-              line-length:
-                max: 120
-                allow-non-breakable-words: true
-              braces:
-                min-spaces-inside: 0
-                max-spaces-inside: 1
-                min-spaces-inside-empty: 0
-                max-spaces-inside-empty: 0
-              brackets:
-                min-spaces-inside: 0
-                max-spaces-inside: 1
-                min-spaces-inside-empty: 0
-                max-spaces-inside-empty: 0
-              truthy:
-                check-keys: false
