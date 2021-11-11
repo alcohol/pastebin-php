@@ -19,7 +19,17 @@ jobs:
         with:
           path: .php-cs-fixer.cache
           key: php-cs-fixer
-      - run: php-cs-fixer fix --allow-risky=yes --diff --dry-run --format=checkstyle | cs2pr
+      - if: ${{ github.event_name == 'push' }}
+        run: php-cs-fixer fix --diff --dry-run --format=checkstyle | cs2pr
+      - if: ${{ github.event_name == 'pull_request' }}
+        run: >
+          php-cs-fixer fix
+          --diff
+          --dry-run
+          --format=checkstyle
+          --path-mode=intersection
+          $(git diff --name-only --diff-filter=ACMRTUXB "${COMMIT_RANGE}")
+          | cs2pr
 
   phpstan:
     runs-on: ubuntu-latest
