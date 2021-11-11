@@ -15,6 +15,10 @@ jobs:
           coverage: none
           tools: composer, cs2pr, php-cs-fixer
       - run: composer install
+      - uses: actions/cache@v2
+        with:
+          path: .php-cs-fixer.cache
+          key: php-cs-fixer
       - run: php-cs-fixer fix --allow-risky=yes --diff --dry-run --format=checkstyle | cs2pr
 
   phpstan:
@@ -28,6 +32,10 @@ jobs:
           coverage: none
           tools: composer, cs2pr, phpstan
       - run: composer install
+      - uses: actions/cache@v2
+        with:
+          path: resultCache.php
+          key: phpstan
       - run: phpstan --error-format=checkstyle | cs2pr
 
   yamllint:
