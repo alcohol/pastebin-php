@@ -3,31 +3,37 @@
   "license": "MIT",
   "require": {
     "php": "^8.0",
-    "symfony/console": "^5.2",
-    "symfony/flex": "^1.11",
-    "symfony/framework-bundle": "^5.2",
-    "symfony/monolog-bundle": "^3.6",
-    "symfony/twig-bundle": "^5.2",
-    "symfony/yaml": "^5.2",
-    "webmozart/assert": "^1.9"
+    "symfony/console": "^5.3",
+    "symfony/flex": "^1.17",
+    "symfony/framework-bundle": "^5.3",
+    "symfony/monolog-bundle": "^3.7",
+    "symfony/twig-bundle": "^5.3",
+    "symfony/yaml": "^5.3",
+    "webmozart/assert": "^1.10"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-master",
-    "friendsofphp/php-cs-fixer": "^3.0",
-    "phpstan/phpstan": "^0.12.8",
-    "phpstan/phpstan-phpunit": "^0.12.6",
-    "phpstan/phpstan-strict-rules": "^0.12.2",
-    "phpstan/phpstan-symfony": "^0.12.4",
+    "friendsofphp/php-cs-fixer": "^3.2",
+    "phpstan/phpstan": "^1.1",
+    "phpstan/phpstan-phpunit": "^1.0",
+    "phpstan/phpstan-strict-rules": "^1.0",
+    "phpstan/phpstan-symfony": "^1.0",
     "phpunit/phpunit": "^9.5",
-    "symfony/browser-kit": "^5.2",
-    "symfony/phpunit-bridge": "^5.2",
-    "symfony/profiler-pack": "^1.0"
+    "roave/security-advisories": "dev-master",
+    "symfony/browser-kit": "^5.3",
+    "symfony/phpunit-bridge": "^5.3",
+    "symfony/stopwatch": "^5.3",
+    "symfony/web-profiler-bundle": "^5.3"
   },
   "conflict": {
     "symfony/symfony": "*"
   },
   "replace": {
+    "symfony/polyfill-ctype": "*",
     "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-mbstring": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php72": "*",
     "symfony/polyfill-php71": "*",
     "symfony/polyfill-php70": "*",
     "symfony/polyfill-php56": "*"
