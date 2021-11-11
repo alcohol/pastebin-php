@@ -19,8 +19,25 @@ abstract class IntegrationTest extends WebTestCase
 {
     public static function createKernel(array $options = []): KernelInterface
     {
-        $env = $options['environment'] ?? getenv('APP_ENV');
-        $debug = $options['debug'] ?? (bool) (getenv('APP_DEBUG') ?? ('prod' !== getenv('APP_ENV')));
+        if (isset($options['environment'])) {
+            $env = $options['environment'];
+        } elseif (isset($_ENV['APP_ENV'])) {
+            $env = $_ENV['APP_ENV'];
+        } elseif (isset($_SERVER['APP_ENV'])) {
+            $env = $_SERVER['APP_ENV'];
+        } else {
+            $env = 'test';
+        }
+
+        if (isset($options['debug'])) {
+            $debug = (bool) $options['debug'];
+        } elseif (isset($_ENV['APP_DEBUG'])) {
+            $debug = (bool) $_ENV['APP_DEBUG'];
+        } elseif (isset($_SERVER['APP_DEBUG'])) {
+            $debug = (bool) $_SERVER['APP_DEBUG'];
+        } else {
+            $debug = true;
+        }
 
         return new Kernel($env, $debug);
     }
