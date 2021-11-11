@@ -32,7 +32,7 @@ if ($kernel->isProduction()) {
         '172.16.0.0/12',
         '192.168.0.0/16',
         '127.0.0.1',
-    ], Request::HEADER_X_FORWARDED_ALL);
+    ], Request::HEADER_X_FORWARDED_FOR | Request::HEADER_X_FORWARDED_PORT | Request::HEADER_X_FORWARDED_PROTO);
 
     Request::setTrustedHosts([
         '^php.pastie.eu$',
