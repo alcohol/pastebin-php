@@ -151,10 +151,14 @@ phpstan: ## run phpunit test suite
 #
 
 composer.lock: composer.json
-	make update
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+	    composer update --no-interaction --no-progress --prefer-dist
 
 vendor: composer.lock
-	make install
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+	    composer install --no-interaction --no-progress --prefer-dist
 
 vendor/bin/php-cs-fixer: vendor
 vendor/bin/phpstan: vendor
