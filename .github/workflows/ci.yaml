@@ -47,7 +47,7 @@ jobs:
           path: |
             resultCache.php
             cache
-          key: phpstan
+          key: phpstan-${{ hashFiles('tools/phpstan/composer.*', 'phpstan.neon.dist', 'phpstan-baseline.neon') }}
       - run: tools/phpstan/vendor/bin/phpstan --error-format=checkstyle | cs2pr
 
   yamllint:
