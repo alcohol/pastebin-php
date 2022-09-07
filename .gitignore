@@ -1,6 +1,9 @@
-**/.build
+/cache/
+/tools/*/vendor/
 /clover.xml
 /docker-compose.override.yml
+/.php-cs-fixer.cache
+/resultCache.php
 
 ###> symfony/framework-bundle ###
 /.env.local
@@ -17,10 +20,6 @@
 .phpunit.result.cache
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
-###> friendsofphp/php-cs-fixer ###
-/.php-cs-fixer.php
-/.php-cs-fixer.cache
-###< friendsofphp/php-cs-fixer ###
 
 ###> phpunit/phpunit ###
 /phpunit.xml

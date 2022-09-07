@@ -17,12 +17,11 @@ $header = <<<'EOF'
     EOF;
 
 $finder = PhpCsFixer\Finder::create()
-    ->exclude(['docker', 'var', 'vendor'])
+    ->in('src', 'tests')
     ->append([
         'bin/console',
         '.php-cs-fixer.dist.php',
     ])
-    ->in(__DIR__)
 ;
 
 $config = new PhpCsFixer\Config('paste.robbast.nl');

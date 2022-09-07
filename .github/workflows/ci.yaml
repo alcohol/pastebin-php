@@ -8,22 +8,22 @@ jobs:
   php-cs-fixer:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           coverage: none
           tools: composer, cs2pr
-      - run: composer install
-      - uses: actions/cache@v2
+      - run: composer --working-dir=tools/php-cs-fixer install
+      - uses: actions/cache@v3
         with:
           path: .php-cs-fixer.cache
           key: php-cs-fixer
       - if: ${{ github.event_name == 'push' }}
-        run: vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | cs2pr
+        run: tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --diff --dry-run --format=checkstyle | cs2pr
       - if: ${{ github.event_name == 'pull_request' }}
         run: >
-          vendor/bin/php-cs-fixer fix
+          tools/php-cs-fixer/vendor/bin/php-cs-fixer fix
           --diff
           --dry-run
           --format=checkstyle
@@ -35,23 +35,25 @@ jobs:
     runs-on: ubuntu-latest
     name: phpstan
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
           coverage: none
           tools: composer, cs2pr
-      - run: composer install
-      - uses: actions/cache@v2
+      - run: composer --working-dir=tools/phpstan install
+      - uses: actions/cache@v3
         with:
-          path: resultCache.php
+          path: |
+            resultCache.php
+            cache
           key: phpstan
-      - run: vendor/bin/phpstan --error-format=checkstyle | cs2pr
+      - run: tools/phpstan/vendor/bin/phpstan --error-format=checkstyle | cs2pr
 
   yamllint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: ibiqlik/action-yamllint@v3
         with:
           format: github

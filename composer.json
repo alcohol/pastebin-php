@@ -12,11 +12,6 @@
     "webmozart/assert": "^1.10"
   },
   "require-dev": {
-    "friendsofphp/php-cs-fixer": "^3.2",
-    "phpstan/phpstan": "^1.1",
-    "phpstan/phpstan-phpunit": "^1.0",
-    "phpstan/phpstan-strict-rules": "^1.0",
-    "phpstan/phpstan-symfony": "^1.0",
     "phpunit/phpunit": "^9.5",
     "roave/security-advisories": "dev-master",
     "symfony/browser-kit": "^5.3",

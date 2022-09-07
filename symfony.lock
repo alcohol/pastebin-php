@@ -1,42 +1,6 @@
 {
-    "composer/pcre": {
-        "version": "1.0.0"
-    },
-    "composer/semver": {
-        "version": "3.2.4"
-    },
-    "composer/xdebug-handler": {
-        "version": "1.4.5"
-    },
-    "doctrine/annotations": {
-        "version": "1.0",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "1.0",
-            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
-        },
-        "files": [
-            "config/routes/annotations.yaml"
-        ]
-    },
     "doctrine/instantiator": {
         "version": "1.4.0"
-    },
-    "doctrine/lexer": {
-        "version": "1.2.1"
-    },
-    "friendsofphp/php-cs-fixer": {
-        "version": "2.16",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "2.16",
-            "ref": "c1947bad147704aeaf0285745f0baae927a58959"
-        },
-        "files": [
-            ".php_cs.dist"
-        ]
     },
     "monolog/monolog": {
         "version": "2.2.0"
@@ -70,18 +34,6 @@
     },
     "phpspec/prophecy": {
         "version": "1.12.2"
-    },
-    "phpstan/phpstan": {
-        "version": "0.12.68"
-    },
-    "phpstan/phpstan-phpunit": {
-        "version": "0.12.17"
-    },
-    "phpstan/phpstan-strict-rules": {
-        "version": "0.12.9"
-    },
-    "phpstan/phpstan-symfony": {
-        "version": "0.12.14"
     },
     "phpunit/php-code-coverage": {
         "version": "9.2.5"
@@ -285,9 +237,6 @@
             "config/packages/test/monolog.yaml"
         ]
     },
-    "symfony/options-resolver": {
-        "version": "v5.2.1"
-    },
     "symfony/phpunit-bridge": {
         "version": "5.1",
         "recipe": {
@@ -314,9 +263,6 @@
     },
     "symfony/polyfill-php81": {
         "version": "v1.23.0"
-    },
-    "symfony/process": {
-        "version": "v5.2.1"
     },
     "symfony/routing": {
         "version": "5.1",
