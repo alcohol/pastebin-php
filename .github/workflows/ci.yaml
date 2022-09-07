@@ -42,6 +42,7 @@ jobs:
           coverage: none
           tools: composer, cs2pr
       - run: composer --working-dir=tools/phpstan install
+      - run: composer install
       - uses: actions/cache@v3
         with:
           path: |
