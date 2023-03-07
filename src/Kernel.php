@@ -11,7 +11,6 @@ declare(strict_types=1);
 
 namespace Paste;
 
-use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
@@ -26,7 +25,7 @@ class Kernel extends BaseKernel
     public function __construct(string $environment, bool $debug)
     {
         if (!\in_array($environment, self::ENVIRONMENTS, true)) {
-            throw new RuntimeException(sprintf('Unsupported environment "%s", expected one of: %s', $environment, implode(', ', self::ENVIRONMENTS)));
+            throw new \RuntimeException(sprintf('Unsupported environment "%s", expected one of: %s', $environment, implode(', ', self::ENVIRONMENTS)));
         }
 
         parent::__construct($environment, $debug);
