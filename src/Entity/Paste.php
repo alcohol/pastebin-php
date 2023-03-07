@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Paste\Entity;
 
-final class Paste implements \Serializable
+final class Paste
 {
     private ?string $code = null;
     private string $body;
@@ -19,6 +19,20 @@ final class Paste implements \Serializable
     public function __toString(): string
     {
         return $this->body;
+    }
+
+    public function __serialize(): array
+    {
+        return [
+            'code' => $this->code,
+            'body' => $this->body,
+        ];
+    }
+
+    public function __unserialize(array $data): void
+    {
+        $this->code = $data['code'];
+        $this->body = $data['body'];
     }
 
     public static function create(string $body): self
@@ -55,16 +69,5 @@ final class Paste implements \Serializable
     public function getBody(): string
     {
         return $this->body;
-    }
-
-    public function serialize(): string
-    {
-        return serialize([$this->code, $this->body]);
-    }
-
-    /** @param string $serialized */
-    public function unserialize($serialized): void
-    {
-        [$this->code, $this->body] = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

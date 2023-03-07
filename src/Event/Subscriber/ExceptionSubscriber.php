@@ -52,7 +52,7 @@ final class ExceptionSubscriber implements EventSubscriberInterface
 
     public function handleException(ExceptionEvent $event): void
     {
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
 
