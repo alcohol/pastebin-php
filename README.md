@@ -2,9 +2,6 @@
 
 I mostly use this demo application to keep myself up to date with the various changes introduced by new (major) Symfony releases.
 
-[![Build Status](https://travis-ci.com/alcohol/pastebin-php.svg?branch=master)](https://travis-ci.com/alcohol/pastebin-php)
-[![codecov](https://codecov.io/gh/alcohol/pastebin-php/branch/master/graph/badge.svg)](https://codecov.io/gh/alcohol/pastebin-php)
-
 
 ## Dependencies (external)
 
