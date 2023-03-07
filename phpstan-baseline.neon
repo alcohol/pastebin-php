@@ -41,29 +41,6 @@ parameters:
 			path: src/Controller/UpdateController.php
 
 		-
-			message: "#^Cannot use array destructuring on mixed\\.$#"
-			count: 1
-			path: src/Entity/Paste.php
-
-		-
-			message: "#^Property Paste\\\\Entity\\\\Paste\\:\\:\\$body \\(string\\) does not accept mixed\\.$#"
-			count: 1
-			path: src/Entity/Paste.php
-
-		-
-			message: "#^Property Paste\\\\Entity\\\\Paste\\:\\:\\$code \\(string\\|null\\) does not accept mixed\\.$#"
-			count: 1
-			path: src/Entity/Paste.php
-
-		-
-			message: """
-				#^Call to deprecated method isMasterRequest\\(\\) of class Symfony\\\\Component\\\\HttpKernel\\\\Event\\\\KernelEvent\\:
-				since symfony/http\\-kernel 5\\.3, use isMainRequest\\(\\) instead$#
-			"""
-			count: 1
-			path: src/Event/Subscriber/ExceptionSubscriber.php
-
-		-
 			message: "#^Method Paste\\\\Repository\\\\PasteRepository\\:\\:find\\(\\) should return Paste\\\\Entity\\\\Paste but returns mixed\\.$#"
 			count: 1
 			path: src/Repository/PasteRepository.php

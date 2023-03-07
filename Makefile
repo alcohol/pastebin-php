@@ -120,13 +120,6 @@ update: ## update dependencies (composer)
 	    composer update --no-interaction --no-progress --prefer-dist
 
 .PHONY: phpunit
-phpcsfixer: vendor/bin/php-cs-fixer
-phpcsfixer: ## run php-cs-fixer
-	docker-compose --project-name $(PROJECT) \
-	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
-	    vendor/bin/php-cs-fixer fix --allow-risky=yes
-
-.PHONY: phpunit
 phpunit: vendor/bin/phpunit
 phpunit: export APP_ENV := test
 phpunit: ## run phpunit test suite
@@ -137,14 +130,20 @@ phpunit: ## run phpunit test suite
 	  run --rm -e APP_ENV --user $(DOCKER_USER) fpm \
 	    vendor/bin/phpunit --colors=always --stderr --coverage-text --coverage-clover clover.xml
 
+.PHONY: phpcsfixer
+phpcsfixer: tools/php-cs-fixer/vendor/bin/php-cs-fixer
+phpcsfixer: ## run php-cs-fixer
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV -e PHP_CS_FIXER_IGNORE_ENV=true --user $(DOCKER_USER) --no-deps fpm \
+	    tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --allow-risky=yes --diff
+
 .PHONY: phpstan
-phpstan: vendor/bin/phpstan
+phpstan: tools/phpstan/vendor/bin/phpstan
 phpstan: export APP_ENV := dev
-phpstan: LEVEL ?= 6
 phpstan: ## run phpunit test suite
 	docker-compose --project-name $(PROJECT) \
 	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
-	    vendor/bin/phpstan --level=$(LEVEL) analyse bin config public src tests
+	    tools/phpstan/vendor/bin/phpstan
 
 #
 # Path targets
@@ -160,6 +159,14 @@ vendor: composer.lock
 	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
 	    composer install --no-interaction --no-progress --prefer-dist
 
-vendor/bin/php-cs-fixer: vendor
-vendor/bin/phpstan: vendor
 vendor/bin/phpunit: vendor
+
+tools/php-cs-fixer/vendor/bin/php-cs-fixer:
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+	    composer --working-dir=tools/phpcsfixer install --no-interaction --no-progress --prefer-dist
+
+tools/phpstan/vendor/bin/phpstan:
+	docker-compose --project-name $(PROJECT) \
+	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
+	    composer --working-dir=tools/phpstan install --no-interaction --no-progress --prefer-dist
