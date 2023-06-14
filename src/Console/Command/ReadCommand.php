@@ -12,6 +12,7 @@ declare(strict_types=1);
 namespace Paste\Console\Command;
 
 use Paste\Repository\PasteRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputArgument;
@@ -19,9 +20,9 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'paste:read', description: 'Look up a paste.')]
 final class ReadCommand extends Command
 {
-    protected static $defaultName = 'paste:read';
     protected PasteRepository $repository;
 
     public function __construct(PasteRepository $repository)
@@ -34,7 +35,6 @@ final class ReadCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Look up a paste.')
             ->addArgument('id', InputArgument::REQUIRED, 'Identifier of paste to lookup.')
         ;
     }
@@ -45,6 +45,7 @@ final class ReadCommand extends Command
             $output = $output->getErrorOutput();
         }
 
+        /** @var string $id */
         $id = $input->getArgument('id');
         $paste = $this->repository->find($id);
 
@@ -53,9 +54,9 @@ final class ReadCommand extends Command
             ->setStyle('bold', new OutputFormatterStyle(null, null, ['bold']))
         ;
 
-        $output->writeln(sprintf('<bold>Code:</bold> %s', $paste->getCode()));
-        $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->getBody()));
+        $output->writeln(sprintf('<bold>Code:</bold> %s', $paste->code));
+        $output->writeln(sprintf('<bold>Body:</bold> %s', $paste->body));
 
-        return 0;
+        return Command::SUCCESS;
     }
 }

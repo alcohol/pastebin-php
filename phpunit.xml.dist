@@ -1,34 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         stderr="true"
->
-    <php>
-        <ini name="error_reporting" value="-1" />
-        <env name="KERNEL_CLASS" value="Paste\Kernel" />
-        <env name="APP_ENV" value="test" force="true" />
-        <env name="APP_DEBUG" value="1" />
-        <env name="APP_SECRET" value="s$cretf0rt3st" />
-        <server name="SHELL_VERBOSITY" value="-1" />
-    </php>
-
-    <testsuites>
-        <testsuite name="Paste Test Suite - Integration">
-            <directory>tests/integration</directory>
-        </testsuite>
-        <testsuite name="Paste Test Suite - Unit">
-            <directory>tests/unit</directory>
-        </testsuite>
-    </testsuites>
-
-    <coverage>
-        <include>
-            <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
-
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.2/phpunit.xsd" bootstrap="vendor/autoload.php" colors="true" stderr="true">
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <env name="KERNEL_CLASS" value="Paste\Kernel"/>
+    <env name="APP_ENV" value="test" force="true"/>
+    <env name="APP_DEBUG" value="1"/>
+    <env name="APP_SECRET" value="s$cretf0rt3st"/>
+    <server name="SHELL_VERBOSITY" value="-1"/>
+  </php>
+  <testsuites>
+    <testsuite name="Paste Test Suite - Integration">
+      <directory>tests/integration</directory>
+    </testsuite>
+    <testsuite name="Paste Test Suite - Unit">
+      <directory>tests/unit</directory>
+    </testsuite>
+  </testsuites>
+  <source>
+    <include>
+      <directory suffix=".php">src</directory>
+    </include>
+  </source>
 </phpunit>

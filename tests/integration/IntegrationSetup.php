@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\KernelInterface;
 
-abstract class IntegrationTest extends WebTestCase
+abstract class IntegrationSetup extends WebTestCase
 {
     public static function createKernel(array $options = []): KernelInterface
     {

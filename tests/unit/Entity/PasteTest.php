@@ -11,52 +11,39 @@ declare(strict_types=1);
 
 namespace Paste\Entity;
 
+use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group unit
- *
  * @internal
  */
+#[Group(name: 'unit')]
 final class PasteTest extends TestCase
 {
-    public function testItCanBeCreatedWithABody(): Paste
-    {
-        $body = 'foo';
-        $paste = Paste::create($body);
-
-        static::assertSame($body, $paste->getBody());
-        static::assertSame($body, (string) $paste);
-
-        return $paste;
-    }
-
-    /**
-     * @depends testItCanBeCreatedWithABody
-     */
-    public function testItReturnsANewInstanceWithGivenCodeWhenCallingPersist(Paste $paste): Paste
+    public function testItCanBeCreatedWithACodeAndBody(): Paste
     {
         $code = uniqid();
+        $body = 'foo';
 
-        static::assertNull($paste->getCode());
+        $paste = new Paste($code, $body);
 
-        $paste = $paste->persist($code);
-
-        static::assertSame($code, $paste->getCode());
+        static::assertSame($body, $paste->body);
+        static::assertSame($body, (string) $paste);
+        static::assertSame($code, $paste->code);
 
         return $paste;
     }
 
-    /**
-     * @depends testItReturnsANewInstanceWithGivenCodeWhenCallingPersist
-     */
+    #[Depends(methodName: 'testItCanBeCreatedWithACodeAndBody')]
     public function testItReturnsANewInstanceWithGivenBodyWhenCallingPersist(Paste $paste): void
     {
         $body = 'bar';
 
-        $updated = $paste->update($body);
+        $updated = $paste->withBody($body);
 
-        static::assertSame($body, $updated->getBody());
-        static::assertSame($paste->getCode(), $updated->getCode());
+        static::assertSame($body, $updated->body);
+        static::assertSame($paste->code, $updated->code);
+        static::assertNotSame($updated, $paste);
     }
 }

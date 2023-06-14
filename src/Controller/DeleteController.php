@@ -17,29 +17,22 @@ use Paste\Repository\PasteRepository;
 use Paste\Security\HashGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class DeleteController
+#[Route(path: '/{id}', name: 'paste.delete', methods: [Request::METHOD_DELETE], condition: 'service("route_token_checker").check(request)', stateless: true)]
+final readonly class DeleteController
 {
-    private PasteRepository $repository;
-    private HashGenerator $generator;
-    private string $tokenHeader;
-
-    public function __construct(PasteRepository $repository, HashGenerator $generator, string $tokenHeader = 'X-Paste-Token')
-    {
-        $this->repository = $repository;
-        $this->generator = $generator;
-        $this->tokenHeader = $tokenHeader;
+    public function __construct(
+        private PasteRepository $repository,
+        private HashGenerator $generator,
+        private string $tokenHeader = 'X-Paste-Token'
+    ) {
     }
 
     public function __invoke(Request $request, string $id): Response
     {
-        if (false === $request->headers->has($this->tokenHeader)) {
-            throw new BadRequestHttpException(sprintf('Bad request, missing expected header "%s".', $this->tokenHeader));
-        }
-
         try {
             $paste = $this->repository->find($id);
         } catch (NotFoundException $exception) {

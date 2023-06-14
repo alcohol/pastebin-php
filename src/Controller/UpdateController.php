@@ -12,34 +12,26 @@ declare(strict_types=1);
 namespace Paste\Controller;
 
 use Paste\Exception\NotFoundException;
-use Paste\Exception\StorageException;
 use Paste\Repository\PasteRepository;
 use Paste\Security\HashGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
+use Symfony\Component\Routing\Annotation\Route;
 
-final class UpdateController
+#[Route(path: '/{id}', name: 'paste.update', methods: [Request::METHOD_PUT], condition: 'service("route_token_checker").check(request)', stateless: true)]
+final readonly class UpdateController
 {
-    private PasteRepository $repository;
-    private HashGenerator $generator;
-    private string $tokenHeader;
-
-    public function __construct(PasteRepository $repository, HashGenerator $generator, string $tokenHeader = 'X-Paste-Token')
-    {
-        $this->repository = $repository;
-        $this->generator = $generator;
-        $this->tokenHeader = $tokenHeader;
+    public function __construct(
+        private PasteRepository $repository,
+        private HashGenerator $generator,
+        private string $tokenHeader = 'X-Paste-Token'
+    ) {
     }
 
     public function __invoke(Request $request, string $id): Response
     {
-        if (false === $request->headers->has($this->tokenHeader)) {
-            throw new BadRequestHttpException(sprintf('Bad request, missing expected header "%s".', $this->tokenHeader));
-        }
-
         try {
             $paste = $this->repository->find($id);
         } catch (NotFoundException $exception) {
@@ -50,19 +42,22 @@ final class UpdateController
             throw new NotFoundHttpException(sprintf('Paste "%s" not found.', $id));
         }
 
-        $paste = $paste->update($request->getContent());
+        $paste = $paste->withBody($request->getContent());
 
         $ttl = null;
+
         if ($request->headers->has('X-Paste-Ttl')) {
             $ttl = (int) $request->headers->get('X-Paste-Ttl'); // @codeCoverageIgnore
         }
 
-        try {
-            $this->repository->persist($paste, $ttl);
-        } catch (StorageException $exception) {
-            throw new ServiceUnavailableHttpException(300, 'Storage unavailable.', $exception);
-        }
+        $retries = 3;
 
-        return new Response(null, Response::HTTP_NO_CONTENT);
+        do {
+            if (0 === $retries--) {
+                throw new ServiceUnavailableHttpException(300, 'Storage unavailable.');
+            }
+        } while (!$this->repository->update($paste, $ttl));
+
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }

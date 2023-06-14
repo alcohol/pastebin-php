@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Paste\Controller;
 
-use Paste\IntegrationTest;
+use Paste\IntegrationSetup;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group integration
- *
  * @internal
  */
-final class CreateControllerTest extends IntegrationTest
+#[Group(name: 'integration')]
+final class CreateController extends IntegrationSetup
 {
     public function testPostingWithoutABodyShouldReturnA400(): void
     {

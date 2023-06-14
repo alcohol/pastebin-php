@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Paste\Controller;
 
-use Paste\IntegrationTest;
+use Paste\IntegrationSetup;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group integration
- *
  * @internal
  */
-final class ReadControllerTest extends IntegrationTest
+#[Group(name: 'integration')]
+final class ReadController extends IntegrationSetup
 {
     public function testItShouldReturnA404IfAPasteDoesNotExist(): void
     {

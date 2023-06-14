@@ -14,16 +14,15 @@ namespace Paste\Repository;
 use Paste\Entity\Paste;
 use Paste\Exception\NotFoundException;
 use Paste\Exception\StorageException;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 
 final class PasteRepository
 {
-    private \Redis $storage;
-    private int $defaultTtl;
-
-    public function __construct(\Redis $storage, int $defaultTtl)
-    {
-        $this->storage = $storage;
-        $this->defaultTtl = $defaultTtl;
+    public function __construct(
+        private readonly \Redis $storage,
+        #[Autowire(param: 'redis.ttl')]
+        private readonly int $defaultTtl
+    ) {
     }
 
     /**
@@ -37,44 +36,55 @@ final class PasteRepository
             throw new NotFoundException();
         }
 
-        return unserialize($paste);
+        $paste = unserialize(
+            $paste,
+            [
+                'allowed_classes' => [
+                    Paste::class,
+                ],
+                'max_depth' => 1,
+            ]
+        );
+
+        if (!$paste instanceof Paste) {
+            throw new NotFoundException();
+        }
+
+        return $paste;
     }
 
     public function delete(Paste $paste): void
     {
-        if (null !== $paste->getCode()) {
-            $this->storage->unlink($paste->getCode());
-        }
+        $this->storage->unlink($paste->code);
     }
 
-    /**
-     * @throws \Paste\Exception\StorageException
-     */
-    public function persist(Paste $paste, ?int $ttl = null): Paste
+    public function generateIdentifier(): string
     {
-        if (null === $paste->getCode()) {
-            $retries = 10;
+        $retries = 10;
 
-            do {
-                if (0 === $retries--) {
-                    throw new StorageException('Failed to generate a unique nonexistent code within a reasonable amount of attempts.'); // @codeCoverageIgnore
-                }
+        do {
+            if (0 === $retries--) {
+                throw new StorageException('Failed to generate a unique nonexistent code within a reasonable amount of attempts.'); // @codeCoverageIgnore
+            }
 
-                $bytes = random_bytes(4);
-                $code = bin2hex($bytes);
-            } while ($this->storage->exists($code));
+            $bytes = random_bytes(4);
+            $code = bin2hex($bytes);
+        } while ($this->storage->exists($code));
 
-            $paste = $paste->persist($code);
-        }
+        return $code;
+    }
 
-        if (null === $ttl) {
-            $ttl = $this->defaultTtl;
-        }
+    public function persist(Paste $paste, ?int $ttl = null): bool
+    {
+        $ttl ??= $this->defaultTtl;
 
-        if (!$this->storage->set($paste->getCode(), serialize($paste), $ttl)) {
-            throw new StorageException('Cannot persist to cache.'); // @codeCoverageIgnore
-        }
+        return $this->storage->set($paste->code, serialize($paste), ['nx', 'ex' => $ttl]);
+    }
 
-        return $paste;
+    public function update(Paste $paste, ?int $ttl = null): bool
+    {
+        $ttl ??= $this->defaultTtl;
+
+        return $this->storage->set($paste->code, serialize($paste), ['xx', 'ex' => $ttl]);
     }
 }

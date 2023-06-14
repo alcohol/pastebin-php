@@ -11,16 +11,30 @@ declare(strict_types=1);
 
 namespace Paste\Entity;
 
-final class Paste
+/**
+ * @phpstan-type SerializedPaste array{code: string, body: string}
+ */
+final readonly class Paste implements \Stringable
 {
-    private ?string $code = null;
-    private string $body;
+    public function __construct(
+        public string $code,
+        public string $body,
+    ) {
+    }
+
+    public function withBody(string $body): self
+    {
+        return new self($this->code, $body);
+    }
 
     public function __toString(): string
     {
         return $this->body;
     }
 
+    /**
+     * @phpstan-return SerializedPaste
+     */
     public function __serialize(): array
     {
         return [
@@ -29,45 +43,14 @@ final class Paste
         ];
     }
 
+    /**
+     * @phpstan-param SerializedPaste $data
+     */
     public function __unserialize(array $data): void
     {
-        $this->code = $data['code'];
-        $this->body = $data['body'];
-    }
-
-    public static function create(string $body): self
-    {
-        $paste = new self();
-        $paste->body = $body;
-
-        return $paste;
-    }
-
-    public function persist(string $code): self
-    {
-        $paste = new self();
-        $paste->body = $this->body;
-        $paste->code = $code;
-
-        return $paste;
-    }
-
-    public function update(string $body): self
-    {
-        $paste = new self();
-        $paste->code = $this->code;
-        $paste->body = $body;
-
-        return $paste;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function getBody(): string
-    {
-        return $this->body;
+        [
+            'code' => $this->code,
+            'body' => $this->body
+        ] = $data;
     }
 }

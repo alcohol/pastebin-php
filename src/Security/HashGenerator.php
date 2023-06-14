@@ -11,18 +11,20 @@ declare(strict_types=1);
 
 namespace Paste\Security;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Webmozart\Assert\Assert;
 
 final class HashGenerator
 {
-    /** @var string */
-    private $secret;
+    private string $secret;
 
     /**
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $secret)
-    {
+    public function __construct(
+        #[Autowire(param: 'kernel.secret')]
+        string $secret
+    ) {
         Assert::stringNotEmpty($secret, 'Argument "$secret" is required and should be a non-empty string.');
 
         $this->secret = $secret;

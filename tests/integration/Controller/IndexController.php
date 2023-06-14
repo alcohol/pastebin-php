@@ -11,27 +11,23 @@ declare(strict_types=1);
 
 namespace Paste\Controller;
 
-use Paste\IntegrationTest;
+use Paste\IntegrationSetup;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group integration
- *
  * @internal
  */
-final class HealthControllerTest extends IntegrationTest
+#[Group(name: 'integration')]
+final class IndexController extends IntegrationSetup
 {
-    public function testItShouldReturnA200ResponseForHEADRequests(): void
+    public function testItShouldReturnA200Response(): void
     {
         $client = static::createClient();
-        $client->request('HEAD', '/health');
+        $client->request('GET', '/', [], [], ['HTTP_Accept' => 'text/html']);
 
         static::assertTrue($client->getResponse()->isOk());
-    }
 
-    public function testItShouldReturnA200ResponseForGETRequests(): void
-    {
-        $client = static::createClient();
-        $client->request('GET', '/health');
+        $client->request('GET', '/', [], [], ['HTTP_Accept' => 'text/plain']);
 
         static::assertTrue($client->getResponse()->isOk());
     }

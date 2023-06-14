@@ -48,11 +48,3 @@ services:
               arguments:
                   - !php/const Redis::OPT_PREFIX
                   - '%redis.prefix%'
-
-    Paste\Repository\PasteRepository:
-        arguments:
-            $defaultTtl: '%redis.ttl%'
-
-    Paste\Security\HashGenerator:
-        arguments:
-            $secret: '%kernel.secret%'

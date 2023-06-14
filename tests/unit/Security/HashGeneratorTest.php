@@ -11,13 +11,14 @@ declare(strict_types=1);
 
 namespace Paste\Security;
 
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @group unit
- *
  * @internal
  */
+#[Group(name: 'unit')]
 final class HashGeneratorTest extends TestCase
 {
     public function testItRequiresASecretToInstantiate(): void
@@ -27,19 +28,15 @@ final class HashGeneratorTest extends TestCase
         new HashGenerator();
     }
 
-    /**
-     * @dataProvider invalidSecrets
-     *
-     * @param mixed $input
-     */
-    public function testItExplodesWhenSecretGivenIsOfType($input, string $expectedException): void
+    #[DataProvider(methodName: 'invalidSecrets')]
+    public function testItExplodesWhenSecretGivenIsOfType(mixed $input, string $expectedException): void
     {
         $this->expectException($expectedException);
 
         new HashGenerator($input);
     }
 
-    public function invalidSecrets(): array
+    public static function invalidSecrets(): array
     {
         return [
             'integer' => [123, \TypeError::class],
@@ -63,7 +60,7 @@ final class HashGeneratorTest extends TestCase
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
 
-        static::assertTrue($generator->generateHash($input) === $generator->generateHash($input));
+        static::assertSame($generator->generateHash($input), $generator->generateHash($input));
     }
 
     public function testItProducesADifferentHasWhenGivenDifferentInputs(): void
@@ -71,7 +68,7 @@ final class HashGeneratorTest extends TestCase
         $input = 'hash-me';
         $generator = new HashGenerator('secret');
 
-        static::assertNotTrue($generator->generateHash($input) === $generator->generateHash(strrev($input)));
+        static::assertNotSame($generator->generateHash($input), $generator->generateHash(strrev($input)));
     }
 
     public function testItProducesADifferentHashWhenInstantiatedWithADifferentSecretButGivenIdenticalInput(): void
@@ -80,6 +77,6 @@ final class HashGeneratorTest extends TestCase
         $generator1 = new HashGenerator('secret-foo');
         $generator2 = new HashGenerator('secret-bar');
 
-        static::assertNotTrue($generator1->generateHash($input) === $generator2->generateHash($input));
+        static::assertNotSame($generator1->generateHash($input), $generator2->generateHash($input));
     }
 }

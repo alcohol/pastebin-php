@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Paste\Controller;
 
-use Paste\IntegrationTest;
+use Paste\IntegrationSetup;
+use PHPUnit\Framework\Attributes\Group;
 
 /**
- * @group integration
- *
  * @internal
  */
-final class UpdateControllerTest extends IntegrationTest
+#[Group(name: 'integration')]
+final class DeleteController extends IntegrationSetup
 {
     public function testItShouldReturnA400IfPasteExistsButAuthenticationHeaderIsMissing(): void
     {
@@ -26,7 +26,7 @@ final class UpdateControllerTest extends IntegrationTest
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
         [$location, /* $token */ ] = $this->extractLocationAndToken($client->getResponse());
-        $client->request('PUT', $location, [], [], [], 'Ipsum lorem');
+        $client->request('DELETE', $location);
 
         static::assertSame(400, $client->getResponse()->getStatusCode());
     }
@@ -37,7 +37,7 @@ final class UpdateControllerTest extends IntegrationTest
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
         [$location, /* $token */ ] = $this->extractLocationAndToken($client->getResponse());
-        $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token'], 'Ipsum lorem');
+        $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
 
         static::assertSame(404, $client->getResponse()->getStatusCode());
     }
@@ -45,7 +45,7 @@ final class UpdateControllerTest extends IntegrationTest
     public function testItShouldReturnA404IfPasteDoesNotExistButAuthenticationHeaderIsGiven(): void
     {
         $client = static::createClient();
-        $client->request('PUT', '/dummy', [], [], ['HTTP_X-Paste-Token' => 'dummy-token'], 'Ipsum lorem');
+        $client->request('DELETE', '/dummy', [], [], ['HTTP_X-Paste-Token' => 'dummy-token']);
 
         static::assertSame(404, $client->getResponse()->getStatusCode());
     }
@@ -56,12 +56,8 @@ final class UpdateControllerTest extends IntegrationTest
         $client->disableReboot();
         $client->request('POST', '/', [], [], [], 'Lorem ipsum');
         [$location, $token] = $this->extractLocationAndToken($client->getResponse());
-        $client->request('PUT', $location, [], [], ['HTTP_X-Paste-Token' => $token], 'Ipsum lorem');
+        $client->request('DELETE', $location, [], [], ['HTTP_X-Paste-Token' => $token]);
 
         static::assertSame(204, $client->getResponse()->getStatusCode());
-
-        $client->request('GET', $location, [], [], ['HTTP_Accept' => 'text/plain']);
-
-        static::assertSame('Ipsum lorem', $client->getResponse()->getContent());
     }
 }

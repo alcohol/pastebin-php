@@ -1,15 +1,13 @@
 includes:
-  - tools/phpstan/vendor/phpstan/phpstan-deprecation-rules/rules.neon
-  - tools/phpstan/vendor/phpstan/phpstan-php-parser/extension.neon
-  - tools/phpstan/vendor/phpstan/phpstan-strict-rules/rules.neon
-  - phpstan-baseline.neon
+  - vendor/phpstan/phpstan-deprecation-rules/rules.neon
+  - vendor/phpstan/phpstan-php-parser/extension.neon
+  - vendor/phpstan/phpstan-strict-rules/rules.neon
 
 parameters:
   level: 9
   tmpDir: .
-  checkMissingIterableValueType: false
+  checkMissingIterableValueType: true
   inferPrivatePropertyTypeFromConstructor: true
   reportUnmatchedIgnoredErrors: true
   paths:
     - src
-    - tests

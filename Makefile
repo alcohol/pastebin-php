@@ -138,12 +138,12 @@ phpcsfixer: ## run php-cs-fixer
 	    tools/php-cs-fixer/vendor/bin/php-cs-fixer fix --allow-risky=yes --diff
 
 .PHONY: phpstan
-phpstan: tools/phpstan/vendor/bin/phpstan
+phpstan: vendor/bin/phpstan
 phpstan: export APP_ENV := dev
-phpstan: ## run phpunit test suite
+phpstan: ## run phpstan
 	docker-compose --project-name $(PROJECT) \
 	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps fpm \
-	    tools/phpstan/vendor/bin/phpstan
+	    vendor/bin/phpstan
 
 #
 # Path targets
@@ -154,19 +154,16 @@ composer.lock: composer.json
 	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
 	    composer update --no-interaction --no-progress --prefer-dist
 
-vendor: composer.lock
+vendor:
 	docker-compose --project-name $(PROJECT) \
 	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
 	    composer install --no-interaction --no-progress --prefer-dist
 
 vendor/bin/phpunit: vendor
 
+vendor/bin/phpstan: vendor
+
 tools/php-cs-fixer/vendor/bin/php-cs-fixer:
 	docker-compose --project-name $(PROJECT) \
 	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
 	    composer --working-dir=tools/phpcsfixer install --no-interaction --no-progress --prefer-dist
-
-tools/phpstan/vendor/bin/phpstan:
-	docker-compose --project-name $(PROJECT) \
-	  run --rm -e APP_ENV --user $(DOCKER_USER) --no-deps composer \
-	    composer --working-dir=tools/phpstan install --no-interaction --no-progress --prefer-dist

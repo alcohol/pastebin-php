@@ -12,15 +12,16 @@ declare(strict_types=1);
 namespace Paste\Console\Command;
 
 use Paste\Repository\PasteRepository;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\ConsoleOutputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+#[AsCommand(name: 'paste:delete', description: 'Deletes a paste.')]
 final class DeleteCommand extends Command
 {
-    protected static $defaultName = 'paste:delete';
     protected PasteRepository $repository;
 
     public function __construct(PasteRepository $repository)
@@ -33,7 +34,6 @@ final class DeleteCommand extends Command
     protected function configure(): void
     {
         $this
-            ->setDescription('Deletes a paste.')
             ->addArgument('id', InputArgument::IS_ARRAY | InputArgument::REQUIRED, 'Identifier of paste to delete.', [])
         ;
     }
@@ -44,17 +44,16 @@ final class DeleteCommand extends Command
             $output = $output->getErrorOutput();
         }
 
-        $identifiers = (array) $input->getArgument('id');
+        /** @var string[] $identifiers */
+        $identifiers = $input->getArgument('id');
 
         foreach ($identifiers as $id) {
             $paste = $this->repository->find($id);
             $this->repository->delete($paste);
 
-            if (OutputInterface::VERBOSITY_VERBOSE <= $output->getVerbosity()) {
-                $output->writeln(sprintf('Paste "<info>%s</info>" has been deleted.', $id));
-            }
+            $output->writeln(sprintf('Paste "<info>%s</info>" has been deleted.', $id), OutputInterface::VERBOSITY_VERBOSE);
         }
 
-        return 0;
+        return Command::SUCCESS;
     }
 }
