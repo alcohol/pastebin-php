@@ -15,7 +15,6 @@
   },
   "require-dev": {
     "phpstan/phpstan": "*",
-    "phpstan/phpstan-php-parser": "*",
     "phpstan/phpstan-deprecation-rules": "*",
     "phpstan/phpstan-strict-rules": "*",
     "phpunit/phpunit": "^10.2.2",
