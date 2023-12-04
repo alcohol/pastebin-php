@@ -4,7 +4,7 @@
   "require": {
     "php": "^8.2",
     "ext-redis": "*",
-    "symfony/console": "^6.4.1",
+    "symfony/console": "^7.0.1",
     "symfony/expression-language": "^6.4",
     "symfony/flex": "^2.4.1",
     "symfony/framework-bundle": "^6.4.1",
