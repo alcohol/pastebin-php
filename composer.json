@@ -10,7 +10,7 @@
     "symfony/framework-bundle": "^6.4.1",
     "symfony/monolog-bundle": "^3.10",
     "symfony/twig-bundle": "^6.4.0",
-    "symfony/yaml": "^6.4.0",
+    "symfony/yaml": "^7.0.0",
     "webmozart/assert": "^1.11"
   },
   "require-dev": {
