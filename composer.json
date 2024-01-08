@@ -7,7 +7,7 @@
     "symfony/console": "^7.0.2",
     "symfony/expression-language": "^6.4",
     "symfony/flex": "^2.4.1",
-    "symfony/framework-bundle": "^6.4.1",
+    "symfony/framework-bundle": "^7.0.2",
     "symfony/monolog-bundle": "^3.10",
     "symfony/twig-bundle": "^6.4.0",
     "symfony/yaml": "^7.0.0",
