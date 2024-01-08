@@ -5,7 +5,7 @@
     "php": "^8.2",
     "ext-redis": "*",
     "symfony/console": "^7.0.2",
-    "symfony/expression-language": "^6.4",
+    "symfony/expression-language": "^7.0",
     "symfony/flex": "^2.4.1",
     "symfony/framework-bundle": "^6.4.1",
     "symfony/monolog-bundle": "^3.10",
