@@ -1,3 +1,5 @@
-annotated:
-  resource: '../src/Controller/*'
-  type: attribute
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: Paste\Controller
+    type: attribute
