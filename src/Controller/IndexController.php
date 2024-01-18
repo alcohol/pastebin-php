@@ -14,7 +14,7 @@ namespace Paste\Controller;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Twig\Environment;
 
 #[Route(path: '/', name: 'paste.index', methods: [Request::METHOD_GET], stateless: true)]
