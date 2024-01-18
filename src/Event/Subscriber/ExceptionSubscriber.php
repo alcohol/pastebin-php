@@ -32,10 +32,10 @@ final class ExceptionSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::EXCEPTION => [
-                ['logException', 20],
-                ['handleException', 10],
-            ],
+             KernelEvents::EXCEPTION => [
+                 ['logException', 20],
+                 ['handleException', 10],
+             ],
         ];
     }
 

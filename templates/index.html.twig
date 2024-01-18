@@ -4,7 +4,7 @@
 
 <div class="container-fluid mb-4 px-0 text-monospace">
   <div class="topbar w-100 d-block clearfix">
-    <p class="d-inline ml-3 hidden-md-down">
+    <p class="d-inline ms-3 hidden-md-down">
       <span class="fab fa-github" aria-hidden="true"></span>
       <a href="https://github.com/alcohol/pastebin-php/" aria-label="View source on github.com">github.com/alcohol/pastebin-php</a>
     </p>
@@ -13,10 +13,10 @@
 
 <div class="container text-monospace">
   <form action="{{ url('paste.create', {}, true) }}" method="POST" accept-charset="UTF-8">
-    <div class="form-group">
-      <textarea class="form-control" name="paste" id="paste" rows="20"></textarea>
+    <div class="mb-3">
+      <textarea class="form-control form-control-lg" name="paste" id="paste" rows="20"></textarea>
     </div>
-    <button type="submit" class="btn btn-dark btn-sm">Paste</button>
+    <button type="submit" class="btn btn-dark">Paste</button>
   </form>
 </div>
 

@@ -25,6 +25,10 @@ final readonly class RouteTokenChecker
 
     public function check(Request $request): bool
     {
+        if (!\in_array($request->getMethod(), [Request::METHOD_PUT, Request::METHOD_DELETE], true)) {
+            return true;
+        }
+
         if (false === $request->headers->has($this->headerName)) {
             throw new BadRequestHttpException(sprintf('Bad request, missing expected header "%s".', $this->headerName));
         }
